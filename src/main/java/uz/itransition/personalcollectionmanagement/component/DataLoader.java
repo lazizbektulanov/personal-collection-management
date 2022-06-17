@@ -24,7 +24,7 @@ public class DataLoader implements CommandLineRunner {
 
     private final UserRepository userRepository;
 
-    private final ItemCollectionRepository itemCollectionRepository;
+    private final CollectionRepository collectionRepository;
 
     private final ItemRepository itemRepository;
 
@@ -60,35 +60,35 @@ public class DataLoader implements CommandLineRunner {
                     roleUser)
             );
 
-            ItemCollection book1Collection = itemCollectionRepository.save(new ItemCollection(
+            Collection book1Collection = collectionRepository.save(new Collection(
                     "Book collection#1",
                     "https://i.pinimg.com/originals/c8/b0/7e/c8b07e380215edaaa1903769586a61dc.jpg",
                     "Description of 1 book collection",
                     TopicName.BOOKS,
                     user
             ));
-            ItemCollection car1Collection = itemCollectionRepository.save(new ItemCollection(
+            Collection car1Collection = collectionRepository.save(new Collection(
                     "Car collection#1",
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXYnEsK0QvigISpJ8foytvZLHW5-vYnEIJNHRBHEhhGebtQOGCXLdrIzeKIZRP8Zi8zzA&usqp=CAU",
                     "Description of 1 car collection",
                     TopicName.CARS,
                     user
             ));
-            ItemCollection laptop1Collection = itemCollectionRepository.save(new ItemCollection(
+            Collection laptop1Collection = collectionRepository.save(new Collection(
                     "Laptop collection#1",
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6ulPhovWcc1x-eitIFjqJg3EjD5vuFhErRg&usqp=CAU",
                     "Description of 1 laptop collection",
                     TopicName.LAPTOPS,
                     user
             ));
-            ItemCollection musicInstrument1Collection = itemCollectionRepository.save(new ItemCollection(
+            Collection musicInstrument1Collection = collectionRepository.save(new Collection(
                     "Musical instrument collection#1",
                     "https://media.istockphoto.com/photos/instruments-in-white-wooden-background-picture-id1219335974?k=20&m=1219335974&s=612x612&w=0&h=pV-_xowqm4PXP780HBps68uRvGvAAu3tNNqUxP0PFsc=",
                     "Description of 1 musical instrument collection",
                     TopicName.MUSICAL_INSTRUMENTS,
                     user
             ));
-            ItemCollection mobilePhone1Collection = itemCollectionRepository.save(new ItemCollection(
+            Collection mobilePhone1Collection = collectionRepository.save(new Collection(
                     "Mobile phone collection#1",
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuZBeC2qhVlzN1nRWf-LnsfbLvRMM5hCEI4A&usqp=CAU",
                     "Description of 1 mobile phone collection",
@@ -102,27 +102,31 @@ public class DataLoader implements CommandLineRunner {
             ));
             itemRepository.save(new Item(
                     "This is my car item",
-                    car1Collection,
                     tags,
-                    Arrays.asList(admin, user)
+                    user,
+                    Arrays.asList(admin, user),
+                    Collections.singletonList(car1Collection)
             ));
             itemRepository.save(new Item(
                     "This is book item",
-                    book1Collection,
                     tags,
-                    Collections.singletonList(admin)
+                    admin,
+                    Collections.singletonList(admin),
+                    Collections.singletonList(book1Collection)
             ));
             itemRepository.save(new Item(
                     "This is mobile phone Item",
-                    mobilePhone1Collection,
                     tags,
-                    Arrays.asList(admin,user)
+                    user,
+                    Arrays.asList(admin,user),
+                    Arrays.asList(mobilePhone1Collection,laptop1Collection)
             ));
             itemRepository.save(new Item(
                     "This is musical instrument Item",
-                    musicInstrument1Collection,
                     new ArrayList<>(),
-                    Arrays.asList(admin,user)
+                    user,
+                    Arrays.asList(admin,user),
+                    Collections.singletonList(mobilePhone1Collection)
             ));
 
         }

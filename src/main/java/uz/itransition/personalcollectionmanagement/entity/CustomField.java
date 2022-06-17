@@ -22,7 +22,7 @@ public class CustomField extends AbsEntity {
     private String value;
 
     @ManyToOne
-    private ItemCollection collection;
+    private Collection collection;
 
     @Override
     public boolean equals(Object o) {

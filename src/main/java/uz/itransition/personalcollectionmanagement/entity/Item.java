@@ -2,12 +2,12 @@ package uz.itransition.personalcollectionmanagement.entity;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.springframework.data.annotation.CreatedBy;
 import uz.itransition.personalcollectionmanagement.entity.template.AbsEntity;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 
 @Getter
@@ -23,12 +23,14 @@ public class Item extends AbsEntity {
 
     private String imgUrl;
 
-    @ManyToOne
-    private ItemCollection collection;
 
     @ManyToMany
     @ToString.Exclude
     private List<Tag> tags;
+
+    @CreatedBy
+    @ManyToOne(optional = false)
+    private User createdBy;
 
     @ManyToMany
     @JoinTable(name = "items_likes",
@@ -37,11 +39,20 @@ public class Item extends AbsEntity {
     @ToString.Exclude
     private List<User> likes;
 
-    public Item(String name, ItemCollection collection, List<Tag> tags, List<User> likes) {
+    @ManyToMany
+    @JoinTable(name = "items_collections",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "collection_id"))
+    @ToString.Exclude
+    private List<Collection> collectionList;
+
+
+    public Item(String name, List<Tag> tags, User createdBy, List<User> likes, List<Collection> collectionList) {
         this.name = name;
-        this.collection = collection;
         this.tags = tags;
+        this.createdBy = createdBy;
         this.likes = likes;
+        this.collectionList = collectionList;
     }
 
     @Override

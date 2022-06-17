@@ -28,7 +28,7 @@
 
 </head>
 
-<body  data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="71"
+<body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="71"
       th:with="user = ${#authentication.principal}">
 
 <!-- light-dark mode button -->
@@ -208,18 +208,20 @@
                                         <li><a class="dropdown-item" href="home.html#">Something else here</a></li>
                                     </ul>
                                 </div>
-                                <div class="ms-auto">
-                                    <div class="badge rounded-pill" th:text="${item.collectionTitle}"></div>
+                                <div>
+                                    <div class="ms-auto" th:each="itemCollections: ${item.itemCollections}">
+                                        <div class="badge rounded-pill" th:text="${itemCollections.title}"></div>
+                                    </div>
                                 </div>
                             </div>
-<!--                            <div class="card-image mt-3">-->
-<!--                                <img src="images/slider-blog/1.png" alt="" class="img-fluid">-->
-<!--                            </div>-->
+                            <!--                            <div class="card-image mt-3">-->
+                            <!--                                <img src="images/slider-blog/1.png" alt="" class="img-fluid">-->
+                            <!--                            </div>-->
                             <div class="card-body">
                                 <div class="collection-like-icon ms-auto">
                                     <h6 class="fw-bold mb-0" th:text="${item.itemName}"></h6>
                                     <p class="fw-semibold mb-0"><a href="index-2.html"><i class="mdi mdi-heart"></i></a>
-                                        1.27K
+                                        [[${item.itemLikes}]]
                                     </p>
                                 </div>
                                 <div class="profile-content align-items-center d-flex justify-content-start">
@@ -251,326 +253,33 @@
             <div class="col-lg-12 p-0">
                 <nav class="mt-5">
                     <div class="heading float-start mt-3">
-                        <h2 class="fw-bold">Explore</h2>
-                    </div>
-
-                    <div class="nav nav-tabs align-items-center justify-content-center row" id="nav-tab"
-                         role="tablist">
-                        <button class="nav-link active text-uppercase col-md-2" id="nav-all-tab"
-                                data-bs-toggle="tab" data-bs-target="#nav-all" type="button" role="tab"
-                                aria-controls="nav-all" aria-selected="true"><span class="icon"><i
-                                class="mdi mdi-plus f-24 align-middle"></i> All
-                                </span></button>
-
-                        <button class="nav-link text-uppercase col-md-2" id="nav-games-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-games" type="button" role="tab" aria-controls="nav-games"
-                                aria-selected="true"><span class="icon"> <i
-                                class="mdi mdi-gamepad-variant f-24 align-middle"></i> Games
-                                </span></button>
-
-                        <button class="nav-link text-uppercase col-md-2" id="nav-art-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-art" type="button" role="tab" aria-controls="nav-art"
-                                aria-selected="true"><span class="icon"><i class="mdi mdi-brush f-24 align-middle"></i>
-                                    Art
-                                </span></button>
-
-                        <button class="nav-link text-uppercase col-md-2" id="nav-memes-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-memes" type="button" role="tab" aria-controls="nav-memes"
-                                aria-selected="true"><span class="icon"><i class="mdi mdi-panda f-24 align-middle"></i>
-                                    Memes
-                                </span></button>
-
-                        <button class="nav-link text-uppercase col-md-2" id="nav-Collection-tab"
-                                data-bs-toggle="tab" data-bs-target="#nav-Collection" type="button" role="tab"
-                                aria-controls="nav-Collection" aria-selected="true"><span class="icon"><i
-                                class="mdi mdi-collage f-24 align-middle"></i> Collection
-                                </span></button>
+                        <h2 class="fw-bold">Top largest collections:</h2>
                     </div>
                 </nav>
             </div>
             <div class="tab-content mt-5 pt-4" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
                     <div class="row">
-                        <div class="col-lg-3 mt-4">
+                        <div class="col-lg-3 mt-4" th:each="collection: ${largestCollections}">
                             <div class="tab-content p-4 border-0">
                                 <div class="header d-flex align-items-center justify-content-start">
                                     <div class="avatar-xs">
                                         <img src="images/slider/user/img-1.jpg" alt=""
                                              class="img-fluid rounded-circle">
                                     </div>
-                                    <h6 class="mb-0 ms-2 fw-semibold text-muted f-14">@Deniva_Pannini</h6>
+                                    <h6 class="mb-0 ms-2 fw-semibold text-muted f-14"
+                                        th:text="${collection.collectionAuthorName}"></h6>
                                 </div>
                                 <div class="card-image mt-3">
-                                    <img src="images/explore/img-1.png" alt="" class="img-fluid">
+                                    <img th:src="${collection.collectionImgUrl}" alt="" class="img-fluid">
                                 </div>
                                 <div class="body-content mt-3">
-                                    <h6 class="fw-bold">Robotic Body Art</h6>
+                                    <h6 class="fw-bold" th:text="${collection.collectionTitle}"></h6>
                                     <div class="d-flex">
                                         <p class="text-muted">6 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">1.53
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-2.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-2 fw-semibold text-muted f-14">@Keven_Chrisi</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-2.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">Liguid Wave</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">8 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">2.15
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-3.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-2 fw-semibold text-muted f-14">@David_Alex</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-3.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">Maccky Alex</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">3 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">1.20
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-4.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-2 fw-semibold text-muted f-14">@Steva_Robart</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-4.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">The Chirstoper</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">2 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">2.30
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-5.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-2 fw-semibold text-muted f-14">@jimmy_dom</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-5.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">The Chirstoper</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">2 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">2.30
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-5">
-                            <div class="col-lg-12">
-                                <div class="text-center">
-                                    <button class="btn btn-white text-dark shadow"><i
-                                            class="mdi mdi-restart f-18 align-middle"></i> View All Item
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-pane fade" id="nav-games" role="tabpanel" aria-labelledby="nav-games-tab">
-                    <div class="row">
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-1.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-3 fw-bold text-muted">@Deniva_Pannini</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-1.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">Robotic Body Art</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">6 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">1.53
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 mt-4 ">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-2.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-3 fw-bold text-muted">@Keven_Chrisi</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-4.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">Liguid Wave</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">8 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">2.15
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-5.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-3 fw-bold text-muted">@David_Alex</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-8.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">Maccky Alex</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">3 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">1.20
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-6.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-3 fw-bold text-muted">@Deniv_Pannini</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-1.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">The Chirstoper</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">2 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">2.30
-                                                    ETH</span></p>
+                                        <p class="ms-auto text-muted">Topic : <span class="text-success">
+                                            [[${collection.collectionTopic}]]
+                                        </span></p>
                                     </div>
                                     <hr>
                                     <div class="d-flex mt-3 align-items-center">
@@ -589,311 +298,14 @@
                             <div class="col-lg-12">
                                 <div class="text-center">
                                     <button class="btn btn-white text-dark shadow"><i
-                                            class="mdi mdi-restart f-18 align-middle"></i> View All Item
+                                            class="mdi mdi-restart f-18 align-middle"></i> View All Collections
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="tab-pane fade" id="nav-art" role="tabpanel" aria-labelledby="nav-art-tab">
-                    <div class="row">
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-1.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-3 fw-bold text-muted">@Deniva_Pannini</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-2.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">Robotic Body Art</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">6 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">1.53
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-2.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-3 fw-bold text-muted">@Keven_Chrisi</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-6.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">Liguid Wave</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">8 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">2.15
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-8.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-3 fw-bold text-muted">@David_Alex</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-7.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">Maccky Alex</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">3 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">1.20
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-5">
-                            <div class="col-lg-12">
-                                <div class="text-center">
-                                    <button class="btn btn-white text-dark shadow"><i
-                                            class="mdi mdi-restart f-18 align-middle"></i> View All Item
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-pane fade" id="nav-memes" role="tabpanel" aria-labelledby="nav-memes-tab">
-                    <div class="row">
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-1.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-3 fw-bold text-muted">@Deniva_Pannini</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-1.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">Robotic Body Art</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">6 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">1.53
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-2.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-3 fw-bold text-muted">@Keven_Chrisi</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-4.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">Liguid Wave</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">8 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">2.15
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-3.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-3 fw-bold text-muted">@David_Alex</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-7.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">Maccky Alex</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">3 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">1.20
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-5">
-                            <div class="col-lg-12">
-                                <div class="text-center">
-                                    <button class="btn btn-white text-dark shadow"><i
-                                            class="mdi mdi-restart f-18 align-middle"></i> View All Item
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-pane fade" id="nav-Collection" role="tabpanel" aria-labelledby="nav-Collection-tab">
-                    <div class="row">
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-1.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-3 fw-bold text-muted">@Deniva_Pannini</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-5.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">Robotic Body Art</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">6 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">1.53
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 mt-4">
-                            <div class="tab-content p-4 border-0">
-                                <div class="header d-flex align-items-center justify-content-start">
-                                    <div class="avatar-xs">
-                                        <img src="images/slider/user/img-8.jpg" alt=""
-                                             class="img-fluid rounded-circle">
-                                    </div>
-                                    <h6 class="mb-0 ms-3 fw-bold text-muted">@David_Alex</h6>
-                                </div>
-                                <div class="card-image mt-3">
-                                    <img src="images/explore/img-3.png" alt="" class="img-fluid">
-                                </div>
-                                <div class="body-content mt-3">
-                                    <h6 class="fw-bold">Maccky Alex</h6>
-                                    <div class="d-flex">
-                                        <p class="text-muted">3 in stock</p>
-                                        <p class="ms-auto text-muted">Price : <span class="text-success">1.20
-                                                    ETH</span></p>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex mt-3 align-items-center">
-                                        <div class="history">
-                                            <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                        </div>
-                                        <div class="bid-button ms-auto">
-                                            <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-5">
-                            <div class="col-lg-12">
-                                <div class="text-center">
-                                    <button class="btn btn-white text-dark shadow"><i
-                                            class="mdi mdi-restart f-18 align-middle"></i> View All Item
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-
-
         </div>
     </div>
     <!-- end container -->

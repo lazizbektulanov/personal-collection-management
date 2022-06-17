@@ -13,21 +13,21 @@ import java.util.UUID;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, UUID> {
 
-//    findTop4ByOrderByCreatedAtDesc
-    List<Item> findTop5ByOrderByCreatedAtDesc();
+////    findTop4ByOrderByCreatedAtDesc
+//    List<Item> findTop5ByOrderByCreatedAtDesc();
 
     @Query(nativeQuery = true,
     value = "select " +
-            "cast(i.id as varchar) as itemId," +
+            "cast(i.id as varchar) as id," +
             "i.name as itemName," +
             "i.img_url as itemImgUrl," +
-            "cast(c.id as varchar) as collectionId," +
-            "c.title as collectionTitle," +
-            "cast(u.id as varchar) as authorId," +
-            "u.full_name  as authorName " +
+            "cast(i.created_by_id as varchar) as authorId, " +
+            "u.full_name as authorName," +
+            "(select count(il.user_id) from items_likes il " +
+            "where il.item_id=i.id) as itemLikes " +
             "from items i " +
-            "join collections c on c.id = i.collection_id " +
-            "join users u on c.owner_id = u.id " +
-            "order by i.created_at desc limit 5")
+            "join users u on i.created_by_id = u.id " +
+            "order by i.created_at desc " +
+            "limit 5")
     List<ItemProjection> findLatestItems();
 }
