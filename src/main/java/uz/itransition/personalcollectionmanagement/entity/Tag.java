@@ -6,6 +6,8 @@ import uz.itransition.personalcollectionmanagement.entity.template.AbsEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -18,6 +20,7 @@ public class Tag extends AbsEntity {
 
     @Column(nullable = false)
     private String name;
+
 
     @Override
     public boolean equals(Object o) {

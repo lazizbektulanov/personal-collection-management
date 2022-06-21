@@ -18,7 +18,7 @@ import uz.itransition.personalcollectionmanagement.service.AuthService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private final AuthService authService;
@@ -47,7 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/css/**", "/images/**", "/js/**", "/fonts/**").permitAll()
                 .antMatchers("/login","/home").permitAll()
-                .antMatchers("/api/open/**").permitAll()
+                .antMatchers("/item/**","/comment/**","/webjars/**","/api/item-comments/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

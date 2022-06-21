@@ -2,10 +2,15 @@ package uz.itransition.personalcollectionmanagement.service;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import uz.itransition.personalcollectionmanagement.entity.User;
 import uz.itransition.personalcollectionmanagement.repository.UserRepository;
 
 @Service

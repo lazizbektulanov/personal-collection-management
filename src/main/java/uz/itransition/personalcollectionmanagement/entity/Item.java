@@ -39,20 +39,16 @@ public class Item extends AbsEntity {
     @ToString.Exclude
     private List<User> likes;
 
-    @ManyToMany
-    @JoinTable(name = "items_collections",
-            joinColumns = @JoinColumn(name = "item_id"),
-            inverseJoinColumns = @JoinColumn(name = "collection_id"))
-    @ToString.Exclude
-    private List<Collection> collectionList;
+    @ManyToOne
+    private Collection collection;
 
 
-    public Item(String name, List<Tag> tags, User createdBy, List<User> likes, List<Collection> collectionList) {
+    public Item(String name, List<Tag> tags, User createdBy, List<User> likes, Collection collection) {
         this.name = name;
         this.tags = tags;
         this.createdBy = createdBy;
         this.likes = likes;
-        this.collectionList = collectionList;
+        this.collection = collection;
     }
 
     @Override

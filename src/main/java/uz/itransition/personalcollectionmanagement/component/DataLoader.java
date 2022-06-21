@@ -95,38 +95,43 @@ public class DataLoader implements CommandLineRunner {
                     TopicName.MOBILE_PHONES,
                     user
             ));
-            List<Tag> tags = tagRepository.saveAll(Arrays.asList(
-                    new Tag("beautiful"),
-                    new Tag("best"),
-                    new Tag("new")
-            ));
+            Tag tagBeautiful = tagRepository.save(new Tag("beautiful"));
+            Tag tagBest = tagRepository.save(new Tag("best"));
+            Tag tagNew = tagRepository.save(new Tag("new"));
             itemRepository.save(new Item(
                     "This is my car item",
-                    tags,
+                    Arrays.asList(tagBeautiful,tagBest,tagNew),
                     user,
                     Arrays.asList(admin, user),
-                    Collections.singletonList(car1Collection)
+                    car1Collection
             ));
             itemRepository.save(new Item(
                     "This is book item",
-                    tags,
+                    Collections.singletonList(tagBeautiful),
                     admin,
                     Collections.singletonList(admin),
-                    Collections.singletonList(book1Collection)
+                    book1Collection
             ));
             itemRepository.save(new Item(
                     "This is mobile phone Item",
-                    tags,
+                    Arrays.asList(tagBest,tagNew,tagBeautiful),
                     user,
                     Arrays.asList(admin,user),
-                    Arrays.asList(mobilePhone1Collection,laptop1Collection)
+                    mobilePhone1Collection
             ));
             itemRepository.save(new Item(
                     "This is musical instrument Item",
                     new ArrayList<>(),
                     user,
                     Arrays.asList(admin,user),
-                    Collections.singletonList(mobilePhone1Collection)
+                    musicInstrument1Collection
+            ));
+            itemRepository.save(new Item(
+                    "This is mobile phone Item2",
+                    Arrays.asList(tagBeautiful,tagBest),
+                    admin,
+                    Arrays.asList(admin,user),
+                    mobilePhone1Collection
             ));
 
         }
