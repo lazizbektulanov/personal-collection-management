@@ -69,7 +69,7 @@
                         Profile
                     </a>
                     <ul class="dropdown-menu dropdown-menu-center" aria-labelledby="homedrop">
-                        <li><a class="dropdown-item" href="profile.html"><i
+                        <li><a class="dropdown-item" th:href="@{/profile/my-collections}"><i
                                 class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>Profile</a></li>
                         <li><a class="dropdown-item" href="edit-profile.html"><i
                                 class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
@@ -160,7 +160,7 @@
                                 </div>
                                 <div class="profile-content align-items-center d-flex justify-content-start">
                                     <div class="avatar-sm">
-                                        <img src="images/slider/user/img-1.jpg" alt="" class="img-fluid avatar-sm">
+                                        <img th:src="${item.authorProfileImgUrl}" alt="" class="img-fluid avatar-sm">
                                     </div>
                                     <div class="profile-name">
                                         <h6 class="fw-bold mb-0 ms-2 f-14" th:text="${item.authorName}"></h6>
@@ -198,21 +198,21 @@
                             <div class="tab-content p-4 border-0">
                                 <div class="header d-flex align-items-center justify-content-start">
                                     <div class="avatar-xs">
-                                        <img src="images/slider/user/img-1.jpg" alt=""
+                                        <img th:src="${collection.authorProfileImgUrl}" alt=""
                                              class="img-fluid rounded-circle">
                                     </div>
                                     <h6 class="mb-0 ms-2 fw-semibold text-muted f-14"
-                                        th:text="${collection.collectionAuthorName}"></h6>
+                                        th:text="${collection.authorName}"></h6>
                                 </div>
                                 <div class="card-image mt-3">
-                                    <img th:src="${collection.collectionImgUrl}" alt="" class="img-fluid">
+                                    <img th:src="${collection.imgUrl}" alt="" class="img-fluid">
                                 </div>
                                 <div class="body-content mt-3">
-                                    <h6 class="fw-bold" th:text="${collection.collectionTitle}"></h6>
+                                    <h6 class="fw-bold" th:text="${collection.title}"></h6>
                                     <div class="d-flex">
                                         <p class="text-muted">6 in stock</p>
                                         <p class="ms-auto text-muted">Topic : <span class="text-success">
-                                            [[${collection.collectionTopic}]]
+                                            [[${collection.topic}]]
                                         </span></p>
                                     </div>
                                     <hr>

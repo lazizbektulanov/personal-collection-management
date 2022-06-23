@@ -1,15 +1,15 @@
 package uz.itransition.personalcollectionmanagement.entity.template;
 
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
-import uz.itransition.personalcollectionmanagement.entity.User;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

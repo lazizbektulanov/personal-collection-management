@@ -120,4 +120,67 @@ function getItemComments(){
         })
 }
 
+function addCustomField(){
+    const inpType = document.querySelector('.input_type').value;
+    let inp = '<div type="text" value="" class="form-control value" contenteditable></div>';
+    if (inpType == 'bool') {
+        inp = '<input type="checkbox" class="value inputs" id="">Yes';
+    } else if (inpType == 'date') {
+        inp = '<input class="value inputs" type = "date">';
+    }
+    const allFields = document.querySelectorAll('#customFields');
+    let newField = `<div class="input_group row">
+                                    <div class="field_1 col-md-6">
+                                    <div type="text" value="" class="form-control key" contenteditable> </div>
+                                </div>
+                                <div class="field_2 col-md-6">
+                                    ${inp}
+                                </div>
+                            </div>`;
+    document.querySelector('.fields_body').insertAdjacentHTML('beforeend', newField);
+}
+
+function createCollection(){
+    const requestBody = {};
+    const keys = document.querySelectorAll('.key');
+    const values = document.querySelectorAll('.value');
+    const customFields = {};
+    for (let i = 0; i <= keys.length; i++) {
+        try {
+            if (keys[i].innerText && (values[i].innerText || values[i].value)) {
+                if (values[i].type == 'checkbox') {
+                    customFields[keys[i].innerText] = values[i].checked;
+                } else {
+                    customFields[keys[i].innerText] = values[i].innerText || values[i].value;
+                }
+            }
+        } catch (error) {
+
+        }
+    }
+    // if (customFields) requestBody.customFields = customFields;
+    console.log(customFields);
+    fetch('/api/collection/create',{
+        method: 'POST',
+        headers:{
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'title': document.querySelector('#title').value,
+            'description': document.querySelector('#description').value,
+            'topic': document.querySelector('#topic').value,
+            // 'collectionImage':document.querySelector('#collectionImage').files[0],
+            'customFields':customFields
+        })
+    })
+        .then(function (res){
+            res.json()
+                .then(data => {
+                    data.map(something => {
+                    })
+                })
+        })
+}
+
 
