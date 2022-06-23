@@ -11,9 +11,9 @@ public interface CollectionItemsProjection {
 
     UUID getId();
 
-    String getItemName();
+    String getName();
 
-    Timestamp getItemCreatedAt();
+    Timestamp getCreatedAt();
 
     Integer getItemLikesNumber();
 

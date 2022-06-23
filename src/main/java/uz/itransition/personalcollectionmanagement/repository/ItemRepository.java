@@ -1,5 +1,7 @@
 package uz.itransition.personalcollectionmanagement.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -58,13 +60,13 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
     @Query(nativeQuery = true,
     value = "select " +
             "cast(i.id as varchar) as id," +
-            "i.name as itemName," +
-            "i.created_at as itemCreatedAt," +
+            "i.name as name," +
+            "i.created_at as createdAt," +
             "(select count(il.user_id) from items_likes il " +
             "where il.item_id=i.id) as itemLikesNumber," +
             "(select count(c.id) from comments c " +
             "where c.item_id=i.id) as itemCommentsNumber " +
             "from items i " +
             "where i.collection_id=:collectionId")
-    List<CollectionItemsProjection> getItemsByCollectionId(UUID collectionId);
+    Page<CollectionItemsProjection> getItemsByCollectionId(Pageable pageable,UUID collectionId);
 }
