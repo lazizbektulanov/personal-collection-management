@@ -3,9 +3,12 @@ package uz.itransition.personalcollectionmanagement.entity;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import uz.itransition.personalcollectionmanagement.entity.enums.CustomFieldType;
 import uz.itransition.personalcollectionmanagement.entity.template.AbsEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import java.util.Objects;
 
@@ -17,9 +20,12 @@ import java.util.Objects;
 @Entity(name = "custom_fields")
 public class CustomField extends AbsEntity {
 
-    private String key;
+    private String fieldName;
 
     private String value;
+
+    @Enumerated(EnumType.STRING)
+    private CustomFieldType fieldType;
 
     @ManyToOne
     private Collection collection;

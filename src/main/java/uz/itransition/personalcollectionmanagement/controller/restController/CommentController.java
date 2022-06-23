@@ -2,11 +2,9 @@ package uz.itransition.personalcollectionmanagement.controller.restController;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.itransition.personalcollectionmanagement.payload.CommentDto;
 import uz.itransition.personalcollectionmanagement.projection.CommentProjection;
 import uz.itransition.personalcollectionmanagement.service.CommentService;
@@ -17,7 +15,6 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 public class CommentController {
 
     private final CommentService commentService;

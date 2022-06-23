@@ -31,6 +31,13 @@ public class Collection extends AbsEntity {
     private User owner;
 
 
+    public Collection(String title, String description, TopicName topicName, User owner) {
+        this.title = title;
+        this.description = description;
+        this.topicName = topicName;
+        this.owner = owner;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
