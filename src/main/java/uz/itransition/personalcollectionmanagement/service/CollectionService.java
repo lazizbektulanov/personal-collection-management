@@ -13,6 +13,7 @@ import uz.itransition.personalcollectionmanagement.entity.enums.RoleName;
 import uz.itransition.personalcollectionmanagement.entity.enums.TopicName;
 import uz.itransition.personalcollectionmanagement.payload.CollectionDto;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionByIdProjection;
+import uz.itransition.personalcollectionmanagement.projection.collection.CollectionItemsProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionProjection;
 import uz.itransition.personalcollectionmanagement.repository.CollectionRepository;
 import uz.itransition.personalcollectionmanagement.repository.CustomFieldRepository;
@@ -39,13 +40,7 @@ public class CollectionService {
     }
 
     public CollectionByIdProjection getCollectionById(UUID collectionId) {
-        User currentUser = authService.getCurrentUser();
-        if (currentUser.getRole().getRoleName().equals(RoleName.ROLE_ADMIN) ||
-                collectionRepository.existsByIdAndOwnerId(collectionId, currentUser.getId())) {
-            return collectionRepository.getCollectionById(collectionId);
-        } else {
-            throw new ResourceNotFoundException("Collection not found");
-        }
+        return collectionRepository.getCollectionById(collectionId);
     }
 
     public void createCollection(CollectionDto collectionDto) {
@@ -56,10 +51,10 @@ public class CollectionService {
                 TopicName.valueOf(collectionDto.getTopic()),
                 currentUser
         ));
-        saveCollectionCustomFields(collectionDto.getCustomFields(),savedCollection);
+        saveCollectionCustomFields(collectionDto.getCustomFields(), savedCollection);
     }
 
-    private void saveCollectionCustomFields(JSONObject customFieldJson,Collection savedCollection) {
+    private void saveCollectionCustomFields(JSONObject customFieldJson, Collection savedCollection) {
         List<CustomField> customFields = new ArrayList<>();
         for (String key : customFieldJson.keySet()) {
             Object value = customFieldJson.get(key);
@@ -74,16 +69,22 @@ public class CollectionService {
         customFieldRepository.saveAll(customFields);
     }
 
-    public CustomFieldType getValueType(Object value){
-        if(value.getClass().getSimpleName().equals("Boolean")){
+    public CustomFieldType getValueType(Object value) {
+        if (value.getClass().getSimpleName().equals("Boolean")) {
             return CustomFieldType.BOOLEAN;
-        }else{
+        } else {
             try {
                 Date.valueOf(String.valueOf(value));
                 return CustomFieldType.DATE;
-            }catch (Exception e){
+            } catch (Exception e) {
                 return CustomFieldType.STRING;
             }
         }
+    }
+
+    public boolean checkCollectionOwner(UUID collectionId) {
+        User currentUser = authService.getCurrentUser();
+        return currentUser.getRole().getRoleName().equals(RoleName.ROLE_ADMIN) ||
+                collectionRepository.existsByIdAndOwnerId(collectionId, currentUser.getId());
     }
 }

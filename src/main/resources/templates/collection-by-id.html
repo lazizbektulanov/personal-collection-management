@@ -289,7 +289,7 @@
     </div>
     <!-- end container -->
 </section>
-<section class="items section bg-light">
+<section class="ranking section bg-light">
     <div class="container">
         <div class="row align-items-center mt-5">
             <div class="col-lg-12">
@@ -300,15 +300,22 @@
                             <table class="table table-borderless table-nowrap">
                                 <thead>
                                 <tr class="table-title">
-                                    <th scope="col">Item</th>
-                                    <th scope="col">Creation date</th>
+                                    <th scope="col">
+                                        <a th:href="@{'/collection/' + ${collection.id} + '?sortBy=name&sortDir=' + ${sortDirection}}">
+                                            Item name
+                                        </a>
+                                    </th>
+                                    <th scope="col">
+                                        <a th:href="@{'/collection/'+${collection.id} + '?sortBy=created_at&sortDir='+${sortDirection}}">
+                                            Creation date
+                                        </a>
+                                    </th>
                                     <th scope="col">Reactions</th>
                                     <th scope="col">Action</th>
-
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr class="rank-profile" th:each="item: ${collection.collectionItems}">
+                                <tr class="rank-profile" th:each="item: ${collectionItems}">
                                     <th scope="row">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-shrink-0">
@@ -318,11 +325,11 @@
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1 ms-3">
-                                                <p class="mb-0 fw-bold">[[${item.itemName}]]</p>
+                                                <p class="mb-0 fw-bold">[[${item.name}]]</p>
                                             </div>
                                         </div>
                                     </th>
-                                    <td>[[${item.itemCreatedAt}]]</td>
+                                    <td>[[${item.createdAt}]]</td>
                                     <td>
                                         <div class="like">
                                             <h6 class="f-14 fw-semibold"><i
@@ -335,7 +342,9 @@
                                             </h6>
                                         </div>
                                     </td>
-                                    <td>Edit/delete</td>
+                                    <td><a href="#" class="btn btn-primary">Update</a>
+                                        <a href="#" class="btn btn-danger">Delete</a>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>

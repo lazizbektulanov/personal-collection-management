@@ -3,7 +3,6 @@ package uz.itransition.personalcollectionmanagement.projection.collection;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.core.config.Projection;
 import uz.itransition.personalcollectionmanagement.entity.Collection;
-import uz.itransition.personalcollectionmanagement.projection.item.ItemProjection;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -24,6 +23,6 @@ public interface CollectionByIdProjection {
 
     Timestamp getCreatedAt();
 
-    @Value("#{@itemRepository.getItemsByCollectionId(target.id)}")
-    List<CollectionItemsProjection> getCollectionItems();
+//    @Value("#{@itemRepository.getItemsByCollectionId(target.id)}")
+//    List<CollectionItemsProjection> getCollectionItems();
 }
