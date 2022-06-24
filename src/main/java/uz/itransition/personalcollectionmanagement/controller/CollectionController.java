@@ -14,7 +14,6 @@ import uz.itransition.personalcollectionmanagement.projection.collection.Collect
 import uz.itransition.personalcollectionmanagement.service.CollectionService;
 import uz.itransition.personalcollectionmanagement.service.ItemService;
 
-import java.util.List;
 import java.util.UUID;
 
 import static uz.itransition.personalcollectionmanagement.utils.Constants.ITEMS_DEFAULT_PAGE;
