@@ -39,7 +39,7 @@ public class CommentService {
             throw new ResourceNotFoundException("User or item not found");
         User currentUser = user.get();
         Comment savedComment = commentRepository.save(new Comment(
-                commentDto.getBody(),
+                commentDto.getBody().trim(),
                 currentUser,
                 item.get()
         ));

@@ -60,10 +60,10 @@ public class CollectionService {
             Object value = customFieldJson.get(key);
             System.out.println(value.getClass().getTypeName());
             customFields.add(new CustomField(
-                    key.trim(),
-                    String.valueOf(value).trim(),
-                    getValueType(value),
-                    savedCollection
+//                    key.trim(),
+//                    String.valueOf(value).trim(),
+//                    getValueType(value),
+//                    savedCollection
             ));
         }
         customFieldRepository.saveAll(customFields);
