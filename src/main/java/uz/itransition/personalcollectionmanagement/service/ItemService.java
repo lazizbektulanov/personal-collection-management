@@ -31,7 +31,7 @@ public class ItemService {
     }
 
     public Page<CollectionItemsProjection> getCollectionItems(UUID collectionId, Integer page, String sortBy, String sortDir) {
-        int pageSize = Integer.parseInt(Constants.ITEMS_DEFAULT_PAGE_SIZE);
+        int pageSize = Integer.parseInt(Constants.DEFAULT_PAGE_SIZE);
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() :
                 Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page - 1, pageSize, sort);

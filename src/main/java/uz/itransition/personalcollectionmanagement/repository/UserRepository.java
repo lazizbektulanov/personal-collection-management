@@ -1,26 +1,30 @@
 package uz.itransition.personalcollectionmanagement.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import uz.itransition.personalcollectionmanagement.entity.User;
 import uz.itransition.personalcollectionmanagement.projection.ProfileProjection;
+import uz.itransition.personalcollectionmanagement.projection.UserProjection;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-    Optional<User> findByUsername(String username);
 
     Optional<User> findByEmail(String email);
+
+    boolean existsByEmail(String email);
 
     @Query(nativeQuery = true,
     value = "select " +
             "cast(u.id as varchar) as id," +
             "u.full_name as fullName," +
-            "u.username as username," +
             "u.email as email," +
             "u.profile_img_url as profileImgUrl," +
             "u.bio as bio," +
@@ -31,4 +35,18 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             "from users u " +
             "where u.id=:userId")
     ProfileProjection getUserProfile(UUID userId);
+
+    @Query(nativeQuery = true,
+    value = "select " +
+            "cast(u.id as varchar) as id," +
+            "u.full_name as fullName," +
+            "u.email as email," +
+            "u.is_active as isActive," +
+            "u.profile_img_url as profileImgUrl," +
+            "u.last_login_time as lastLoginTime," +
+            "(select r.role_name as role from roles r " +
+            "where r.id=u.role_id) " +
+            "from users u")
+    Page<UserProjection> getAllUsers(Pageable pageable);
+
 }

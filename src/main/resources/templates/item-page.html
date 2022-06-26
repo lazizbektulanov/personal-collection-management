@@ -103,7 +103,7 @@
                 <!--end dropdown-->
             </ul>
             <!--end navbar-nav-->
-            <a th:if="${user=='anonymousUser'}" href="/login" class="btn btn-outline-success">Login</a>
+            <a th:if="${user=='anonymousUser'}" href="/auth/login" class="btn btn-outline-success">Login</a>
             <a th:if="${user=='anonymousUser'}" href="/register" class="btn btn-outline-success">Register</a>
             <a th:unless="${user=='anonymousUser'}" href="/logout" class="btn btn-outline-danger">Log out</a>
         </div>

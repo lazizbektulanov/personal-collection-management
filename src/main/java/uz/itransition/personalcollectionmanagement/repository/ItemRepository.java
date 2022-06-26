@@ -33,7 +33,7 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
             "from items i " +
             "join users u on i.created_by_id = u.id " +
             "order by i.created_at desc " +
-            "limit 5")
+            "limit 5 ")
     List<ItemProjection> findLatestItems();
 
 
