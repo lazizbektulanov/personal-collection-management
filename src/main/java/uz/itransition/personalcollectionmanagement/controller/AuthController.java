@@ -34,7 +34,9 @@ public class AuthController {
     @PostMapping("/register")
     public String registerUser(@Valid RegisterDto registerDto, BindingResult bindingResult,
                                Model model){
+        if(bindingResult.hasErrors()){
+            return "register";
+        }
         return authService.registerUser(registerDto,bindingResult);
-
     }
 }

@@ -40,7 +40,10 @@ public class UserController {
                               @RequestParam(value = "sortDir",defaultValue = "asc") String sortDir) {
         Page<UserProjection> users = userService.getAllUsers(page,sortBy,sortDir);
         model.addAttribute("users", users);
-        model.addAttribute("sortDirection", sortDir.equalsIgnoreCase("asc") ? "desc" : "asc");
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", users.getTotalPages());
+        model.addAttribute("sortDirection", sortDir);
         return "user-management";
     }
 

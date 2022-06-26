@@ -61,7 +61,76 @@ public class DataLoader implements CommandLineRunner {
                     Timestamp.from(Instant.now()),
                     roleUser)
             );
-
+            User user2 = userRepository.save(new User(
+                    "user2",
+                    "user2@gmail.com",
+                    new BCryptPasswordEncoder().encode("user"),
+                    true,
+                    "This is user's bio",
+                    "https://imageio.forbes.com/specials-images/imageserve/627bd291633f3fbbcda36428/0x0.jpg?format=jpg&crop=2057,2059,x918,y85,safe&height=416&width=416&fit=bounds",
+                    Timestamp.from(Instant.now()),
+                    roleUser)
+            );
+            User user3 = userRepository.save(new User(
+                    "user3",
+                    "use3r@gmail.com",
+                    new BCryptPasswordEncoder().encode("user"),
+                    true,
+                    "This is user's bio",
+                    "https://imageio.forbes.com/specials-images/imageserve/627bd291633f3fbbcda36428/0x0.jpg?format=jpg&crop=2057,2059,x918,y85,safe&height=416&width=416&fit=bounds",
+                    Timestamp.from(Instant.now()),
+                    roleUser)
+            );
+            User user4 = userRepository.save(new User(
+                    "user4",
+                    "user4@gmail.com",
+                    new BCryptPasswordEncoder().encode("user"),
+                    true,
+                    "This is user's bio",
+                    "https://imageio.forbes.com/specials-images/imageserve/627bd291633f3fbbcda36428/0x0.jpg?format=jpg&crop=2057,2059,x918,y85,safe&height=416&width=416&fit=bounds",
+                    Timestamp.from(Instant.now()),
+                    roleUser)
+            );
+            User user5 = userRepository.save(new User(
+                    "user5",
+                    "user5@gmail.com",
+                    new BCryptPasswordEncoder().encode("user"),
+                    true,
+                    "This is user's bio",
+                    "https://imageio.forbes.com/specials-images/imageserve/627bd291633f3fbbcda36428/0x0.jpg?format=jpg&crop=2057,2059,x918,y85,safe&height=416&width=416&fit=bounds",
+                    Timestamp.from(Instant.now()),
+                    roleUser)
+            );
+            User user6 = userRepository.save(new User(
+                    "sauser",
+                    "asuser@gmail.com",
+                    new BCryptPasswordEncoder().encode("user"),
+                    true,
+                    "This is user's bio",
+                    "https://imageio.forbes.com/specials-images/imageserve/627bd291633f3fbbcda36428/0x0.jpg?format=jpg&crop=2057,2059,x918,y85,safe&height=416&width=416&fit=bounds",
+                    Timestamp.from(Instant.now()),
+                    roleUser)
+            );
+            User user7 = userRepository.save(new User(
+                    "asuser",
+                    "gasuser@gmail.com",
+                    new BCryptPasswordEncoder().encode("user"),
+                    true,
+                    "This is user's bio",
+                    "https://imageio.forbes.com/specials-images/imageserve/627bd291633f3fbbcda36428/0x0.jpg?format=jpg&crop=2057,2059,x918,y85,safe&height=416&width=416&fit=bounds",
+                    Timestamp.from(Instant.now()),
+                    roleUser)
+            );
+            User user8 = userRepository.save(new User(
+                    "asguser",
+                    "ugasgser@gmail.com",
+                    new BCryptPasswordEncoder().encode("user"),
+                    true,
+                    "This is user's bio",
+                    "https://imageio.forbes.com/specials-images/imageserve/627bd291633f3fbbcda36428/0x0.jpg?format=jpg&crop=2057,2059,x918,y85,safe&height=416&width=416&fit=bounds",
+                    Timestamp.from(Instant.now()),
+                    roleUser)
+            );
             Collection book1Collection = collectionRepository.save(new Collection(
                     "Book collection#1",
                     "https://i.pinimg.com/originals/c8/b0/7e/c8b07e380215edaaa1903769586a61dc.jpg",
