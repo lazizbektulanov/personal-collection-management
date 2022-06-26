@@ -81,14 +81,16 @@
                 </li>
                 <!--end dropdown-->
 
-                <li class="nav-item">
-                    <a href="contact.html" class="nav-link">Contact</a>
+                <li class="nav-item" th:if="${user!='anonymousUser'} and ${#strings.equals(user.role.roleName,'ROLE_ADMIN')} ">
+                    <a  th:href="@{/user/management}" class="nav-link">
+                        User management
+                    </a>
                 </li>
                 <!--end dropdown-->
             </ul>
             <!--end navbar-nav-->
-            <a th:if="${user=='anonymousUser'}" href="/login" class="btn btn-outline-success">Login</a>
-            <a th:if="${user=='anonymousUser'}" href="/register" class="btn btn-outline-success">Register</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/auth/login}" class="btn btn-outline-success">Login</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/auth/register}" class="btn btn-outline-success">Register</a>
             <a th:unless="${user=='anonymousUser'}" href="/logout" class="btn btn-outline-danger">Log out</a>
         </div>
     </div>
@@ -126,7 +128,7 @@
             <div class="col-lg-3" th:each="item: ${latestItems}">
                 <div class="clientslider-2 mt-5 position-relative" id="clientslider-2">
                     <div class="item">
-                        <div class="card" >
+                        <div class="card">
                             <div class="header d-flex">
                                 <div class="dropdown menu">
                                     <i class="mdi mdi-dots-vertical f-20" id="dropdownMenuButton1"
@@ -149,7 +151,7 @@
                             <!--                            </div>-->
                             <div class="card-body">
                                 <div class="collection-like-icon ms-auto">
-                                    <h6 class="fw-bold mb-0" >
+                                    <h6 class="fw-bold mb-0">
                                         <a th:href="@{'/item/'+${item.id}}">
                                             [[${item.itemName}]]
                                         </a>

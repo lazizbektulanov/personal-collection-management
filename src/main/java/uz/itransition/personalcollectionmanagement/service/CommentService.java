@@ -33,7 +33,7 @@ public class CommentService {
 
 
     public void leaveComment(CommentDto commentDto, Principal principal) {
-        Optional<User> user = userRepository.findByUsername(principal.getName());
+        Optional<User> user = userRepository.findByEmail(principal.getName());
         Optional<Item> item = itemRepository.findById(UUID.fromString(commentDto.getItemId()));
         if (!item.isPresent() || !user.isPresent())
             throw new ResourceNotFoundException("User or item not found");

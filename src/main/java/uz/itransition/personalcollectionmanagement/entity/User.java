@@ -11,6 +11,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.*;
 import java.util.Collection;
 
@@ -26,8 +28,6 @@ public class User extends AbsEntity implements UserDetails {
     @Column(nullable = false)
     private String fullName;
 
-    @Column(nullable = false, unique = true)
-    private String username;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -43,12 +43,28 @@ public class User extends AbsEntity implements UserDetails {
 
     private String profileImgUrl;
 
+    @Column(nullable = false)
+    private Timestamp lastLoginTime = Timestamp.from(Instant.now());
+
     @ManyToOne
     private Role role;
+
+    public User(String fullName, String email, String password, boolean isActive, Role role) {
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.isActive = isActive;
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(role);
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 
     @Override

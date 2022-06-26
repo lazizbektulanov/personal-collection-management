@@ -4,14 +4,19 @@ package uz.itransition.personalcollectionmanagement.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import uz.itransition.personalcollectionmanagement.service.AuthService;
 
 @Configuration
@@ -21,7 +26,15 @@ import uz.itransition.personalcollectionmanagement.service.AuthService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
+
     private final AuthService authService;
+
+
+    @Bean
+    public SessionRegistry sessionRegistry(){
+        return new SessionRegistryImpl();
+    }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -45,15 +58,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/css/**", "/images/**", "/js/**", "/fonts/**").permitAll()
-                .antMatchers("/login","/home","/test").permitAll()
-                .antMatchers("/item/**","/comment/**","/webjars/**","/api/item-comments/**").permitAll()
+                .antMatchers("/css/**", "/images/**", "/js/**", "/fonts/**","/webjars/**")
+                .permitAll()
+                .antMatchers("/auth/**","/home")
+                .permitAll()
+//                .antMatchers("/item/**","/comment/**","/webjars/**","/api/item-comments/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/auth/login").usernameParameter("email")
                 .defaultSuccessUrl("/home", true)
                 .permitAll();
+        http
+                .sessionManagement()
+                .maximumSessions(2)
+                .sessionRegistry(sessionRegistry())
+                .expiredUrl("/auth/login");
     }
 }
+

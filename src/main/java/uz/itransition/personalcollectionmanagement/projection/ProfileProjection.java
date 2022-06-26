@@ -16,8 +16,6 @@ public interface ProfileProjection {
 
     String getFullName();
 
-    String getUsername();
-
     String getEmail();
 
     String getProfileImgUrl();

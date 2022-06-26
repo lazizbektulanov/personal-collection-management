@@ -2,6 +2,8 @@ package uz.itransition.personalcollectionmanagement.entity;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
 import uz.itransition.personalcollectionmanagement.entity.enums.TopicName;
 import uz.itransition.personalcollectionmanagement.entity.template.AbsEntity;
 
@@ -30,9 +32,20 @@ public class Collection extends AbsEntity {
     @ManyToOne(optional = false)
     private User owner;
 
+    @Column(nullable = false)
+    private boolean isAccessible = true;
+
 
     public Collection(String title, String description, TopicName topicName, User owner) {
         this.title = title;
+        this.description = description;
+        this.topicName = topicName;
+        this.owner = owner;
+    }
+
+    public Collection(String title, String imgUrl, String description, TopicName topicName, User owner) {
+        this.title = title;
+        this.imgUrl = imgUrl;
         this.description = description;
         this.topicName = topicName;
         this.owner = owner;

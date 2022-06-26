@@ -16,7 +16,7 @@ import uz.itransition.personalcollectionmanagement.service.ItemService;
 
 import java.util.UUID;
 
-import static uz.itransition.personalcollectionmanagement.utils.Constants.ITEMS_DEFAULT_PAGE;
+import static uz.itransition.personalcollectionmanagement.utils.Constants.DEFAULT_PAGE;
 
 
 @Controller
@@ -38,7 +38,7 @@ public class CollectionController {
     @GetMapping("/{collectionId}")
     public String getCollectionById(Model model,
                                     @PathVariable(value = "collectionId") UUID collectionId,
-                                    @RequestParam(value = "page", defaultValue = ITEMS_DEFAULT_PAGE) Integer page,
+                                    @RequestParam(value = "page", defaultValue = DEFAULT_PAGE) Integer page,
                                     @RequestParam(value = "sortBy",defaultValue = "name") String sortBy,
                                     @RequestParam(value = "sortDir",defaultValue = "asc") String sortDir) {
         if (collectionService.checkCollectionOwner(collectionId)) {
