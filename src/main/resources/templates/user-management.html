@@ -238,13 +238,13 @@
                                 <thead>
                                 <tr class="table-title">
                                     <th scope="col">
-                                        <a th:href="@{'/user/management?SortBy=username&sortDir='+${sortDirection}}">
-                                            Username
+                                        <a th:href="@{'/user/management?SortBy=fullName&sortDir='+${sortDirection=='asc'?'desc':'asc'}}">
+                                            Full name
                                         </a>
                                     </th>
                                     <th scope="col">
-                                        <a th:href="@{'/user/management?SortBy=email&sortDir='+${sortDirection}}">
-                                            Username
+                                        <a th:href="@{'/user/management?SortBy=email&sortDir='+${sortDirection=='asc'?'desc':'asc'}}">
+                                            Email address
                                         </a>
                                     </th>
                                     <th scope="col">Status</th>
@@ -264,7 +264,7 @@
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1 ms-3">
-                                                <p class="mb-0 fw-bold">[[${user.username}]]</p>
+                                                <p class="mb-0 fw-bold">[[${user.fullName}]]</p>
                                             </div>
                                         </div>
                                     </th>
@@ -318,6 +318,31 @@
                                 </tbody>
                             </table>
                         </div>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" th:if="${currentPage>1}"
+                                       th:href="@{'/user/management?page='+ ${currentPage - 1} +'&SortBy=fullName&sortDir='+${sortDirection}}">
+                                        Previous
+                                    </a>
+                                </li>
+                                <li class="page-item" th:each="i: ${#numbers.sequence(1,totalPages)}">
+                                    <a class="page-link" th:if="${currentPage!=i}"
+                                       th:href="@{'/user/management?page='+ ${i} +'&SortBy=fullName&sortDir='+${sortDirection}}">
+                                        [[${i}]]
+                                    </a>
+                                    <a class="page-link" th:unless="${currentPage != i}">
+                                        [[${i}]]
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" th:if="${currentPage<totalPages}"
+                                       th:href="@{'/user/management?page='+ ${currentPage + 1} +'&SortBy=fullName&sortDir='+${sortDirection}}">
+                                        Next
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>

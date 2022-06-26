@@ -43,10 +43,10 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             "u.email as email," +
             "u.is_active as isActive," +
             "u.profile_img_url as profileImgUrl," +
-            "u.last_login_time as lastLoginTime," +
-            "(select r.role_name as role from roles r " +
-            "where r.id=u.role_id) " +
-            "from users u")
+            "u.last_login_time as lastLoginTime, " +
+            "r.role_name as role " +
+            "from users u " +
+            "join roles r on u.role_id = r.id")
     Page<UserProjection> getAllUsers(Pageable pageable);
 
 }

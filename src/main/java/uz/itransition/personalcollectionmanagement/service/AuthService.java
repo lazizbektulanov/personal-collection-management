@@ -41,16 +41,10 @@ public class AuthService implements UserDetailsService,
         this.roleRepository = roleRepository;
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email).orElseThrow(
                 () -> new UsernameNotFoundException("User not found"));
-    }
-
-    public User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (User) authentication.getPrincipal();
     }
 
     @Override
@@ -60,6 +54,10 @@ public class AuthService implements UserDetailsService,
         userRepository.save(user);
     }
 
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (User) authentication.getPrincipal();
+    }
 
     public String registerUser(RegisterDto registerDto, BindingResult bindingResult) {
         if (!registerDto.getPassword().equals(registerDto.getConfirmPassword())) {
