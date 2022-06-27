@@ -4,10 +4,12 @@ import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import uz.itransition.personalcollectionmanagement.entity.enums.TopicName;
 import uz.itransition.personalcollectionmanagement.entity.template.AbsEntity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -29,11 +31,14 @@ public class Collection extends AbsEntity {
     @Enumerated(EnumType.STRING)
     private TopicName topicName;
 
+
     @ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User owner;
 
     @Column(nullable = false)
     private boolean isAccessible = true;
+
 
 
     public Collection(String title, String description, TopicName topicName, User owner) {
@@ -42,6 +47,8 @@ public class Collection extends AbsEntity {
         this.topicName = topicName;
         this.owner = owner;
     }
+
+
 
     public Collection(String title, String imgUrl, String description, TopicName topicName, User owner) {
         this.title = title;

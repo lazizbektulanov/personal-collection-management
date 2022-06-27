@@ -5,15 +5,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import uz.itransition.personalcollectionmanagement.entity.enums.CustomFieldType;
+import uz.itransition.personalcollectionmanagement.payload.CollectionDto;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionByIdProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionItemsProjection;
+import uz.itransition.personalcollectionmanagement.repository.CollectionRepository;
 import uz.itransition.personalcollectionmanagement.service.CollectionService;
 import uz.itransition.personalcollectionmanagement.service.ItemService;
 
+import javax.servlet.ServletException;
+import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 
 import static uz.itransition.personalcollectionmanagement.utils.Constants.DEFAULT_PAGE;
@@ -29,11 +33,8 @@ public class CollectionController {
 
     private final ItemService itemService;
 
+    private final CollectionRepository collectionRepository;
 
-    @GetMapping("/create")
-    public String createCollection() {
-        return "create-collection";
-    }
 
     @GetMapping("/{collectionId}")
     public String getCollectionById(Model model,
@@ -49,5 +50,24 @@ public class CollectionController {
             model.addAttribute("sortDirection", sortDir.equalsIgnoreCase("asc") ? "desc" : "asc");
         }
         return "collection-by-id";
+    }
+
+    @GetMapping("/delete/{collectionId}")
+    public String deleteCollection(@PathVariable UUID collectionId){
+        collectionRepository.deleteById(collectionId);
+        return "register";
+    }
+
+    @GetMapping("/create")
+    public String createCollection(Model model) {
+//        model.addAttribute("dataTypesCustomField",collectionService.getCollectionTopics());
+        return "create-collection";
+    }
+
+    @PostMapping("/create")
+    public String createCollection(@RequestPart("collectionDto") CollectionDto collectionDto,
+                                   @RequestPart("image") MultipartFile collectionImage) throws ServletException, IOException {
+        collectionService.createCollection(collectionDto,collectionImage);
+        return "redirect:/user/my-collections";
     }
 }

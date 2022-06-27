@@ -2,15 +2,14 @@ package uz.itransition.personalcollectionmanagement.entity;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import uz.itransition.personalcollectionmanagement.entity.template.AbsEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
@@ -19,15 +18,13 @@ import java.util.Collection;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "users")
 public class User extends AbsEntity implements UserDetails {
 
-
     @Column(nullable = false)
     private String fullName;
-
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -54,6 +51,17 @@ public class User extends AbsEntity implements UserDetails {
         this.email = email;
         this.password = password;
         this.isActive = isActive;
+        this.role = role;
+    }
+
+    public User(String fullName, String email, String password, boolean isActive, String bio, String profileImgUrl, Timestamp lastLoginTime, Role role) {
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.isActive = isActive;
+        this.bio = bio;
+        this.profileImgUrl = profileImgUrl;
+        this.lastLoginTime = lastLoginTime;
         this.role = role;
     }
 

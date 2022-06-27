@@ -1,39 +1,39 @@
 package uz.itransition.personalcollectionmanagement.entity;
 
-
 import lombok.*;
 import org.hibernate.Hibernate;
-import uz.itransition.personalcollectionmanagement.entity.enums.CustomFieldType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import uz.itransition.personalcollectionmanagement.entity.template.AbsEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import java.util.Objects;
 
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity(name = "custom_fields")
-public class CustomField extends AbsEntity {
-
-    private String fieldName;
-
-//    @Enumerated(EnumType.STRING)
-    private String fieldType;
+@Entity(name = "likes")
+public class Like extends AbsEntity {
 
     @ManyToOne
-    private Collection collection;
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
+
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Item item;
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        CustomField that = (CustomField) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
+        Like like = (Like) o;
+        return getId() != null && Objects.equals(getId(), like.getId());
     }
 
     @Override

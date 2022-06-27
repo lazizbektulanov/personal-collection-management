@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import uz.itransition.personalcollectionmanagement.projection.ProfileProjection;
 import uz.itransition.personalcollectionmanagement.projection.UserProjection;
+import uz.itransition.personalcollectionmanagement.repository.UserRepository;
 import uz.itransition.personalcollectionmanagement.service.UserService;
 
-import java.util.List;
 import java.util.UUID;
 
 import static uz.itransition.personalcollectionmanagement.utils.Constants.DEFAULT_PAGE;
@@ -24,6 +24,8 @@ import static uz.itransition.personalcollectionmanagement.utils.Constants.DEFAUL
 public class UserController {
 
     private final UserService userService;
+
+    private final UserRepository userRepository;
 
     @GetMapping("/my-collections")
     public String getProfilePage(Model model) {
@@ -58,6 +60,13 @@ public class UserController {
     @GetMapping("/change-status/{userId}")
     public String changeUserStatus(@PathVariable UUID userId) {
         userService.changeUserStatus(userId);
+        return "redirect:/user/management";
+    }
+
+    @PreAuthorize(value = "hasRole('ADMIN')")
+    @GetMapping("/delete/{userId}")
+    public String deleteUser(@PathVariable UUID userId){
+        userService.deleteUser(userId);
         return "redirect:/user/management";
     }
 }
