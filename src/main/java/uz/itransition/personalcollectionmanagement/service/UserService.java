@@ -19,6 +19,7 @@ import uz.itransition.personalcollectionmanagement.repository.UserRepository;
 import uz.itransition.personalcollectionmanagement.utils.Constants;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -58,6 +59,7 @@ public class UserService {
     }
 
     public void changeUserStatus(UUID userId) {
+        //todo change to Optional in order to avoid NullPointer Exception
         User user = userRepository.getById(userId);
         if (user.isActive()) {
             user.setActive(false);
@@ -66,6 +68,12 @@ public class UserService {
             user.setActive(true);
         }
         userRepository.save(user);
+    }
+
+    public void deleteUser(UUID userId) {
+        User user = userRepository.getById(userId);
+        clearUserSessions(user);
+        userRepository.deleteById(userId);
     }
 
     public void clearUserSessions(User user) {

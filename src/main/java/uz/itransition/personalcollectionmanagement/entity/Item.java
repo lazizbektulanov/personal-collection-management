@@ -2,7 +2,8 @@ package uz.itransition.personalcollectionmanagement.entity;
 
 import lombok.*;
 import org.hibernate.Hibernate;
-import org.springframework.data.annotation.CreatedBy;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import uz.itransition.personalcollectionmanagement.entity.template.AbsEntity;
 
 import javax.persistence.*;
@@ -23,31 +24,23 @@ public class Item extends AbsEntity {
 
     private String imgUrl;
 
-
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToMany
-    @ToString.Exclude
     private List<Tag> tags;
 
-    @CreatedBy
     @ManyToOne(optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User createdBy;
 
-    @ManyToMany
-    @JoinTable(name = "items_likes",
-    joinColumns = @JoinColumn(name = "item_id"),
-    inverseJoinColumns = @JoinColumn(name = "user_id"))
-    @ToString.Exclude
-    private List<User> likes;
-
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection collection;
 
 
-    public Item(String name, List<Tag> tags, User createdBy, List<User> likes, Collection collection) {
+    public Item(String name, List<Tag> tags, User createdBy, Collection collection) {
         this.name = name;
         this.tags = tags;
         this.createdBy = createdBy;
-        this.likes = likes;
         this.collection = collection;
     }
 

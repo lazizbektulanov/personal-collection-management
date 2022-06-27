@@ -55,7 +55,7 @@ function setColor(theme) {
 function connectToWebSocket(itemId) {
     getItemComments();
     var socket = new SockJS('/comment');
-    console.log('ItemId ',itemId)
+    console.log('ItemId ', itemId)
     stompClient = Stomp.over(socket)
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
@@ -107,10 +107,10 @@ function leaveComment() {
     // showComments(dataObj)
 }
 
-function getItemComments(){
+function getItemComments() {
     let itemId = document.querySelector('#itemId').value;
-    fetch('/api/item-comments/'+itemId)
-        .then(function (res){
+    fetch('/api/item-comments/' + itemId)
+        .then(function (res) {
             res.json()
                 .then(data => {
                     data.map(comment => {
@@ -120,67 +120,75 @@ function getItemComments(){
         })
 }
 
-function addCustomField(){
-    const inpType = document.querySelector('.input_type').value;
-    let inp = '<div type="text" value="" class="form-control value" contenteditable></div>';
-    if (inpType == 'bool') {
-        inp = '<input type="checkbox" class="value inputs" id="">Yes';
-    } else if (inpType == 'date') {
-        inp = '<input class="value inputs" type = "date">';
+async function createCollectionDto() {
+    const customFieldNames = document.querySelectorAll('#fieldNameId')
+    const customFieldTypes = document.querySelectorAll('#fieldTypeId')
+    const customFields = {};
+    for (let i = 0; i < customFieldNames.length; i++) {
+        customFields[customFieldNames[i].value] = customFieldTypes[i].value;
     }
-    const allFields = document.querySelectorAll('#customFields');
-    let newField = `<div class="input_group row">
-                                    <div class="field_1 col-md-6">
-                                    <div type="text" value="" class="form-control key" contenteditable> </div>
-                                </div>
-                                <div class="field_2 col-md-6">
-                                    ${inp}
-                                </div>
-                            </div>`;
-    document.querySelector('.fields_body').insertAdjacentHTML('beforeend', newField);
+    let collectionDto = new FormData();
+    let image = document.querySelector('#collectionImage');
+    let title = document.querySelector('#title').value
+    let description = document.querySelector('#description').value
+    let topic = document.querySelector('#topic').value
+
+    const body = {title, description, topic, customFields};
+
+    collectionDto.append('collectionDto', new Blob([JSON.stringify(body)], {
+        type: "application/json"
+    }))
+    collectionDto.append('image', image.files[0])
+
+    await fetch('/collection/create', {
+        method: 'POST',
+        body: collectionDto
+    })
 }
 
-function createCollection(){
-    const requestBody = {};
-    const keys = document.querySelectorAll('.key');
-    const values = document.querySelectorAll('.value');
-    const customFields = {};
-    for (let i = 0; i <= keys.length; i++) {
-        try {
-            if (keys[i].innerText && (values[i].innerText || values[i].value)) {
-                if (values[i].type == 'checkbox') {
-                    customFields[keys[i].innerText] = values[i].checked;
-                } else {
-                    customFields[keys[i].innerText] = values[i].innerText || values[i].value;
-                }
-            }
-        } catch (error) {
+function addCustomField() {
 
-        }
-    }
-    // if (customFields) requestBody.customFields = customFields;
-    console.log(customFields);
-    fetch('/api/collection/create',{
-        method: 'POST',
-        headers:{
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            'title': document.querySelector('#title').value,
-            'description': document.querySelector('#description').value,
-            'topic': document.querySelector('#topic').value,
-            // 'collectionImage':document.querySelector('#collectionImage').files[0],
-            'customFields':customFields
-        })
-    })
-        .then(function (res){
-            res.json()
-                .then(data => {
-                    data.map(something => {
-                    })
-                })
-        })
+    const list = document.querySelector('.fields_body');
+
+    let li = document.createElement('li');
+
+    li.classList.add("list-group-item");
+    li.name = "fieldListItems"
+
+    var fieldType = document.createElement('select');
+    fieldType.classList.add("form-select");
+    fieldType.id = 'fieldTypeId'
+
+    // const dataTypesCustomField = document.querySelector('#dataTypesCustomField')
+    //
+    // for (let [key,value] of dataTypesCustomField){
+    //     fieldType.add(new Option(value,key))
+    // }
+
+    fieldType.add(new Option("String field", "text"))
+    fieldType.add(new Option("Multi line text field", "textarea"))
+    fieldType.add(new Option("Boolean checkbox field", "checkbox"))
+    fieldType.add(new Option("Integer field", "number"))
+    fieldType.add(new Option("Date field", "date"))
+
+    let fieldName = document.createElement('input');
+    fieldName.required = true
+    fieldName.classList.add("form-control");
+    fieldName.id = 'fieldNameId';
+    fieldName.placeholder = "Enter field name";
+
+    let removeElement = document.createElement('button');
+    removeElement.innerHTML = '-'
+    removeElement.classList.add("file__remove");
+
+    removeElement.addEventListener("click", function () {
+        li.remove();
+    });
+
+    li.append(fieldType);
+    li.append(fieldName);
+    li.append(removeElement);
+    list.append(li)
 }
 
 

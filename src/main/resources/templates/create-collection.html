@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>Artlink - NFT Marketplace Template</title>
@@ -234,94 +234,93 @@
 
         <div class="mt-5">
             <div class="info-box">
-                <div class="row">
-                    <div class="col-lg-5">
-                        <div class=" mt-4">
-                            <div class="mt-3">
-                                <div class="Title">
-                                    <label for="title" class="form-label fw-semibold">
-                                        Title:
-                                    </label>
-                                    <input type="text" class="form-control" id="title"
-                                           placeholder="Enter collection title" required="">
+                <form>
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div class=" mt-4">
+                                <div class="mt-3">
+                                    <div class="Title">
+                                        <label for="title" class="form-label fw-semibold">
+                                            Title:
+                                        </label>
+                                        <input type="text" class="form-control" id="title"
+                                               placeholder="Enter collection title" required="">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class=" mt-4">
-                            <div class="mt-3">
-                                <div class="Description">
-                                    <label for="description" class="form-label fw-semibold">
-                                        Description:
-                                    </label>
-                                    <textarea type="text" class="form-control" id="description"
-                                              placeholder="Enter collection description" required="">
+                            <div class=" mt-4">
+                                <div class="mt-3">
+                                    <div class="Description">
+                                        <label for="description" class="form-label fw-semibold">
+                                            Description:
+                                        </label>
+                                        <textarea type="text" class="form-control" id="description"
+                                                  placeholder="Enter collection description" required="">
                                     </textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class=" mt-4">
-                            <div class="mt-3">
-                                <div class="Topic">
-                                    <label for="topic" class="form-label fw-semibold">
-                                        Topic:
-                                    </label>
-                                    <select class="form-select" aria-label="Default select example" id="topic">
-                                        <option selected>Open this select menu</option>
-                                        <option value="BOOKS">Books</option>
-                                        <option value="CARS">Cars</option>
-                                        <option value="MUSICAL_INSTRUMENTS">Musical instruments</option>
-                                        <option value="MOBILE_PHONES">Mobile phones</option>
-                                        <option value="LAPTOPS">Laptops</option>
-                                    </select>
+                            <div class=" mt-4">
+                                <div class="mt-3">
+                                    <div class="Topic">
+                                        <label for="topic" class="form-label fw-semibold">
+                                            Topic:
+                                        </label>
+                                        <select class="form-select" aria-label="Default select example" id="topic">
+                                            <option selected>Open this select menu</option>
+                                            <option value="BOOKS">Books</option>
+                                            <option value="CARS">Cars</option>
+                                            <option value="MUSICAL_INSTRUMENTS">Musical instruments</option>
+                                            <option value="MOBILE_PHONES">Mobile phones</option>
+                                            <option value="LAPTOPS">Laptops</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class=" mt-4">
-                            <div class="mt-3">
-                                <div class="flex-grow-1 ms-3">
-                                    <div class="d-flex">
-                                        <div class="button">
-                                            <input type="file" class="btn btn-dark" id="collectionImage">
+                            <div class=" mt-4">
+                                <div class="mt-3">
+                                    <div class="flex-grow-1 ms-3">
+                                        <div class="d-flex">
+                                            <div class="button">
+                                                <input type="file" class="btn btn-dark" id="collectionImage">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" mt-4">
+                                <div class="mt-3">
+                                    <div class="row">
+                                        <div class="add_button" style="margin-bottom: 10px;">
+                                            <!--                                        <label for="fieldOption" class="form-label fw-semibold">-->
+                                            <!--                                            Field option:-->
+                                            <!--                                        </label>-->
+                                            <!--                                        <select class="form-select input_type" aria-label="Default select example" id="fieldOption">-->
+                                            <!--                                            <option selected>Open this select menu</option>-->
+                                            <!--                                            <option value="default">String</option>-->
+                                            <!--                                            <option value="bool">Yes/No</option>-->
+                                            <!--                                            <option value="date">Date</option>-->
+                                            <!--                                        </select>-->
+                                            <button class="btn btn-white shadow ms-3 text-dark addField"
+                                                    onclick="addCustomField()">
+                                                Add field
+                                            </button>
+                                        </div>
+                                        <div class="custom_fields">
+                                            <ul class="list-group fields_body">
+
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class=" mt-4">
-                            <div class="mt-3">
-                                <div class="row">
-                                    <div class="add_button" style="margin-bottom: 10px;">
-                                        <label for="fieldOption" class="form-label fw-semibold">
-                                            Field option:
-                                        </label>
-                                        <select class="form-select input_type" aria-label="Default select example" id="fieldOption">
-                                            <option selected>Open this select menu</option>
-                                            <option value="default">String</option>
-                                            <option value="bool">Yes/No</option>
-                                            <option value="date">Date</option>
-                                        </select>
-                                        <button class="btn btn-white shadow ms-3 text-dark addField"
-                                                onclick="addCustomField()">
-                                            Add field
-                                        </button>
-<!--                                        <select class="input_type" id="">-->
-<!--                                            <option value="default">String</option>-->
-<!--                                            <option value="bool">Yes/No</option>-->
-<!--                                            <option value="date">Date</option>-->
-<!--                                        </select>-->
-                                    </div>
-                                    <div class="fields_body">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                </div>
-                <div style="margin-bottom: 10px;">
-                    <button class="btn btn-white shadow ms-3 text-dark submit" onclick="createCollection()">
-                        Submit
-                    </button>
-                </div>
+                    <div style="margin-bottom: 10px;">
+                        <button class="btn btn-white shadow ms-3 text-dark submit" onclick="createCollectionDto()">
+                            Submit
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -329,14 +328,7 @@
     <!-- end container -->
 </section>
 <script>
-    // addBtn = document.querySelector('.addField');
-    // addBtn.addEventListener('click', () => {
-    //
-    //
-    // });
-    // document.querySelector('.submit').addEventListener('click', () => {
-    //
-    // });
+
 </script>
 
 <!--Bootstrap Js-->

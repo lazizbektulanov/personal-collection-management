@@ -34,6 +34,8 @@ public class DataLoader implements CommandLineRunner {
 
     private final TagRepository tagRepository;
 
+    private final LikeRepository likeRepository;
+
     @Override
     public void run(String... args) throws Exception {
         if (initMode.equals("always")) {
@@ -81,56 +83,6 @@ public class DataLoader implements CommandLineRunner {
                     Timestamp.from(Instant.now()),
                     roleUser)
             );
-            User user4 = userRepository.save(new User(
-                    "user4",
-                    "user4@gmail.com",
-                    new BCryptPasswordEncoder().encode("user"),
-                    true,
-                    "This is user's bio",
-                    "https://imageio.forbes.com/specials-images/imageserve/627bd291633f3fbbcda36428/0x0.jpg?format=jpg&crop=2057,2059,x918,y85,safe&height=416&width=416&fit=bounds",
-                    Timestamp.from(Instant.now()),
-                    roleUser)
-            );
-            User user5 = userRepository.save(new User(
-                    "user5",
-                    "user5@gmail.com",
-                    new BCryptPasswordEncoder().encode("user"),
-                    true,
-                    "This is user's bio",
-                    "https://imageio.forbes.com/specials-images/imageserve/627bd291633f3fbbcda36428/0x0.jpg?format=jpg&crop=2057,2059,x918,y85,safe&height=416&width=416&fit=bounds",
-                    Timestamp.from(Instant.now()),
-                    roleUser)
-            );
-            User user6 = userRepository.save(new User(
-                    "sauser",
-                    "asuser@gmail.com",
-                    new BCryptPasswordEncoder().encode("user"),
-                    true,
-                    "This is user's bio",
-                    "https://imageio.forbes.com/specials-images/imageserve/627bd291633f3fbbcda36428/0x0.jpg?format=jpg&crop=2057,2059,x918,y85,safe&height=416&width=416&fit=bounds",
-                    Timestamp.from(Instant.now()),
-                    roleUser)
-            );
-            User user7 = userRepository.save(new User(
-                    "asuser",
-                    "gasuser@gmail.com",
-                    new BCryptPasswordEncoder().encode("user"),
-                    true,
-                    "This is user's bio",
-                    "https://imageio.forbes.com/specials-images/imageserve/627bd291633f3fbbcda36428/0x0.jpg?format=jpg&crop=2057,2059,x918,y85,safe&height=416&width=416&fit=bounds",
-                    Timestamp.from(Instant.now()),
-                    roleUser)
-            );
-            User user8 = userRepository.save(new User(
-                    "asguser",
-                    "ugasgser@gmail.com",
-                    new BCryptPasswordEncoder().encode("user"),
-                    true,
-                    "This is user's bio",
-                    "https://imageio.forbes.com/specials-images/imageserve/627bd291633f3fbbcda36428/0x0.jpg?format=jpg&crop=2057,2059,x918,y85,safe&height=416&width=416&fit=bounds",
-                    Timestamp.from(Instant.now()),
-                    roleUser)
-            );
             Collection book1Collection = collectionRepository.save(new Collection(
                     "Book collection#1",
                     "https://i.pinimg.com/originals/c8/b0/7e/c8b07e380215edaaa1903769586a61dc.jpg",
@@ -143,28 +95,28 @@ public class DataLoader implements CommandLineRunner {
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXYnEsK0QvigISpJ8foytvZLHW5-vYnEIJNHRBHEhhGebtQOGCXLdrIzeKIZRP8Zi8zzA&usqp=CAU",
                     "Description of 1 car collection",
                     TopicName.CARS,
-                    user
+                    user2
             ));
             Collection laptop1Collection = collectionRepository.save(new Collection(
                     "Laptop collection#1",
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6ulPhovWcc1x-eitIFjqJg3EjD5vuFhErRg&usqp=CAU",
                     "Description of 1 laptop collection",
                     TopicName.LAPTOPS,
-                    user
+                    user2
             ));
             Collection musicInstrument1Collection = collectionRepository.save(new Collection(
                     "Musical instrument collection#1",
                     "https://media.istockphoto.com/photos/instruments-in-white-wooden-background-picture-id1219335974?k=20&m=1219335974&s=612x612&w=0&h=pV-_xowqm4PXP780HBps68uRvGvAAu3tNNqUxP0PFsc=",
                     "Description of 1 musical instrument collection",
                     TopicName.MUSICAL_INSTRUMENTS,
-                    user
+                    user2
             ));
             Collection mobilePhone1Collection = collectionRepository.save(new Collection(
                     "Mobile phone collection#1",
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuZBeC2qhVlzN1nRWf-LnsfbLvRMM5hCEI4A&usqp=CAU",
                     "Description of 1 mobile phone collection",
                     TopicName.MOBILE_PHONES,
-                    user
+                    user2
             ));
             Tag tagBeautiful = tagRepository.save(new Tag("beautiful"));
             Tag tagBest = tagRepository.save(new Tag("best"));
@@ -172,39 +124,49 @@ public class DataLoader implements CommandLineRunner {
             itemRepository.save(new Item(
                     "This is my car item",
                     Arrays.asList(tagBeautiful,tagBest,tagNew),
-                    user,
-                    Arrays.asList(admin, user),
+                    user2,
                     car1Collection
             ));
-            itemRepository.save(new Item(
+            Item bookItem = itemRepository.save(new Item(
                     "This is book item",
                     Collections.singletonList(tagBeautiful),
                     admin,
-                    Collections.singletonList(admin),
                     book1Collection
             ));
-            itemRepository.save(new Item(
+            Item phoneItem = itemRepository.save(new Item(
                     "This is mobile phone Item",
-                    Arrays.asList(tagBest,tagNew,tagBeautiful),
-                    user,
-                    Arrays.asList(admin,user),
+                    Arrays.asList(tagBest, tagNew, tagBeautiful),
+                    user2,
                     mobilePhone1Collection
             ));
-            itemRepository.save(new Item(
+            Item musicalInstrItem = itemRepository.save(new Item(
                     "This is musical instrument Item",
                     new ArrayList<>(),
                     user,
-                    Arrays.asList(admin,user),
                     musicInstrument1Collection
             ));
-            itemRepository.save(new Item(
+            Item phone2Item = itemRepository.save(new Item(
                     "This is mobile phone Item2",
-                    Arrays.asList(tagBeautiful,tagBest),
+                    Arrays.asList(tagBeautiful, tagBest),
                     admin,
-                    Arrays.asList(admin,user),
                     mobilePhone1Collection
             ));
-
+            likeRepository.save(new Like(
+                    user,
+                    bookItem
+            ));
+            likeRepository.save(new Like(
+                    user,
+                    bookItem
+            ));
+            likeRepository.save(new Like(
+                    admin,
+                    phoneItem
+            ));
+            likeRepository.save(new Like(
+                    admin,
+                    phoneItem
+            ));
         }
     }
 }

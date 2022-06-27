@@ -28,8 +28,8 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
             "cast(i.created_by_id as varchar) as authorId, " +
             "u.full_name as authorName," +
             "u.profile_img_url as authorProfileImgUrl," +
-            "(select count(il.user_id) from items_likes il " +
-            "where il.item_id=i.id) as itemLikes " +
+            "(select count(l.id) from likes l " +
+            "where l.item_id=i.id) as itemLikes " +
             "from items i " +
             "join users u on i.created_by_id = u.id " +
             "order by i.created_at desc " +
@@ -49,8 +49,8 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
             "u.full_name as authorName," +
             "(select count(c.id) from comments c " +
             "where c.item_id=i.id) as itemCommentsNumber," +
-            "(select count(il.user_id) from items_likes il " +
-            "where il.item_id=i.id) as itemLikes " +
+            "(select count(l.id) from likes l " +
+            "where l.item_id=i.id) as itemLikes " +
             "from items i " +
             "join users u on i.created_by_id = u.id " +
             "where i.id=:itemId")
@@ -62,8 +62,8 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
             "cast(i.id as varchar) as id," +
             "i.name as name," +
             "i.created_at as createdAt," +
-            "(select count(il.user_id) from items_likes il " +
-            "where il.item_id=i.id) as itemLikesNumber," +
+            "(select count(l.id) from likes l " +
+            "where l.item_id=i.id) as itemLikesNumber," +
             "(select count(c.id) from comments c " +
             "where c.item_id=i.id) as itemCommentsNumber " +
             "from items i " +

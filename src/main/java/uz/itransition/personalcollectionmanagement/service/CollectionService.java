@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import uz.itransition.personalcollectionmanagement.entity.Collection;
 import uz.itransition.personalcollectionmanagement.entity.CustomField;
 import uz.itransition.personalcollectionmanagement.entity.User;
@@ -18,10 +19,9 @@ import uz.itransition.personalcollectionmanagement.projection.collection.Collect
 import uz.itransition.personalcollectionmanagement.repository.CollectionRepository;
 import uz.itransition.personalcollectionmanagement.repository.CustomFieldRepository;
 
+import java.io.IOException;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 @Service
@@ -34,6 +34,8 @@ public class CollectionService {
 
     private final CustomFieldRepository customFieldRepository;
 
+    private final FileService fileService;
+
 
     public List<CollectionProjection> getLargestCollections() {
         return collectionRepository.getLargestCollections();
@@ -43,10 +45,11 @@ public class CollectionService {
         return collectionRepository.getCollectionById(collectionId);
     }
 
-    public void createCollection(CollectionDto collectionDto) {
+    public void createCollection(CollectionDto collectionDto, MultipartFile collectionImage) throws IOException {
         User currentUser = authService.getCurrentUser();
         Collection savedCollection = collectionRepository.save(new Collection(
                 collectionDto.getTitle().trim(),
+                fileService.uploadFile(collectionImage),
                 collectionDto.getDescription().trim(),
                 TopicName.valueOf(collectionDto.getTopic()),
                 currentUser
@@ -60,31 +63,25 @@ public class CollectionService {
             Object value = customFieldJson.get(key);
             System.out.println(value.getClass().getTypeName());
             customFields.add(new CustomField(
-//                    key.trim(),
-//                    String.valueOf(value).trim(),
-//                    getValueType(value),
-//                    savedCollection
+                    key.trim(),
+                    String.valueOf(value).trim(),
+                    savedCollection
             ));
         }
         customFieldRepository.saveAll(customFields);
-    }
-
-    public CustomFieldType getValueType(Object value) {
-        if (value.getClass().getSimpleName().equals("Boolean")) {
-            return CustomFieldType.BOOLEAN;
-        } else {
-            try {
-                Date.valueOf(String.valueOf(value));
-                return CustomFieldType.DATE;
-            } catch (Exception e) {
-                return CustomFieldType.STRING;
-            }
-        }
     }
 
     public boolean checkCollectionOwner(UUID collectionId) {
         User currentUser = authService.getCurrentUser();
         return currentUser.getRole().getRoleName().equals(RoleName.ROLE_ADMIN) ||
                 collectionRepository.existsByIdAndOwnerId(collectionId, currentUser.getId());
+    }
+
+    public Map<CustomFieldType, String> getCollectionTopics() {
+        Map<CustomFieldType, String> collectionTopics = new HashMap<>();
+        for (CustomFieldType value : CustomFieldType.values()) {
+            collectionTopics.put(value, value.getDataTypeName());
+        }
+        return collectionTopics;
     }
 }

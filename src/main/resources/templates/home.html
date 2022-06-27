@@ -69,7 +69,7 @@
                         Profile
                     </a>
                     <ul class="dropdown-menu dropdown-menu-center" aria-labelledby="homedrop">
-                        <li><a class="dropdown-item" th:href="@{/profile/my-collections}"><i
+                        <li><a class="dropdown-item" th:href="@{/user/my-collections}"><i
                                 class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>Profile</a></li>
                         <li><a class="dropdown-item" href="edit-profile.html"><i
                                 class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
@@ -156,9 +156,11 @@
                                             [[${item.itemName}]]
                                         </a>
                                     </h6>
-                                    <p class="fw-semibold mb-0"><a href="index-2.html"><i class="mdi mdi-heart"></i></a>
-                                        [[${item.itemLikes}]]
-                                    </p>
+                                    <div class="like">
+                                        <h6 class="f-14 fw-semibold"><i
+                                                class="mdi mdi-heart text-danger f-18 align-middle me-2"></i>[[${item.itemLikes}]]
+                                        </h6>
+                                    </div>
                                 </div>
                                 <div class="profile-content align-items-center d-flex justify-content-start">
                                     <div class="avatar-sm">
