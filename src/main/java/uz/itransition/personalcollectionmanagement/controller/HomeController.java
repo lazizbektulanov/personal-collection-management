@@ -24,8 +24,6 @@ public class HomeController {
 
     private final TagService tagService;
 
-
-
     @GetMapping("/home")
     public String getHomePage(Model model) {
         List<ItemProjection> latestItems = itemService.getLatestItems();

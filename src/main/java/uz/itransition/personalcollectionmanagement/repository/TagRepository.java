@@ -22,4 +22,6 @@ public interface TagRepository extends JpaRepository<Tag, UUID> {
             "join items_tags it on t.id = it.tags_id " +
             "where it.items_id=:itemId")
     List<TagProjection> findTagsByItemId(UUID itemId);
+
+//    List<Tag> findByNameContainingIgnoreCase(String name);
 }

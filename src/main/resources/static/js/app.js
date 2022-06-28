@@ -120,6 +120,7 @@ function getItemComments() {
         })
 }
 
+//
 async function createCollectionDto() {
     const customFieldNames = document.querySelectorAll('#fieldNameId')
     const customFieldTypes = document.querySelectorAll('#fieldTypeId')
@@ -142,8 +143,16 @@ async function createCollectionDto() {
 
     await fetch('/collection/create', {
         method: 'POST',
-        body: collectionDto
+        body: collectionDto,
+        redirect: 'follow'
     })
+        .then(res => {
+            console.log(res);
+            location.href = res.url;
+        })
+        .catch(err => {
+            console.log(err)
+        })
 }
 
 function addCustomField() {
@@ -190,5 +199,27 @@ function addCustomField() {
     li.append(removeElement);
     list.append(li)
 }
+
+// function searchTags(val) {
+//     res = document.getElementById("result");
+//     res.innerHTML = '';
+//     if (val == '') {
+//         return;
+//     }
+//     let list = '';
+//     fetch('/item/tag?value=' + val).then(
+//         function (response) {
+//             return response.json();
+//         }).then(function (data) {
+//         for (i = 0; i < data.length; i++) {
+//             list += '<li>' + data[i] + '</li>';
+//         }
+//         res.innerHTML = '<ul>' + list + '</ul>';
+//         return true;
+//     }).catch(function (err){
+//         console.warn('Something went wrong.', err);
+//         return false;
+//     })
+// }
 
 
