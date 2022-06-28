@@ -23,6 +23,8 @@ import uz.itransition.personalcollectionmanagement.repository.UserRepository;
 import java.sql.Timestamp;
 import java.time.Instant;
 
+import static uz.itransition.personalcollectionmanagement.utils.Constants.DEFAULT_PROFILE_IMG_URL;
+
 @Service
 public class AuthService implements UserDetailsService,
         ApplicationListener<AuthenticationSuccessEvent> {
@@ -75,7 +77,8 @@ public class AuthService implements UserDetailsService,
                 registerDto.getEmail(),
                 passwordEncoder.encode(registerDto.getPassword()),
                 true,
-                roleRepository.findByRoleName(RoleName.ROLE_USER)
+                roleRepository.findByRoleName(RoleName.ROLE_USER),
+                DEFAULT_PROFILE_IMG_URL
         ));
         return "redirect:/auth/login";
     }

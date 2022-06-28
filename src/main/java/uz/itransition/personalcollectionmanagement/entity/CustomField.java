@@ -6,10 +6,7 @@ import org.hibernate.Hibernate;
 import uz.itransition.personalcollectionmanagement.entity.enums.CustomFieldType;
 import uz.itransition.personalcollectionmanagement.entity.template.AbsEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Getter

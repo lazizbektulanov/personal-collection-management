@@ -46,12 +46,15 @@ public class User extends AbsEntity implements UserDetails {
     @ManyToOne
     private Role role;
 
-    public User(String fullName, String email, String password, boolean isActive, Role role) {
+    public User(String fullName, String email,
+                String password, boolean isActive,
+                Role role, String profileImgUrl) {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.isActive = isActive;
         this.role = role;
+        this.profileImgUrl = profileImgUrl;
     }
 
     public User(String fullName, String email, String password, boolean isActive, String bio, String profileImgUrl, Timestamp lastLoginTime, Role role) {

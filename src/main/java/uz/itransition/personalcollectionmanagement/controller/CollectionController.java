@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import uz.itransition.personalcollectionmanagement.entity.enums.CustomFieldType;
 import uz.itransition.personalcollectionmanagement.payload.CollectionDto;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionByIdProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionItemsProjection;
@@ -17,7 +16,6 @@ import uz.itransition.personalcollectionmanagement.service.ItemService;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
-import java.util.Map;
 import java.util.UUID;
 
 import static uz.itransition.personalcollectionmanagement.utils.Constants.DEFAULT_PAGE;
@@ -40,8 +38,8 @@ public class CollectionController {
     public String getCollectionById(Model model,
                                     @PathVariable(value = "collectionId") UUID collectionId,
                                     @RequestParam(value = "page", defaultValue = DEFAULT_PAGE) Integer page,
-                                    @RequestParam(value = "sortBy",defaultValue = "name") String sortBy,
-                                    @RequestParam(value = "sortDir",defaultValue = "asc") String sortDir) {
+                                    @RequestParam(value = "sortBy", defaultValue = "name") String sortBy,
+                                    @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir) {
         if (collectionService.checkCollectionOwner(collectionId)) {
             CollectionByIdProjection collection = collectionService.getCollectionById(collectionId);
             Page<CollectionItemsProjection> collectionItems = itemService.getCollectionItems(collectionId, page, sortBy, sortDir);
@@ -53,21 +51,22 @@ public class CollectionController {
     }
 
     @GetMapping("/delete/{collectionId}")
-    public String deleteCollection(@PathVariable UUID collectionId){
+    public String deleteCollection(@PathVariable UUID collectionId) {
         collectionRepository.deleteById(collectionId);
         return "register";
     }
 
     @GetMapping("/create")
     public String createCollection(Model model) {
-//        model.addAttribute("dataTypesCustomField",collectionService.getCollectionTopics());
+        model.addAttribute("dataTypesCustomField",
+                collectionService.getCollectionTopics());
         return "create-collection";
     }
 
     @PostMapping("/create")
     public String createCollection(@RequestPart("collectionDto") CollectionDto collectionDto,
-                                   @RequestPart("image") MultipartFile collectionImage) throws ServletException, IOException {
-        collectionService.createCollection(collectionDto,collectionImage);
+                                   @RequestPart(value = "image",required = false) MultipartFile collectionImage) throws IOException {
+        collectionService.createCollection(collectionDto, collectionImage);
         return "redirect:/user/my-collections";
     }
 }

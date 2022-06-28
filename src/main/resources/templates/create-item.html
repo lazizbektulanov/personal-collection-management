@@ -1,0 +1,213 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Artlink - NFT Marketplace Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content=" ">
+    <meta name="keywords" content="">
+    <meta content="Themesdesign" name="author">
+
+    <link rel="shortcut icon" href="../images/favicon.ico">
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" id="bootstrap-style">
+
+    <!-- Material Icon Css -->
+    <link rel="stylesheet" href="../css/materialdesignicons.min.css" type="text/css">
+
+    <!-- Unicon Css -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <!-- Swiper Css -->
+    <link rel="stylesheet" href="../css/tiny-slider.css" type="text/css">
+    <link rel="stylesheet" href="../css/swiper.min.css" type="text/css">
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="../css/style.min.css" type="text/css">
+
+    <!-- Tag search -->
+    <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#navbar-navlist" data-bs-offset="71">
+
+<!-- light-dark mode button -->
+<a href="javascript: void(0);" id="mode" class="mode-btn text-white rounded-end">
+    <i class="uil uil-brightness mode-dark mx-auto"></i>
+    <i class="uil uil-moon bx-spin mode-light"></i>
+</a>
+
+<!--Navbar Start-->
+<nav class="navbar navbar-expand-lg fixed-top sticky nav-sticky" id="navbar">
+    <div class="container-fluid custom-container">
+        <a class="navbar-brand logo f-30 text-dark fw-bold" href="index.html">
+            <img src="../images/logo-dark.png" class="logo-dark" alt="" height="40">
+            <img src="../images/logo-light.png" class="logo-light" alt="" height="40">
+        </a>
+        <div>
+            <div>
+                <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-label="Toggle navigation">
+                    <i class="mdi mdi-menu"></i>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mx-auto navbar-center">
+                    <li class="nav-item">
+                        <a href="/home" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item dropdown dropdown-hover">
+                        <a class="nav-link dropdown-toggle" href="home.html" id="homedrop" role="button"
+                           data-bs-toggle="dropdown">
+                            Profile
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-center" aria-labelledby="homedrop">
+                            <li><a class="dropdown-item" th:href="@{/user/my-collections}"><i
+                                    class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="edit-profile.html"><i
+                                    class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <a href="/logout" class="btn btn-outline-danger">Log out</a>
+            </div>
+
+        </div>
+        <!--end container-->
+    </div>
+</nav>
+<!-- Navbar End -->
+
+
+<!-- start section -->
+<section class="home section bg-light">
+    <!-- start container -->
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-lg-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb default mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="index.html" class="text-muted">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active text-primary" aria-current="page">Create item</li>
+
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-8">
+                <div class="inner-heading text-center">
+                    <div class="mt-4">
+                        <h1 class="fw-bold">Create collection</h1>
+                        <p class="text-muted">A New Place To Collect And Connect NFT Across The World. It’s come
+                            with a creative <br> design, home page options, different explore and digital asset
+                            pages and items.</p>
+                    </div>
+                </div>
+
+                <div class="heading-bottom-icon d-flex justify-content-center text-center">
+                    <i class="mdi mdi-image-filter-vintage"></i>
+                    <i class="mdi mdi-image-filter-vintage mx-2"></i>
+                    <i class="mdi mdi-image-filter-vintage"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <div class="info-box">
+                <form id="itemForm" enctype='multipart/form-data'
+                      th:method="post"
+                      th:action="@{'/item/create?collectionId='+${collectionId}}">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div class=" mt-4">
+                                <div class="mt-3">
+                                    <div class="Title">
+                                        <label for="title" class="form-label fw-semibold">
+                                            Name:
+                                        </label>
+                                        <input type="text" class="form-control" id="title"
+                                               placeholder="Enter item name" required="" name="itemName">
+                                    </div>
+                                </div>
+                            </div>
+                            <div th:if="${itemCustomFields!=null}" class=" mt-4"
+                                 th:each="customField: ${itemCustomFields}">
+                                <div th:if="${customField.fieldType!='textarea'}" class="mt-3">
+                                    <div th:class="${customField.fieldType=='checkbox'?'form-check':'Title'}">
+                                        <label th:for="${customField.fieldName}"
+                                               th:class="${customField.fieldType=='checkbox'?'form-check-lable':'form-label fw-semibold'}">
+                                            [[${customField.fieldName}]]
+                                        </label>
+                                        <input th:type="${customField.fieldType}"
+                                               th:class="${customField.fieldType=='checkbox'?'form-check-input':'form-control'}"
+                                               th:id="${customField.fieldName}"
+                                               placeholder="" required="" th:name="${customField.fieldName}">
+                                    </div>
+                                </div>
+                                <div th:if="${customField.fieldType=='textarea'}" class="mt-3">
+                                    <div class="Description">
+                                        <label th:for="${customField.fieldName}" class="form-label fw-semibold">
+                                            [[${customField.fieldName}]]
+                                        </label>
+                                        <textarea th:type="${customField.fieldType}" class="form-control"
+                                                  th:id="${customField.fieldName}"
+                                                  placeholder="" required="" th:name="${customField.fieldName}"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" mt-4">
+                                <div class="mt-3">
+                                    <div class="Title">
+                                        <label for="searchTag" class="form-label fw-semibold">
+                                            Tags:
+                                        </label>
+                                        <select data-placeholder="Enter tags " multiple
+                                                class="chosen-select form-control" id="searchTag"
+                                                name="itemTags">
+                                            <option value=""></option>
+                                            <option th:each="tag: ${itemTags}"
+                                                    th:text="${tag.name}"
+                                                    th:value="${tag.id}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <button class="btn btn-white shadow ms-3 text-dark submit">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end container -->
+</section>
+
+<!--Bootstrap Js-->
+<script src="../js/bootstrap.bundle.min.js"></script>
+
+<script src="../js/swiper.min.js"></script>
+
+<!-- counter -->
+<script src="../js/counter.init.js"></script>
+
+<!-- App Js -->
+<script src="../js/app.js"></script>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+<script>
+    $(".chosen-select").chosen({
+        no_results_text: "Oops, nothing found!"
+    })
+</script>
+</html>

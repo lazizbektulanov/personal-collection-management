@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.*;
 
+import static uz.itransition.personalcollectionmanagement.utils.Constants.DEFAULT_COLLECTION_IMG_URL;
+
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +38,6 @@ public class CollectionService {
 
     private final FileService fileService;
 
-
     public List<CollectionProjection> getLargestCollections() {
         return collectionRepository.getLargestCollections();
     }
@@ -49,7 +50,8 @@ public class CollectionService {
         User currentUser = authService.getCurrentUser();
         Collection savedCollection = collectionRepository.save(new Collection(
                 collectionDto.getTitle().trim(),
-                fileService.uploadFile(collectionImage),
+                collectionImage != null ? fileService.uploadFile(collectionImage) :
+                        DEFAULT_COLLECTION_IMG_URL,
                 collectionDto.getDescription().trim(),
                 TopicName.valueOf(collectionDto.getTopic()),
                 currentUser

@@ -55,13 +55,6 @@
                 <li class="nav-item">
                     <a href="/home" class="nav-link">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a href="home.html" class="nav-link">Marketplace</a>
-                </li>
-                <li class="nav-item">
-                    <a href="collection.html" class="nav-link">Collection</a>
-                </li>
-                <!--end dropdown-->
 
                 <li th:unless="${user=='anonymousUser'}" class="nav-item dropdown dropdown-hover">
                     <a class="nav-link dropdown-toggle" href="home.html" id="homedrop" role="button"
@@ -75,11 +68,6 @@
                                 class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
                     </ul>
                 </li>
-
-                <li class="nav-item">
-                    <a href="blog.html" class="nav-link">Blog</a>
-                </li>
-                <!--end dropdown-->
 
                 <li class="nav-item" th:if="${user!='anonymousUser'} and ${#strings.equals(user.role.roleName,'ROLE_ADMIN')} ">
                     <a  th:href="@{/user/management}" class="nav-link">
@@ -152,7 +140,7 @@
                             <div class="card-body">
                                 <div class="collection-like-icon ms-auto">
                                     <h6 class="fw-bold mb-0">
-                                        <a th:href="@{'/item/'+${item.id}}">
+                                        <a th:href="@{'/item?id='+${item.id}}">
                                             [[${item.itemName}]]
                                         </a>
                                     </h6>
