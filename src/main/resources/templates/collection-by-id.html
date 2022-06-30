@@ -9,23 +9,23 @@
     <meta name="keywords" content=""/>
     <meta content="Themesdesign" name="author"/>
 
-    <link rel="shortcut icon" href="../images/favicon.ico">
+    <link rel="shortcut icon" href="/images/favicon.ico">
 
     <!-- Bootstrap css -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" id="bootstrap-style"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" id="bootstrap-style"/>
 
     <!-- Material Icon Css -->
-    <link rel="stylesheet" href="../css/materialdesignicons.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/materialdesignicons.min.css" type="text/css"/>
 
     <!-- Unicon Css -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
 
     <!-- Swiper Css -->
-    <link rel="stylesheet" href="../css/tiny-slider.css" type="text/css"/>
-    <link rel="stylesheet" href="../css/swiper.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/tiny-slider.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/swiper.min.css" type="text/css"/>
 
     <!-- Custom Css -->
-    <link rel="stylesheet" href="../css/style.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/style.min.css" type="text/css"/>
 
 </head>
 
@@ -69,20 +69,11 @@
                                 class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
                     </ul>
                 </li>
-
-
-                <li class="nav-item">
-                    <a href="blog.html" class="nav-link">Blog</a>
-                </li>
-                <!--end dropdown-->
-
-                <li class="nav-item">
-                    <a href="contact.html" class="nav-link">Contact</a>
-                </li>
-                <!--end dropdown-->
             </ul>
             <!--end navbar-nav-->
-            <a href="wallet.html" class="btn btn-primary">Connect to Wallet</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/auth/login}" class="btn btn-outline-success">Login</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/auth/register}" class="btn btn-outline-success">Register</a>
+            <a th:unless="${user=='anonymousUser'}" href="/logout" class="btn btn-outline-danger">Log out</a>
 
         </div>
 
@@ -206,7 +197,7 @@
                 <div class="tab-content mt-5" id="pills-tableContent">
                     <div class="tab-pane fade show active" id="pills-games" role="tabpanel"
                          aria-labelledby="pills-games-tab">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6" th:if="${isCollectionOwner}">
                             <div class="d-flex align-items-lg-center justify-content-end">
                                 <div class="button ms-3">
                                     <a th:href="@{'/item/create?collectionId='+${collection.id}}" class="btn btn-dark">Create
@@ -219,35 +210,42 @@
                                 <thead>
                                 <tr class="table-title">
                                     <th scope="col">
-                                        <a th:href="@{'/collection/' + ${collection.id} + '?sortBy=name&sortDir=' + ${sortDirection}}">
+                                        <a th:href="@{'/collection/id/' + ${collection.id} + '?sortBy=name&sortDir=' + ${sortDirection}}">
                                             Item name
                                         </a>
                                     </th>
                                     <th scope="col">
-                                        <a th:href="@{'/collection/'+${collection.id} + '?sortBy=created_at&sortDir='+${sortDirection}}">
+                                        <a th:href="@{'/collection/id/'+${collection.id} + '?sortBy=created_at&sortDir='+${sortDirection}}">
                                             Creation date
                                         </a>
                                     </th>
+                                    <th scope="col" th:each="field : ${customFields}">
+                                        [[${field.fieldName}]]
+                                    </th>
                                     <th scope="col">Reactions</th>
-                                    <th scope="col">Action</th>
+                                    <th th:if="${isCollectionOwner}" scope="col">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr class="rank-profile" th:each="item: ${collectionItems}">
-                                    <th scope="row">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-shrink-0">
-                                                <div class="avatar position-relative">
-                                                    <img src="images/inner-image/ranking/img-1.png" alt=""
-                                                         class=" avatar-lg rounded"/>
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1 ms-3">
-                                                <p class="mb-0 fw-bold">[[${item.name}]]</p>
-                                            </div>
-                                        </div>
-                                    </th>
+                                    <!--                                    <th scope="row">-->
+                                    <!--                                        <div class="d-flex align-items-center">-->
+                                    <!--                                            <div class="flex-shrink-0" th:if="${item}">-->
+                                    <!--                                                <div class="avatar position-relative">-->
+                                    <!--                                                    <img src="images/inner-image/ranking/img-1.png" alt=""-->
+                                    <!--                                                         class=" avatar-lg rounded"/>-->
+                                    <!--                                                </div>-->
+                                    <!--                                            </div>-->
+                                    <!--                                            <div class="flex-grow-1 ms-3">-->
+                                    <!--                                                <p class="mb-0 fw-bold">[[${item.name}]]</p>-->
+                                    <!--                                            </div>-->
+                                    <!--                                        </div>-->
+                                    <!--                                    </th>-->
+                                    <td>[[${item.name}]]</td>
                                     <td>[[${item.createdAt}]]</td>
+                                    <td th:each="field : ${item.customFieldValues}">
+                                        [[${field.fieldValue}]]
+                                    </td>
                                     <td>
                                         <div class="like">
                                             <h6 class="f-14 fw-semibold"><i
@@ -260,16 +258,14 @@
                                             </h6>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td th:if="${isCollectionOwner}">
                                         <div class="dropdown menu">
                                             <i class="mdi mdi-dots-vertical f-20" id="dropdownMenuButton1"
                                                data-bs-toggle="dropdown"></i>
 
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                <li><a class="dropdown-item" href="home.html#">Action</a></li>
-                                                <li><a class="dropdown-item" href="home.html#">Another action</a></li>
-                                                <li><a class="dropdown-item" href="home.html#">Something else here</a>
-                                                </li>
+                                                <li><a class="dropdown-item" href="home.html#">Edit</a></li>
+                                                <li><a class="dropdown-item" href="home.html#">Delete</a></li>
                                             </ul>
                                         </div>
                                     </td>
@@ -277,6 +273,37 @@
                                 </tbody>
                             </table>
                         </div>
+                        <nav aria-label="Page navigation example" th:if="${totalPages>0}">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" th:if="${currentPage>1}"
+                                       th:href="@{'/collection/id/'+${collectionId}+
+                                       '?page='+ ${currentPage - 1} +'&SortBy='+${sortBy}+
+                                       '&sortDir='+${sortDirection}}">
+                                        Previous
+                                    </a>
+                                </li>
+                                <li class="page-item" th:each="i: ${#numbers.sequence(1,totalPages)}">
+                                    <a class="page-link" th:if="${currentPage!=i}"
+                                       th:href="@{'/collection/id/'+${collectionId}+
+                                       '?page='+ ${i} +'&SortBy='+${sortBy}+
+                                       '&sortDir='+${sortDirection}}">
+                                        [[${i}]]
+                                    </a>
+                                    <a class="page-link" th:unless="${currentPage != i}">
+                                        [[${i}]]
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" th:if="${currentPage<totalPages}"
+                                       th:href="@{'/collection/id/'+${collectionId}+
+                                       '?page='+ ${currentPage + 1} +'&SortBy='+${sortBy}+
+                                       '&sortDir='+${sortDirection}}">
+                                        Next
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -284,16 +311,16 @@
     </div>
 </section>
 <!--Bootstrap Js-->
-<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
 
 
-<script src="../js/swiper.min.js"></script>
+<script src="/js/swiper.min.js"></script>
 
 <!-- counter -->
-<script src="../js/counter.init.js"></script>
+<script src="/js/counter.init.js"></script>
 
 <!-- App Js -->
-<script src="../js/app.js"></script>
+<script src="/js/app.js"></script>
 </body>
 
 </html>

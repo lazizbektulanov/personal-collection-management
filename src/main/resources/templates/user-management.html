@@ -74,13 +74,13 @@
                 </li>
                 <li class="nav-item" th:if="${currentUser!='anonymousUser'} and
                 ${#strings.equals(currentUser.role.roleName,'ROLE_ADMIN')} ">
-                    <a  th:href="@{/user/management}" class="nav-link">
+                    <a th:href="@{/user/management}" class="nav-link">
                         User management
                     </a>
                 </li>
 
             </ul>
-            <a  href="/logout" class="btn btn-outline-danger">Log out</a>
+            <a href="/logout" class="btn btn-outline-danger">Log out</a>
 
         </div>
 
@@ -193,7 +193,6 @@
                                         <div class="dropdown menu">
                                             <i class="mdi mdi-dots-vertical f-20" id="dropdownMenuButton1"
                                                data-bs-toggle="dropdown"></i>
-
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                 <li>
                                                     <a th:if="${user.isActive}" class="dropdown-item"
@@ -263,17 +262,19 @@
                                 </tbody>
                             </table>
                         </div>
-                        <nav aria-label="Page navigation example">
+                        <nav aria-label="Page navigation example" th:if="${totalPages>0}">
                             <ul class="pagination">
                                 <li class="page-item">
                                     <a class="page-link" th:if="${currentPage>1}"
-                                       th:href="@{'/user/management?page='+ ${currentPage - 1} +'&SortBy=fullName&sortDir='+${sortDirection}}">
+                                       th:href="@{'/user/management?page='+ ${currentPage - 1} +
+                                       '&SortBy='+${sortBy}+'&sortDir='+${sortDirection}}">
                                         Previous
                                     </a>
                                 </li>
                                 <li class="page-item" th:each="i: ${#numbers.sequence(1,totalPages)}">
                                     <a class="page-link" th:if="${currentPage!=i}"
-                                       th:href="@{'/user/management?page='+ ${i} +'&SortBy=fullName&sortDir='+${sortDirection}}">
+                                       th:href="@{'/user/management?page='+ ${i} +
+                                       '&SortBy='+${sortBy}+'&sortDir='+${sortDirection}}">
                                         [[${i}]]
                                     </a>
                                     <a class="page-link" th:unless="${currentPage != i}">
@@ -282,7 +283,8 @@
                                 </li>
                                 <li class="page-item">
                                     <a class="page-link" th:if="${currentPage<totalPages}"
-                                       th:href="@{'/user/management?page='+ ${currentPage + 1} +'&SortBy=fullName&sortDir='+${sortDirection}}">
+                                       th:href="@{'/user/management?page='+ ${currentPage + 1} +
+                                       '&SortBy='+${sortBy}+'&sortDir='+${sortDirection}}">
                                         Next
                                     </a>
                                 </li>

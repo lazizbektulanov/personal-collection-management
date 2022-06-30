@@ -26,6 +26,7 @@ public class Item extends AbsEntity {
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToMany
+    @ToString.Exclude
     private List<Tag> tags;
 
     @ManyToOne(optional = false)

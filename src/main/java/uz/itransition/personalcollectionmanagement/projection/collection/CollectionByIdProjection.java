@@ -23,6 +23,4 @@ public interface CollectionByIdProjection {
 
     Timestamp getCreatedAt();
 
-//    @Value("#{@itemRepository.getItemsByCollectionId(target.id)}")
-//    List<CollectionItemsProjection> getCollectionItems();
 }
