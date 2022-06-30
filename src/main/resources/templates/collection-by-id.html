@@ -274,28 +274,28 @@
                             </table>
                         </div>
                         <nav aria-label="Page navigation example" th:if="${totalPages>0}">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" th:if="${currentPage>1}"
+                            <ul class="nav-link pagination justify-content-center">
+                                <li class="nav-item">
+                                    <a class="nav-link" th:if="${currentPage>1}"
                                        th:href="@{'/collection/id/'+${collectionId}+
                                        '?page='+ ${currentPage - 1} +'&SortBy='+${sortBy}+
                                        '&sortDir='+${sortDirection}}">
                                         Previous
                                     </a>
                                 </li>
-                                <li class="page-item" th:each="i: ${#numbers.sequence(1,totalPages)}">
-                                    <a class="page-link" th:if="${currentPage!=i}"
+                                <li class="nav-item" th:each="i: ${#numbers.sequence(1,totalPages)}">
+                                    <a class="nav-link" th:if="${currentPage!=i}"
                                        th:href="@{'/collection/id/'+${collectionId}+
                                        '?page='+ ${i} +'&SortBy='+${sortBy}+
                                        '&sortDir='+${sortDirection}}">
                                         [[${i}]]
                                     </a>
-                                    <a class="page-link" th:unless="${currentPage != i}">
+                                    <a class="nav-link disabled" th:unless="${currentPage != i}">
                                         [[${i}]]
                                     </a>
                                 </li>
-                                <li class="page-item">
-                                    <a class="page-link" th:if="${currentPage<totalPages}"
+                                <li class="nav-item">
+                                    <a class="nav-link" th:if="${currentPage<totalPages}"
                                        th:href="@{'/collection/id/'+${collectionId}+
                                        '?page='+ ${currentPage + 1} +'&SortBy='+${sortBy}+
                                        '&sortDir='+${sortDirection}}">

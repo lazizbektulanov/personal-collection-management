@@ -87,5 +87,15 @@ public class ItemService {
     }
 
 
+    public Page<ItemProjection> getItemsByTag(UUID tagId, Integer page) {
+        int pageSize = Integer.parseInt(Constants.DEFAULT_PAGE_SIZE_GET_ALL);
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        return itemRepository.getItemsByTag(tagId,pageable);
+    }
 
+    public Page<ItemProjection> getAllItems(Integer page) {
+        int pageSize = Integer.parseInt(Constants.DEFAULT_PAGE_SIZE_GET_ALL);
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        return itemRepository.getAllItems(pageable);
+    }
 }

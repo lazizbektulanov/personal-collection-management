@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/auth/**","/home","/comment/**")
                 .permitAll()
-                .antMatchers(HttpMethod.GET,"/item","/item/tag","/collection/id/**")
+                .antMatchers(HttpMethod.GET,"/item","/item/tag","/collection/id/**","/item/all","/collection/all")
                 .permitAll()
 //                .antMatchers("/item/**","/comment/**","/webjars/**","/api/item-comments/**").permitAll()
                 .anyRequest()

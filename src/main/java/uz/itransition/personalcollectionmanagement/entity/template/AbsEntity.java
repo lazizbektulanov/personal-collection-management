@@ -40,16 +40,4 @@ public abstract class AbsEntity {
     private Timestamp updatedAt;
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        AbsEntity absEntity = (AbsEntity) o;
-        return id != null && Objects.equals(id, absEntity.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

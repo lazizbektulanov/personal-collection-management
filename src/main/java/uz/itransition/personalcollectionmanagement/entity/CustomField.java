@@ -29,16 +29,4 @@ public class CustomField extends AbsEntity {
     @JoinColumn(name = "collection_id")
     private Collection collection;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        CustomField that = (CustomField) o;
-        return getId() != null && Objects.equals(getId(), that.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

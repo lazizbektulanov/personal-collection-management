@@ -28,16 +28,4 @@ public class Like extends AbsEntity {
     private Item item;
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Like like = (Like) o;
-        return getId() != null && Objects.equals(getId(), like.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

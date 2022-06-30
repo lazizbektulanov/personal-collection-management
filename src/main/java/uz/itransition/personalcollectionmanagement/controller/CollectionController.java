@@ -12,6 +12,7 @@ import uz.itransition.personalcollectionmanagement.projection.CustomFieldProject
 import uz.itransition.personalcollectionmanagement.projection.CustomFieldValueProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionByIdProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionItemsProjection;
+import uz.itransition.personalcollectionmanagement.projection.collection.CollectionProjection;
 import uz.itransition.personalcollectionmanagement.repository.CollectionRepository;
 import uz.itransition.personalcollectionmanagement.service.CollectionService;
 import uz.itransition.personalcollectionmanagement.service.CustomFieldService;
@@ -83,9 +84,23 @@ public class CollectionController {
                 collectionService.getCollectionById(collectionId);
         List<CustomFieldProjection> collectionCustomFields =
                 customFieldService.getCollectionCustomFields(collectionId);
-        model.addAttribute("collection",collectionById);
-        model.addAttribute("collectionCustomFields",collectionCustomFields);
+        model.addAttribute("collection", collectionById);
+        model.addAttribute("collectionCustomFields", collectionCustomFields);
+        //todo
         return "edit-collection";
+    }
 
+    @GetMapping("/all")
+    public String getAllCollections(
+            @RequestParam(value = "page", defaultValue = DEFAULT_PAGE) Integer page,
+            Model model
+    ) {
+        Page<CollectionProjection> collections =
+                collectionService.getAllCollections(page);
+        model.addAttribute("collections",collections);
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", collections.getTotalPages());
+        return "view-all-collection-page";
     }
 }

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Collections</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content=" "/>
+    <meta name="keywords" content=""/>
+    <meta content="Themesdesign" name="author"/>
+
+    <link rel="shortcut icon" href="../images/favicon.ico">
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css" id="bootstrap-style"/>
+
+    <!-- Material Icon Css -->
+    <link rel="stylesheet" href="../css/materialdesignicons.min.css" type="text/css"/>
+
+    <!-- Unicon Css -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
+
+    <!-- Swiper Css -->
+    <link rel="stylesheet" href="../css/tiny-slider.css" type="text/css"/>
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="../css/style.min.css" type="text/css"/>
+    <style>
+        a {
+            color: inherit;
+        }
+    </style>
+
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="71"
+      th:with="user = ${#authentication.principal}">
+
+<!-- light-dark mode button -->
+<a href="javascript: void(0);" id="mode" class="mode-btn text-white rounded-end">
+    <i class="uil uil-brightness mode-dark mx-auto"></i>
+    <i class="uil uil-moon bx-spin mode-light"></i>
+</a>
+
+<!--Navbar Start-->
+<nav class="navbar navbar-expand-lg fixed-top sticky" id="navbar">
+    <div class="container-fluid custom-container">
+        <a class="navbar-brand logo f-30 text-dark fw-bold" href="home.html">
+            <img src="../images/logo-dark.png" class="logo-dark" alt="" height="40">
+            <img src="../images/logo-light.png" class="logo-light" alt="" height="40">
+        </a>
+        <div>
+            <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-label="Toggle navigation">
+                <i class="mdi mdi-menu"></i>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mx-auto navbar-center">
+                <li class="nav-item">
+                    <a href="/home" class="nav-link">Home</a>
+                </li>
+
+                <li th:unless="${user=='anonymousUser'}" class="nav-item dropdown dropdown-hover">
+                    <a class="nav-link dropdown-toggle" href="home.html" id="homedrop" role="button"
+                       data-bs-toggle="dropdown">
+                        Profile
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-center" aria-labelledby="homedrop">
+                        <li><a class="dropdown-item" th:href="@{/user/my-collections}"><i
+                                class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>Profile</a></li>
+                        <li><a class="dropdown-item" href="edit-profile.html"><i
+                                class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item"
+                    th:if="${user!='anonymousUser'} and ${#strings.equals(user.role.roleName,'ROLE_ADMIN')} ">
+                    <a th:href="@{/user/management}" class="nav-link">
+                        User management
+                    </a>
+                </li>
+                <!--end dropdown-->
+            </ul>
+            <!--end navbar-nav-->
+            <a th:if="${user=='anonymousUser'}" th:href="@{/auth/login}" class="btn btn-outline-success">Login</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/auth/register}" class="btn btn-outline-success">Register</a>
+            <a th:unless="${user=='anonymousUser'}" href="/logout" class="btn btn-outline-danger">Log out</a>
+        </div>
+    </div>
+    <!--end container-->
+</nav>
+<!-- Navbar End -->
+<!-- start explore -->
+<section class="explore section bg-light px-4" id="explore">
+    <!-- start container -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="home-content-2 home-heading text-start">
+                    <h1 class="fw-bold">All
+                        <span class="text-primary">Collections</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content mt-5 pt-4" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
+                <div class="row">
+                    <div class="col-lg-3 mt-4" th:each="collection: ${collections}">
+                        <div class="tab-content p-4 border-0">
+                            <div class="header d-flex align-items-center justify-content-start">
+                                <div class="avatar-xs">
+                                    <img th:src="${collection.authorProfileImgUrl}" alt=""
+                                         class="img-fluid rounded-circle">
+                                </div>
+                                <h6 class="mb-0 ms-2 fw-semibold text-muted f-14"
+                                    th:text="${collection.authorName}"></h6>
+                            </div>
+                            <div class="card-image mt-3">
+                                <img th:src="${collection.imgUrl}" alt="" class="img-fluid">
+                            </div>
+                            <div class="body-content mt-3">
+                                <h6 class="fw-bold">
+                                    <a th:href="@{'/collection/id/'+${collection.id}}">
+                                        [[${collection.title}]]
+                                    </a>
+                                </h6>
+                                <div class="d-flex">
+                                    <p class="text-muted">6 in stock</p>
+                                    <p class="ms-auto text-muted">Topic : <span class="text-success">
+                                            [[${collection.topic}]]
+                                        </span></p>
+                                </div>
+                                <hr>
+                                <div class="d-flex mt-3 align-items-center">
+                                    <div class="bid-button ms-auto">
+                                        <a class="btn btn-sm btn-primary rounded-pill"
+                                           th:href="@{'/collection/id/'+${collection.id}}">
+                                            View
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- end container -->
+</section>
+<!--pagination-->
+<nav aria-label="Page navigation example">
+    <ul class="nav-link pagination justify-content-center">
+        <li class="nav-item disabled" th:if="${currentPage>1}">
+            <a class="nav-link"
+               th:href="@{'/collection/all?page='+${currentPage - 1}}" tabindex="-1" aria-disabled="true">
+                Previous
+            </a>
+        </li>
+        <li th:if="${totalPages>1}" class="nav-item" th:each="i: ${#numbers.sequence(1,totalPages)}">
+            <a class="nav-link" th:if="${currentPage!=i}"
+               th:href="@{'/collection/all?page='+${i}}">
+                [[${i}]]
+            </a>
+            <a class="nav-link" th:unless="${currentPage!=i}">
+                [[${i}]]
+            </a>
+        </li>
+        <li class="nav-item" th:if="${currentPage<totalPages}">
+            <a class="nav-link"
+               th:href="@{'/collection/all?page='+${currentPage+1}}">
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>
+<!--Bootstrap Js-->
+<script src="../js/bootstrap.bundle.min.js"></script>
+
+<!-- Swiper Js -->
+
+<!-- counter -->
+<script src="../js/counter.init.js"></script>
+
+<!-- App Js -->
+<script src="../js/app.js"></script>
+
+<!--<script>-->
+
+<!--    //team-slider-->
+<!--    var slider = tns({-->
+<!--        container: '.team-slider',-->
+<!--        loop: true,-->
+<!--        autoplay: true,-->
+<!--        mouseDrag: true,-->
+<!--        controls: true,-->
+<!--        navPosition: "bottom",-->
+<!--        nav: false,-->
+<!--        autoplayTimeout: 4000,-->
+<!--        speed: 900,-->
+<!--        gutter: 40,-->
+<!--        center: true,-->
+<!--        animateIn: "fadeIn",-->
+<!--        animateOut: "fadeOut",-->
+<!--        controlsText: ['&#8592;', '&#8594;'],-->
+<!--        autoplayButtonOutput: false,-->
+<!--        responsive: {-->
+
+<!--            992: {-->
+<!--                gutter: 40,-->
+<!--                items: 6-->
+<!--            },-->
+
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+
+
+<!--<script>-->
+<!--    var slider = tns({-->
+<!--        container: '.clientslider-2',-->
+<!--        loop: true,-->
+<!--        autoplay: true,-->
+<!--        mouseDrag: true,-->
+<!--        controls: false,-->
+<!--        navPosition: "bottom",-->
+<!--        nav: false,-->
+<!--        autoplayTimeout: 4000,-->
+<!--        speed: 900,-->
+<!--        gutter: 50,-->
+<!--        animateIn: "fadeIn",-->
+<!--        animateOut: "fadeOut",-->
+<!--        controlsText: ['&#8592;', '&#8594;'],-->
+<!--        autoplayButtonOutput: false,-->
+<!--        responsive: {-->
+
+<!--            992: {-->
+<!--                gutter: 50,-->
+<!--                items: 4-->
+<!--            },-->
+
+<!--        }-->
+<!--    });-->
+
+<!--</script>-->
+
+</body>
+
+</html>

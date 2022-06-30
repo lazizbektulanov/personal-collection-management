@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import uz.itransition.personalcollectionmanagement.entity.Tag;
+import uz.itransition.personalcollectionmanagement.projection.TagProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemProjection;
 import uz.itransition.personalcollectionmanagement.service.CollectionService;
@@ -28,9 +30,10 @@ public class HomeController {
     public String getHomePage(Model model) {
         List<ItemProjection> latestItems = itemService.getLatestItems();
         List<CollectionProjection> largestCollections = collectionService.getLargestCollections();
-//        List<TagProjection> tagCloud = collectionService.get
+        List<Tag> tagCloud = tagService.getAllTags();
         model.addAttribute("latestItems", latestItems);
         model.addAttribute("largestCollections", largestCollections);
+        model.addAttribute("tags",tagCloud);
         return "home";
     }
 }

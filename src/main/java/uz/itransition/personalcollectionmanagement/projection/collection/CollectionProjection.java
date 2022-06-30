@@ -9,11 +9,18 @@ import java.util.UUID;
 public interface CollectionProjection {
 
     UUID getId();
+
     String getTitle();
+
     String getImgUrl();
+
     String getTopic();
+
     UUID getAuthorId();
+
     String getAuthorName();
+
     String getAuthorProfileImgUrl();
+
     Long getItemsCount();
 }

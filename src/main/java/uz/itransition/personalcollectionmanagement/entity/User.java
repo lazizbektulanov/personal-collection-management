@@ -98,16 +98,5 @@ public class User extends AbsEntity implements UserDetails {
         return this.isActive;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        User user = (User) o;
-        return getId() != null && Objects.equals(getId(), user.getId());
-    }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }
