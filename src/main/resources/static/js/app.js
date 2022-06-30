@@ -120,41 +120,6 @@ function getItemComments() {
         })
 }
 
-//
-async function createCollectionDto() {
-    const customFieldNames = document.querySelectorAll('#fieldNameId')
-    const customFieldTypes = document.querySelectorAll('#fieldTypeId')
-    const customFields = {};
-    for (let i = 0; i < customFieldNames.length; i++) {
-        customFields[customFieldNames[i].value] = customFieldTypes[i].value;
-    }
-    let collectionDto = new FormData();
-    let image = document.querySelector('#collectionImage');
-    let title = document.querySelector('#title').value
-    let description = document.querySelector('#description').value
-    let topic = document.querySelector('#topic').value
-
-    const body = {title, description, topic, customFields};
-
-    collectionDto.append('collectionDto', new Blob([JSON.stringify(body)], {
-        type: "application/json"
-    }))
-    collectionDto.append('image', image.files[0])
-
-    await fetch('/collection/create', {
-        method: 'POST',
-        body: collectionDto,
-        redirect: 'follow'
-    })
-        .then(res => {
-            console.log(res);
-            location.href = res.url;
-        })
-        .catch(err => {
-            console.log(err)
-        })
-}
-
 function addCustomField() {
 
     const list = document.querySelector('.fields_body');
@@ -198,6 +163,58 @@ function addCustomField() {
     li.append(fieldName);
     li.append(removeElement);
     list.append(li)
+}
+
+async function createCollectionDto() {
+
+    if (!checkValidity()) {
+        return;
+    }
+    const customFieldNames = document.querySelectorAll('#fieldNameId')
+    const customFieldTypes = document.querySelectorAll('#fieldTypeId')
+    const customFields = {};
+    for (let i = 0; i < customFieldNames.length; i++) {
+        customFields[customFieldNames[i].value] = customFieldTypes[i].value;
+    }
+    let collectionDto = new FormData();
+    let image = document.querySelector('#collectionImage');
+    let title = document.querySelector('#collectionTitle').value
+    let description = document.querySelector('#collectionDescription').value
+    let topic = document.querySelector('#collectionTopic').value
+
+    const body = {title, description, topic, customFields};
+
+    collectionDto.append('collectionDto', new Blob([JSON.stringify(body)], {
+        type: "application/json"
+    }))
+    collectionDto.append('image', image.files[0])
+    await fetch('/collection/create', {
+        method: 'POST',
+        body: collectionDto,
+        redirect: 'follow'
+    })
+        .then(res => {
+            console.log(res);
+            location.href = res.url;
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+function checkValidity(){
+    let title = document.querySelector('#collectionTitle')
+    let description = document.querySelector('#collectionDescription')
+    let topic = document.querySelector('#collectionTopic')
+    const customFieldNames = document.querySelectorAll('#fieldNameId')
+    if(title.value.trim().length<1 || description.value.trim().length<1 ||
+       topic.value === '-1')return false;
+    for (let i = 0; i < customFieldNames.length; i++) {
+        if (customFieldNames[i].value.trim().length < 1) {
+            return false;
+        }
+    }
+    return true;
 }
 
 // function searchTags(val) {

@@ -34,7 +34,7 @@ public class CollectionService {
 
     private final AuthService authService;
 
-    private final CustomFieldRepository customFieldRepository;
+    private final CustomFieldService customFieldService;
 
     private final FileService fileService;
 
@@ -56,25 +56,12 @@ public class CollectionService {
                 TopicName.valueOf(collectionDto.getTopic()),
                 currentUser
         ));
-        saveCollectionCustomFields(collectionDto.getCustomFields(), savedCollection);
+        customFieldService.saveCollectionCustomFields(collectionDto.getCustomFields(), savedCollection);
     }
 
-    private void saveCollectionCustomFields(JSONObject customFieldJson, Collection savedCollection) {
-        List<CustomField> customFields = new ArrayList<>();
-        for (String key : customFieldJson.keySet()) {
-            Object value = customFieldJson.get(key);
-            System.out.println(value.getClass().getTypeName());
-            customFields.add(new CustomField(
-                    key.trim(),
-                    String.valueOf(value).trim(),
-                    savedCollection
-            ));
-        }
-        customFieldRepository.saveAll(customFields);
-    }
-
-    public boolean checkCollectionOwner(UUID collectionId) {
+    public boolean isCollectionOwner(UUID collectionId) {
         User currentUser = authService.getCurrentUser();
+        if (currentUser.getId() == null) return false;
         return currentUser.getRole().getRoleName().equals(RoleName.ROLE_ADMIN) ||
                 collectionRepository.existsByIdAndOwnerId(collectionId, currentUser.getId());
     }

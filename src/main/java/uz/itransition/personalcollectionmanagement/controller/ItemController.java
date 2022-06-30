@@ -45,14 +45,14 @@ public class ItemController {
         List<Tag> itemTags = itemService.getItemTags();
         model.addAttribute("itemCustomFields", itemCustomFields);
         model.addAttribute("itemTags", itemTags);
-        model.addAttribute("collectionId",collectionId);
+        model.addAttribute("collectionId", collectionId);
         return "create-item";
     }
 
     @PostMapping("/create")
     public String createItem(@RequestParam("collectionId") UUID collectionId,
                              HttpServletRequest request) throws ServletException, IOException {
-        itemService.createItem(request,collectionId);
-        return "create-item";
+        itemService.createItem(request, collectionId);
+        return "redirect:/collection/id/" + collectionId;
     }
 }

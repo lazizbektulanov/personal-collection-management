@@ -46,6 +46,7 @@ public class UserController {
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", users.getTotalPages());
         model.addAttribute("sortDirection", sortDir);
+        model.addAttribute("sortBy",sortBy);
         return "user-management";
     }
 

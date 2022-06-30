@@ -58,7 +58,8 @@ public class AuthService implements UserDetailsService,
 
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (User) authentication.getPrincipal();
+        return authentication.getPrincipal().equals("anonymousUser") ? new User() :
+                (User) authentication.getPrincipal();
     }
 
     public String registerUser(RegisterDto registerDto, BindingResult bindingResult) {
