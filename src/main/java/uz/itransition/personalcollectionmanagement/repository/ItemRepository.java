@@ -23,15 +23,13 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
             "i.name as itemName," +
             "i.img_url as itemImgUrl," +
             "cast(i.collection_id as varchar) as itemCollectionId," +
-            "(select c.title as itemCollectionTitle " +
-            "from collections c where c.id=i.collection_id)," +
-            "cast(i.created_by_id as varchar) as authorId, " +
+            "c.title as itemCollectionTitle," +
+            "cast(u.id as varchar) as authorId, " +
             "u.full_name as authorName," +
-            "u.profile_img_url as authorProfileImgUrl," +
-            "(select count(l.id) from likes l " +
-            "where l.item_id=i.id) as itemLikes " +
+            "u.profile_img_url as authorProfileImgUrl " +
             "from items i " +
             "join users u on i.created_by_id = u.id " +
+            "join collections c on c.id = i.collection_id " +
             "order by i.created_at desc " +
             "limit 5 ")
     List<ItemProjection> findLatestItems();
@@ -61,12 +59,40 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
     value = "select " +
             "cast(i.id as varchar) as id," +
             "i.name as name," +
-            "i.created_at as createdAt," +
-            "(select count(l.id) from likes l " +
-            "where l.item_id=i.id) as itemLikesNumber," +
-            "(select count(c.id) from comments c " +
-            "where c.item_id=i.id) as itemCommentsNumber " +
+            "i.created_at as createdAt " +
             "from items i " +
             "where i.collection_id=:collectionId")
     Page<CollectionItemsProjection> getItemsByCollectionId(Pageable pageable,UUID collectionId);
+
+    @Query(nativeQuery = true,
+            value = "select " +
+                    "cast(i.id as varchar) as id," +
+                    "i.name as itemName," +
+                    "i.img_url as itemImgUrl," +
+                    "cast(i.collection_id as varchar) as itemCollectionId," +
+                    "c.title as itemCollectionTitle," +
+                    "cast(u.id as varchar) as authorId," +
+                    "u.full_name as authorName," +
+                    "u.profile_img_url as authorProfileImgUrl " +
+                    "from items i " +
+                    "join users u on i.created_by_id = u.id " +
+                    "join items_tags it on i.id = it.items_id " +
+                    "join collections c on c.id = i.collection_id " +
+                    "where it.tags_id=:tagId")
+    Page<ItemProjection> getItemsByTag(UUID tagId, Pageable pageable);
+
+    @Query(nativeQuery = true,
+    value = "select " +
+            "cast(i.id as varchar) as id," +
+            "i.name as itemName," +
+            "i.img_url as itemImgUrl," +
+            "cast(i.collection_id as varchar) as itemCollectionId," +
+            "c.title as itemCollectionTitle," +
+            "cast(u.id as varchar) as authorId," +
+            "u.full_name as authorName," +
+            "u.profile_img_url as authorProfileImgUrl " +
+            "from items i " +
+            "join users u on i.created_by_id = u.id " +
+            "join collections c on c.id = i.collection_id ")
+    Page<ItemProjection> getAllItems(Pageable pageable);
 }

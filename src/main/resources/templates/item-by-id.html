@@ -34,7 +34,7 @@
 
 </head>
 
-<body  data-bs-spy="scroll" data-bs-target="#navbar-navlist" data-bs-offset="71"
+<body data-bs-spy="scroll" data-bs-target="#navbar-navlist" data-bs-offset="71"
       th:with="user = ${#authentication.principal}">
 
 <!-- light-dark mode button -->
@@ -140,12 +140,12 @@
                         <div class="forum-details mt-4">
                             <h4 class="fw-bold">[[${item.itemName}]]</h4>
                             <input type="hidden" th:value="${item.id}" id="itemId">
-                            <div th:each="tag: ${item.tagsByItemId}">
-                            <span
-                                    class="badge rounded-pill bg-white shadow-sm border text-blue py-2 px-3 f-14 fw-normal">
-                                [[${tag.tagName}]]
-                            </span>
-                            </div>
+                            <!--                            <div th:each="tag: ${item.tagsByItemId}">-->
+                            <a th:each="tag: ${item.tagsByItemId}" th:href="@{'/item/tag?tagId='+${tag.tagId}}"
+                               class="badge rounded-pill shadow-sm border text-blue py-2 px-3 f-14 fw-normal">
+                                #[[${tag.tagName}]]
+                            </a>
+                            <!--                            </div>-->
                             <hr class="my-4">
 
                             <div class="d-flex">

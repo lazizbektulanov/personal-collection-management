@@ -26,4 +26,6 @@ public interface CommentRepository extends JpaRepository<Comment, UUID> {
             "join users u on c.comment_from_id = u.id " +
             "where c.item_id=:itemId")
     List<CommentProjection> getCommentsByItemId(UUID itemId);
+
+    Integer countAllByItemId(UUID item_id);
 }

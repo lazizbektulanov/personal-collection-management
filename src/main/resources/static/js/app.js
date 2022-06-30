@@ -52,6 +52,10 @@ function setColor(theme) {
     toggleSwitcher(false);
 }
 
+//
+/********************* Websocket (comment service) ************************/
+//
+
 function connectToWebSocket(itemId) {
     getItemComments();
     var socket = new SockJS('/comment');
@@ -119,6 +123,10 @@ function getItemComments() {
                 })
         })
 }
+
+//
+/********************* Custom field  ************************/
+//
 
 function addCustomField() {
 

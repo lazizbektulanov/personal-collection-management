@@ -13,6 +13,7 @@ import uz.itransition.personalcollectionmanagement.entity.Role;
 import uz.itransition.personalcollectionmanagement.entity.User;
 import uz.itransition.personalcollectionmanagement.entity.enums.RoleName;
 import uz.itransition.personalcollectionmanagement.projection.ProfileProjection;
+import uz.itransition.personalcollectionmanagement.projection.UserAccountProjection;
 import uz.itransition.personalcollectionmanagement.projection.UserProjection;
 import uz.itransition.personalcollectionmanagement.repository.RoleRepository;
 import uz.itransition.personalcollectionmanagement.repository.UserRepository;
@@ -92,5 +93,10 @@ public class UserService {
                 }
             }
         }
+    }
+
+    public UserAccountProjection getUserAccountInfo() {
+        User currentUser = authService.getCurrentUser();
+        return userRepository.getUserAccountInfo(currentUser.getId());
     }
 }

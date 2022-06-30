@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import uz.itransition.personalcollectionmanagement.projection.ProfileProjection;
+import uz.itransition.personalcollectionmanagement.projection.UserAccountProjection;
 import uz.itransition.personalcollectionmanagement.projection.UserProjection;
 import uz.itransition.personalcollectionmanagement.repository.UserRepository;
 import uz.itransition.personalcollectionmanagement.service.UserService;
@@ -32,6 +33,14 @@ public class UserController {
         ProfileProjection userProfile = userService.getUserProfile();
         model.addAttribute("userProfile", userProfile);
         return "profile";
+    }
+
+    @GetMapping("/edit-profile")
+    public String getEditProfilePage(Model model){
+        UserAccountProjection userAccount =
+                userService.getUserAccountInfo();
+        model.addAttribute("userAcc",userAccount);
+        return "edit-profile-page";
     }
 
     @PreAuthorize(value = "hasRole('ADMIN')")

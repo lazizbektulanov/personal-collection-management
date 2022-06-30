@@ -8,4 +8,6 @@ import java.util.UUID;
 
 @Repository
 public interface LikeRepository extends JpaRepository<Like,UUID> {
+
+    Integer countAllByItemId(UUID item_id);
 }

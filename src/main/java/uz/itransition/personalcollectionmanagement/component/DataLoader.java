@@ -121,21 +121,34 @@ public class DataLoader implements CommandLineRunner {
             Tag tagBeautiful = tagRepository.save(new Tag("beautiful"));
             Tag tagBest = tagRepository.save(new Tag("best"));
             Tag tagNew = tagRepository.save(new Tag("new"));
+            tagRepository.save(new Tag("books"));
+            tagRepository.save(new Tag("cars"));
+            tagRepository.save(new Tag("instrument"));
+            tagRepository.save(new Tag("music"));
+            tagRepository.save(new Tag("cinema"));
+            tagRepository.save(new Tag("silverware"));
+            tagRepository.save(new Tag("signs"));
+            Tag oldTag = tagRepository.save(new Tag("old"));
+            tagRepository.save(new Tag("fashion"));
+            tagRepository.save(new Tag("picture"));
+            tagRepository.save(new Tag("nature"));
+            tagRepository.save(new Tag("phone"));
+            tagRepository.save(new Tag("computer"));
             itemRepository.save(new Item(
                     "This is my car item",
-                    Arrays.asList(tagBeautiful,tagBest,tagNew),
+                    Arrays.asList(tagBeautiful,tagBest,tagNew,oldTag),
                     user2,
                     car1Collection
             ));
             Item bookItem = itemRepository.save(new Item(
                     "This is book item",
-                    Collections.singletonList(tagBeautiful),
+                    Arrays.asList(tagBeautiful,oldTag),
                     admin,
                     book1Collection
             ));
             Item phoneItem = itemRepository.save(new Item(
                     "This is mobile phone Item",
-                    Arrays.asList(tagBest, tagNew, tagBeautiful),
+                    Arrays.asList(tagBest, tagNew, tagBeautiful,oldTag),
                     user2,
                     mobilePhone1Collection
             ));
@@ -147,7 +160,55 @@ public class DataLoader implements CommandLineRunner {
             ));
             Item phone2Item = itemRepository.save(new Item(
                     "This is mobile phone Item2",
-                    Arrays.asList(tagBeautiful, tagBest),
+                    Arrays.asList(tagBeautiful, tagBest,oldTag),
+                    admin,
+                    mobilePhone1Collection
+            ));
+            Item phone3Item = itemRepository.save(new Item(
+                    "This is mobile phone Item3",
+                    Arrays.asList(tagBeautiful, oldTag),
+                    admin,
+                    mobilePhone1Collection
+            ));
+            Item phone4Item = itemRepository.save(new Item(
+                    "This is mobile phone Item4",
+                    Arrays.asList(tagBest,oldTag),
+                    admin,
+                    mobilePhone1Collection
+            ));
+            Item phone5Item = itemRepository.save(new Item(
+                    "This is mobile phone Item5",
+                    Arrays.asList(tagBeautiful, tagBest,oldTag),
+                    admin,
+                    mobilePhone1Collection
+            ));
+            Item phone6Item = itemRepository.save(new Item(
+                    "This is mobile phone Item6",
+                    Arrays.asList(tagBeautiful, oldTag),
+                    admin,
+                    mobilePhone1Collection
+            ));
+            Item phone7Item = itemRepository.save(new Item(
+                    "This is mobile phone Item7",
+                    Arrays.asList(tagBest,oldTag),
+                    admin,
+                    mobilePhone1Collection
+            ));
+            Item phone8Item = itemRepository.save(new Item(
+                    "This is mobile phone Item8",
+                    Arrays.asList(tagBeautiful, tagBest,oldTag),
+                    admin,
+                    mobilePhone1Collection
+            ));
+            Item phone9Item = itemRepository.save(new Item(
+                    "This is mobile phone Item9",
+                    Arrays.asList(tagBeautiful, oldTag),
+                    admin,
+                    mobilePhone1Collection
+            ));
+            Item phone10Item = itemRepository.save(new Item(
+                    "This is mobile phone Item10",
+                    Arrays.asList(tagBest,oldTag),
                     admin,
                     mobilePhone1Collection
             ));

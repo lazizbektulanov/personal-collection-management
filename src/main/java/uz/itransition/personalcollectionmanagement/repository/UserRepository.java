@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import uz.itransition.personalcollectionmanagement.entity.User;
 import uz.itransition.personalcollectionmanagement.projection.ProfileProjection;
+import uz.itransition.personalcollectionmanagement.projection.UserAccountProjection;
 import uz.itransition.personalcollectionmanagement.projection.UserProjection;
 
 import java.util.List;
@@ -49,4 +50,13 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             "join roles r on u.role_id = r.id")
     Page<UserProjection> getAllUsers(Pageable pageable);
 
+    @Query(nativeQuery = true,
+    value = "select " +
+            "cast(u.id as varchar) as id," +
+            "u.full_name as fullName," +
+            "u.bio as bio," +
+            "u.profile_img_url as profileImgUrl " +
+            "from users u " +
+            "where u.id=:userId")
+    UserAccountProjection getUserAccountInfo(UUID userId);
 }

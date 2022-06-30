@@ -3,6 +3,9 @@ package uz.itransition.personalcollectionmanagement.service;
 
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +21,7 @@ import uz.itransition.personalcollectionmanagement.projection.collection.Collect
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionProjection;
 import uz.itransition.personalcollectionmanagement.repository.CollectionRepository;
 import uz.itransition.personalcollectionmanagement.repository.CustomFieldRepository;
+import uz.itransition.personalcollectionmanagement.utils.Constants;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -72,5 +76,11 @@ public class CollectionService {
             collectionTopics.put(value, value.getDataTypeName());
         }
         return collectionTopics;
+    }
+
+    public Page<CollectionProjection> getAllCollections(Integer page) {
+        int pageSize = Integer.parseInt(Constants.DEFAULT_PAGE_SIZE_GET_ALL);
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        return collectionRepository.getAllCollections(pageable);
     }
 }
