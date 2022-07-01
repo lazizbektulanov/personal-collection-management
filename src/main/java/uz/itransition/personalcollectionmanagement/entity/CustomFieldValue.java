@@ -2,6 +2,8 @@ package uz.itransition.personalcollectionmanagement.entity;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import uz.itransition.personalcollectionmanagement.entity.template.AbsEntity;
 
 import javax.persistence.Entity;
@@ -22,6 +24,7 @@ public class CustomFieldValue extends AbsEntity {
     @ManyToOne
     private Item item;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     private CustomField customField;
 

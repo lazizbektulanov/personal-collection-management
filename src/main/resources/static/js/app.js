@@ -167,36 +167,61 @@ function addCustomField() {
         li.remove();
     });
 
+    let fieldId = document.createElement('input');
+    fieldId.hidden=true;
+    fieldId.value='';
+    fieldId.classList.add("form-control");
+    fieldId.id='fieldId';
+
+    li.append(fieldId);
     li.append(fieldType);
     li.append(fieldName);
     li.append(removeElement);
     list.append(li)
 }
 
-async function createCollectionDto() {
+function createCollectionDto() {
 
     if (!checkValidity()) {
         return;
     }
-    const customFieldNames = document.querySelectorAll('#fieldNameId')
-    const customFieldTypes = document.querySelectorAll('#fieldTypeId')
-    const customFields = {};
-    for (let i = 0; i < customFieldNames.length; i++) {
-        customFields[customFieldNames[i].value] = customFieldTypes[i].value;
+    // const customFieldNames = document.querySelectorAll('#fieldNameId')
+    // const customFieldTypes = document.querySelectorAll('#fieldTypeId')
+    // const customFields = {};
+    // for (let i = 0; i < customFieldNames.length; i++) {
+    //     // customFields['name'] = customFieldNames[i].value;
+    //     // customFields['type'] = customFieldTypes[i].value;
+    //     customFields[customFieldNames[i].value] = customFieldTypes[i].value;
+    // }
+
+    const formListItems = document.getElementsByClassName("list-group-item");
+    const customFields = [];
+    console.log(formListItems.length);
+    for (let i = 0; i < formListItems.length; i++) {
+        customFields.push({
+            fieldId: formListItems[i].children[0].value,
+            fieldType: formListItems[i].children[1].value,
+            fieldName: formListItems[i].children[2].value
+        })
     }
     let collectionDto = new FormData();
+    let id = document.querySelector('#collectionId').value;
     let image = document.querySelector('#collectionImage');
     let title = document.querySelector('#collectionTitle').value
     let description = document.querySelector('#collectionDescription').value
     let topic = document.querySelector('#collectionTopic').value
 
-    const body = {title, description, topic, customFields};
+    const body = {id,title, description, topic, customFields};
 
     collectionDto.append('collectionDto', new Blob([JSON.stringify(body)], {
         type: "application/json"
     }))
     collectionDto.append('image', image.files[0])
-    await fetch('/collection/create', {
+    saveCollectionDto(collectionDto);
+}
+
+function saveCollectionDto(collectionDto) {
+        fetch('/collection/save', {
         method: 'POST',
         body: collectionDto,
         redirect: 'follow'
@@ -210,13 +235,13 @@ async function createCollectionDto() {
         })
 }
 
-function checkValidity(){
+function checkValidity() {
     let title = document.querySelector('#collectionTitle')
     let description = document.querySelector('#collectionDescription')
     let topic = document.querySelector('#collectionTopic')
     const customFieldNames = document.querySelectorAll('#fieldNameId')
-    if(title.value.trim().length<1 || description.value.trim().length<1 ||
-       topic.value === '-1')return false;
+    if (title.value.trim().length < 1 || description.value.trim().length < 1 ||
+        topic.value === '-1') return false;
     for (let i = 0; i < customFieldNames.length; i++) {
         if (customFieldNames[i].value.trim().length < 1) {
             return false;
@@ -246,5 +271,37 @@ function checkValidity(){
 //         return false;
 //     })
 // }
+
+function checkUserAuth(user) {
+
+    $("#loginModal").append(`<div class="modal fade" tabindex="-1" id="myModal"
+     aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">
+                    Log in to continue
+                </h5>
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <a href="/auth/login" class="btn btn-primary">Login</a>
+                <a href="/auth/register" class="btn btn-outline-primary">Register</a>
+            </div>
+        </div>
+    </div>
+</div>
+`)
+
+    var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+        keyboard: true
+    })
+    if (user === 'anonymousUser') {
+        console.log("Login first...")
+        myModal.show()
+    }
+}
 
 

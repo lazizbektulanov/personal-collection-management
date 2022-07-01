@@ -5,6 +5,7 @@ import net.minidev.json.JSONObject;
 import org.springframework.stereotype.Service;
 import uz.itransition.personalcollectionmanagement.entity.Collection;
 import uz.itransition.personalcollectionmanagement.entity.CustomField;
+import uz.itransition.personalcollectionmanagement.payload.CustomFieldDto;
 import uz.itransition.personalcollectionmanagement.projection.CustomFieldProjection;
 import uz.itransition.personalcollectionmanagement.repository.CustomFieldRepository;
 
@@ -18,14 +19,14 @@ public class CustomFieldService {
 
     private final CustomFieldRepository customFieldRepository;
 
-    public void saveCollectionCustomFields(JSONObject customFieldJson, Collection savedCollection) {
+    public void saveCollectionCustomFields(List<CustomFieldDto> customFieldDtos, Collection savedCollection) {
         List<CustomField> customFields = new ArrayList<>();
-        for (String key : customFieldJson.keySet()) {
-            Object value = customFieldJson.get(key);
-            System.out.println(value.getClass().getTypeName());
+        for (CustomFieldDto customFieldDto : customFieldDtos) {
             customFields.add(new CustomField(
-                    key.trim(),
-                    String.valueOf(value).trim(),
+                    customFieldDto.getFieldId().length() != 0 ?
+                            UUID.fromString(customFieldDto.getFieldId()) : null,
+                    customFieldDto.getFieldName().trim(),
+                    customFieldDto.getFieldType(),
                     savedCollection
             ));
         }
@@ -34,5 +35,13 @@ public class CustomFieldService {
 
     public List<CustomFieldProjection> getCollectionCustomFields(UUID collectionId) {
         return customFieldRepository.getCustomFields(collectionId);
+    }
+
+    public List<CustomField> getCollectionAllCustomFields(UUID collectionId) {
+        return customFieldRepository.findAllByCollectionId(collectionId);
+    }
+
+    public void deleteCustomField(UUID fieldId) {
+        customFieldRepository.deleteById(fieldId);
     }
 }
