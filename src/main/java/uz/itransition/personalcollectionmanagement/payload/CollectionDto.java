@@ -6,12 +6,13 @@ import lombok.Data;
 import net.minidev.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
 public class CollectionDto {
 
-    private UUID id;
+    private String id;
 
     private String title;
 
@@ -21,5 +22,5 @@ public class CollectionDto {
 
     private MultipartFile collectionImage;
 
-    private JSONObject customFields;
+    private List<CustomFieldDto> customFields;
 }

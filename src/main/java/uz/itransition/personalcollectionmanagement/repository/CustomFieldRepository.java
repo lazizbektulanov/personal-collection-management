@@ -24,4 +24,6 @@ public interface CustomFieldRepository extends JpaRepository<CustomField, UUID> 
             "and (cf.field_type='text' or cf.field_type='date')")
     List<CustomFieldProjection> getCustomFields(UUID collectionId);
 
+    List<CustomField> findAllByCollectionId(UUID collection_id);
+
 }

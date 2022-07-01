@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import uz.itransition.personalcollectionmanagement.entity.CustomField;
+import uz.itransition.personalcollectionmanagement.entity.enums.TopicName;
 import uz.itransition.personalcollectionmanagement.payload.CollectionDto;
 import uz.itransition.personalcollectionmanagement.projection.CustomFieldProjection;
 import uz.itransition.personalcollectionmanagement.projection.CustomFieldValueProjection;
@@ -65,12 +67,12 @@ public class CollectionController {
 
     @GetMapping("/create")
     public String getCreateCollectionPage(Model model) {
-        model.addAttribute("dataTypesCustomField",
+        model.addAttribute("collectionTopics",
                 collectionService.getCollectionTopics());
         return "create-collection";
     }
 
-    @PostMapping("/create")
+    @PostMapping("/save")
     public String createCollection(@RequestPart("collectionDto") CollectionDto collectionDto,
                                    @RequestPart(value = "image", required = false) MultipartFile collectionImage) throws IOException {
         collectionService.createCollection(collectionDto, collectionImage);
@@ -80,13 +82,14 @@ public class CollectionController {
     @GetMapping("/edit")
     public String getEditCollectionPage(@RequestParam("collectionId") UUID collectionId,
                                         Model model) {
+        if (!collectionService.isCollectionOwner(collectionId)) return "redirect:/login";
         CollectionByIdProjection collectionById =
                 collectionService.getCollectionById(collectionId);
-        List<CustomFieldProjection> collectionCustomFields =
-                customFieldService.getCollectionCustomFields(collectionId);
+        List<CustomField> collectionCustomFields =
+                customFieldService.getCollectionAllCustomFields(collectionId);
         model.addAttribute("collection", collectionById);
         model.addAttribute("collectionCustomFields", collectionCustomFields);
-        //todo
+        model.addAttribute("collectionTopics", collectionService.getCollectionTopics());
         return "edit-collection";
     }
 
@@ -97,10 +100,17 @@ public class CollectionController {
     ) {
         Page<CollectionProjection> collections =
                 collectionService.getAllCollections(page);
-        model.addAttribute("collections",collections);
+        model.addAttribute("collections", collections);
 
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", collections.getTotalPages());
         return "view-all-collection-page";
+    }
+
+    @GetMapping("/delete")
+    public String deleteCollection(@RequestParam("collectionId") UUID collectionId) {
+        if(!collectionService.isCollectionOwner(collectionId)) return "redirect:/login";
+        collectionService.deleteCollection(collectionId);
+        return "";
     }
 }

@@ -1,16 +1,13 @@
 package uz.itransition.personalcollectionmanagement.entity;
 
 import lombok.*;
-import org.hibernate.Hibernate;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import uz.itransition.personalcollectionmanagement.entity.enums.TopicName;
 import uz.itransition.personalcollectionmanagement.entity.template.AbsEntity;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -40,17 +37,16 @@ public class Collection extends AbsEntity {
     private boolean isAccessible = true;
 
 
-
-    public Collection(String title, String description, TopicName topicName, User owner) {
+    public Collection(String title, String imgUrl, String description, TopicName topicName, User owner) {
         this.title = title;
+        this.imgUrl = imgUrl;
         this.description = description;
         this.topicName = topicName;
         this.owner = owner;
     }
 
-
-
-    public Collection(String title, String imgUrl, String description, TopicName topicName, User owner) {
+    public Collection(UUID id, String title, String imgUrl, String description, TopicName topicName, User owner) {
+        super(id);
         this.title = title;
         this.imgUrl = imgUrl;
         this.description = description;

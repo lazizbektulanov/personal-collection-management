@@ -40,4 +40,7 @@ public abstract class AbsEntity {
     private Timestamp updatedAt;
 
 
+    public AbsEntity(UUID id) {
+        this.id = id;
+    }
 }

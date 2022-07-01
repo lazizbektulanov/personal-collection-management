@@ -116,6 +116,10 @@
                 <form id="collectionForm">
                     <div class="row">
                         <div class="col-lg-5">
+                            <div>
+                                <input type="hidden" class="form-control" id="collectionId"
+                                       th:value="${collection.id}">
+                            </div>
                             <div class=" mt-4">
                                 <div class="mt-3">
                                     <div class="Title">
@@ -123,7 +127,9 @@
                                             Title:
                                         </label>
                                         <input type="text" class="form-control" id="collectionTitle"
-                                               placeholder="Enter collection title" required>
+                                               placeholder="Enter collection title"
+                                               th:value="${collection.title}"
+                                               required>
                                     </div>
                                 </div>
                             </div>
@@ -134,7 +140,9 @@
                                             Description:
                                         </label>
                                         <textarea type="text" class="form-control" id="collectionDescription"
-                                                  placeholder="Enter collection description" required></textarea>
+                                                  placeholder="Enter collection description"
+                                                  th:text="${collection.description}"
+                                                  required></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -144,13 +152,12 @@
                                         <label for="collectionTopic" class="form-label fw-semibold">
                                             Topic:
                                         </label>
-                                        <select class="form-select" aria-label="Default select example" id="collectionTopic">
-                                            <option selected value="-1">Open this select menu</option>
-                                            <option value="BOOKS">Books</option>
-                                            <option value="CARS">Cars</option>
-                                            <option value="MUSICAL_INSTRUMENTS">Musical instruments</option>
-                                            <option value="MOBILE_PHONES">Mobile phones</option>
-                                            <option value="LAPTOPS">Laptops</option>
+                                        <select class="form-select" aria-label="Default select example"
+                                                id="collectionTopic">
+                                            <option th:each="topic: ${collectionTopics}"
+                                                    th:selected="${topic.equals(collection.topicName)}"
+                                                    th:value="${topic}">[[${topic}]]
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -177,7 +184,20 @@
                                         </div>
                                         <div class="custom_fields">
                                             <ul class="list-group fields_body">
-
+                                                <li class="list-group-item" th:each="customField: ${collectionCustomFields}">
+                                                    <input hidden class="form-control" id="fieldId"
+                                                           th:value="${customField.id}">
+                                                    <select hidden class="form-select" id="fieldTypeId"><option th:value="${customField.fieldType}"
+                                                                th:text="${customField.fieldType}"></option>
+                                                    </select>
+                                                    <input required class="form-control" id="fieldNameId"
+                                                           th:value="${customField.fieldName}">
+                                                    <a class="button"
+                                                       th:href="@{'/custom-field/delete?collectionId='+${collection.id} +
+                                                       '&fieldId='+${customField.id}}">
+                                                        -
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -198,9 +218,7 @@
     </div>
     <!-- end container -->
 </section>
-<script th:inline="javascript">
 
-</script>
 
 <!--Bootstrap Js-->
 <script src="../js/bootstrap.bundle.min.js"></script>

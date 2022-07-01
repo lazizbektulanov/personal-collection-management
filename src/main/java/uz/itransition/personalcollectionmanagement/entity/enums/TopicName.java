@@ -6,6 +6,6 @@ public enum TopicName {
     CARS,
     MUSICAL_INSTRUMENTS,
     MOBILE_PHONES,
-    LAPTOPS
+    LAPTOPS;
 
 }

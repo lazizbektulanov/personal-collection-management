@@ -2,29 +2,22 @@ package uz.itransition.personalcollectionmanagement.service;
 
 
 import lombok.RequiredArgsConstructor;
-import net.minidev.json.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import uz.itransition.personalcollectionmanagement.entity.Collection;
-import uz.itransition.personalcollectionmanagement.entity.CustomField;
 import uz.itransition.personalcollectionmanagement.entity.User;
-import uz.itransition.personalcollectionmanagement.entity.enums.CustomFieldType;
 import uz.itransition.personalcollectionmanagement.entity.enums.RoleName;
 import uz.itransition.personalcollectionmanagement.entity.enums.TopicName;
 import uz.itransition.personalcollectionmanagement.payload.CollectionDto;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionByIdProjection;
-import uz.itransition.personalcollectionmanagement.projection.collection.CollectionItemsProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionProjection;
 import uz.itransition.personalcollectionmanagement.repository.CollectionRepository;
-import uz.itransition.personalcollectionmanagement.repository.CustomFieldRepository;
 import uz.itransition.personalcollectionmanagement.utils.Constants;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.*;
 
 import static uz.itransition.personalcollectionmanagement.utils.Constants.DEFAULT_COLLECTION_IMG_URL;
@@ -51,8 +44,10 @@ public class CollectionService {
     }
 
     public void createCollection(CollectionDto collectionDto, MultipartFile collectionImage) throws IOException {
+        System.out.println(collectionDto.getCustomFields());
         User currentUser = authService.getCurrentUser();
         Collection savedCollection = collectionRepository.save(new Collection(
+                collectionDto.getId().length() != 0 ? UUID.fromString(collectionDto.getId()) : null,
                 collectionDto.getTitle().trim(),
                 collectionImage != null ? fileService.uploadFile(collectionImage) :
                         DEFAULT_COLLECTION_IMG_URL,
@@ -70,17 +65,21 @@ public class CollectionService {
                 collectionRepository.existsByIdAndOwnerId(collectionId, currentUser.getId());
     }
 
-    public Map<CustomFieldType, String> getCollectionTopics() {
-        Map<CustomFieldType, String> collectionTopics = new HashMap<>();
-        for (CustomFieldType value : CustomFieldType.values()) {
-            collectionTopics.put(value, value.getDataTypeName());
+    public List<String> getCollectionTopics() {
+        List<String> topics = new ArrayList<>();
+        for (TopicName value : TopicName.values()) {
+            topics.add(value.toString());
         }
-        return collectionTopics;
+        return topics;
     }
 
     public Page<CollectionProjection> getAllCollections(Integer page) {
         int pageSize = Integer.parseInt(Constants.DEFAULT_PAGE_SIZE_GET_ALL);
         Pageable pageable = PageRequest.of(page - 1, pageSize);
         return collectionRepository.getAllCollections(pageable);
+    }
+
+    public void deleteCollection(UUID collectionId) {
+        collectionRepository.deleteById(collectionId);
     }
 }
