@@ -62,6 +62,12 @@ public class AuthService implements UserDetailsService,
                 (User) authentication.getPrincipal();
     }
 
+    public boolean isCurrentUserAdmin() {
+        User user = getCurrentUser();
+        if (user.getId() == null) return false;
+        else return user.getRole().getRoleName().equals(RoleName.ROLE_ADMIN);
+    }
+
     public String registerUser(RegisterDto registerDto, BindingResult bindingResult) {
         if (!registerDto.getPassword().equals(registerDto.getConfirmPassword())) {
             bindingResult.rejectValue("confirmPassword", "registerDto.confirmPassword",

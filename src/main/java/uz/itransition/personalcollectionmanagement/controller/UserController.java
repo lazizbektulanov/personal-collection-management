@@ -5,14 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import uz.itransition.personalcollectionmanagement.projection.ProfileProjection;
 import uz.itransition.personalcollectionmanagement.projection.UserAccountProjection;
 import uz.itransition.personalcollectionmanagement.projection.UserProjection;
+import uz.itransition.personalcollectionmanagement.projection.response.Response;
 import uz.itransition.personalcollectionmanagement.repository.UserRepository;
+import uz.itransition.personalcollectionmanagement.service.AuthService;
 import uz.itransition.personalcollectionmanagement.service.UserService;
 
 import java.util.UUID;
@@ -26,20 +25,21 @@ public class UserController {
 
     private final UserService userService;
 
-    private final UserRepository userRepository;
+    private final AuthService authService;
 
     @GetMapping("/my-collections")
     public String getProfilePage(Model model) {
         ProfileProjection userProfile = userService.getUserProfile();
         model.addAttribute("userProfile", userProfile);
-        return "profile";
+        model.addAttribute("isOwner", true);
+        return "profile-page";
     }
 
     @GetMapping("/edit-profile")
-    public String getEditProfilePage(Model model){
+    public String getEditProfilePage(Model model) {
         UserAccountProjection userAccount =
                 userService.getUserAccountInfo();
-        model.addAttribute("userAcc",userAccount);
+        model.addAttribute("userAcc", userAccount);
         return "edit-profile-page";
     }
 
@@ -47,15 +47,15 @@ public class UserController {
     @GetMapping("/management")
     public String getAllUsers(Model model,
                               @RequestParam(value = "page", defaultValue = DEFAULT_PAGE) Integer page,
-                              @RequestParam(value = "sortBy",defaultValue = "email") String sortBy,
-                              @RequestParam(value = "sortDir",defaultValue = "asc") String sortDir) {
-        Page<UserProjection> users = userService.getAllUsers(page,sortBy,sortDir);
+                              @RequestParam(value = "sortBy", defaultValue = "email") String sortBy,
+                              @RequestParam(value = "sortDir", defaultValue = "asc") String sortDir) {
+        Page<UserProjection> users = userService.getAllUsers(page, sortBy, sortDir);
         model.addAttribute("users", users);
 
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", users.getTotalPages());
         model.addAttribute("sortDirection", sortDir);
-        model.addAttribute("sortBy",sortBy);
+        model.addAttribute("sortBy", sortBy);
         return "user-management";
     }
 
@@ -75,8 +75,17 @@ public class UserController {
 
     @PreAuthorize(value = "hasRole('ADMIN')")
     @GetMapping("/delete/{userId}")
-    public String deleteUser(@PathVariable UUID userId){
+    public String deleteUser(@PathVariable UUID userId) {
         userService.deleteUser(userId);
         return "redirect:/user/management";
+    }
+
+    @GetMapping("/collections")
+    public String userCollections(@RequestParam("userId") UUID userId,
+                                  Model model) {
+        ProfileProjection userProfile = userService.getUserProfile(userId);
+        model.addAttribute("userProfile", userProfile);
+        model.addAttribute("isOwner", authService.isCurrentUserAdmin());
+        return "profile-page";
     }
 }

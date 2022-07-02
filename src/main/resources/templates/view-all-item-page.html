@@ -142,8 +142,10 @@
                                         </a>
                                     </h6>
                                     <div class="like">
-                                        <h6 class="f-14 fw-semibold"><i
-                                                class="mdi mdi-heart text-danger f-18 align-middle me-2"></i>[[${item.itemLikes}]]
+                                        <h6 class="f-14 fw-semibold">
+                                            <i th:class="${item.isLiked!=null and item.isLiked}?
+                                            'mdi mdi-heart text-danger f-18 align-middle me-2':
+                                                'mdi mdi-heart-outline text-danger f-18 align-middle me-2'"></i>[[${item.itemLikes}]]
                                         </h6>
                                     </div>
                                 </div>

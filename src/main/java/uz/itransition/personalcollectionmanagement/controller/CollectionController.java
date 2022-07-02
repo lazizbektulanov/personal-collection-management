@@ -7,15 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uz.itransition.personalcollectionmanagement.entity.CustomField;
-import uz.itransition.personalcollectionmanagement.entity.enums.TopicName;
 import uz.itransition.personalcollectionmanagement.payload.CollectionDto;
+import uz.itransition.personalcollectionmanagement.projection.CommentProjection;
 import uz.itransition.personalcollectionmanagement.projection.CustomFieldProjection;
-import uz.itransition.personalcollectionmanagement.projection.CustomFieldValueProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionByIdProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionItemsProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionProjection;
-import uz.itransition.personalcollectionmanagement.repository.CollectionRepository;
+import uz.itransition.personalcollectionmanagement.projection.response.Response;
 import uz.itransition.personalcollectionmanagement.service.CollectionService;
 import uz.itransition.personalcollectionmanagement.service.CustomFieldService;
 import uz.itransition.personalcollectionmanagement.service.CustomFieldValueService;
@@ -75,7 +75,7 @@ public class CollectionController {
     @PostMapping("/save")
     public String createCollection(@RequestPart("collectionDto") CollectionDto collectionDto,
                                    @RequestPart(value = "image", required = false) MultipartFile collectionImage) throws IOException {
-        collectionService.createCollection(collectionDto, collectionImage);
+        collectionService.saveCollection(collectionDto, collectionImage);
         return "redirect:/user/my-collections";
     }
 
@@ -108,9 +108,10 @@ public class CollectionController {
     }
 
     @GetMapping("/delete")
-    public String deleteCollection(@RequestParam("collectionId") UUID collectionId) {
-        if(!collectionService.isCollectionOwner(collectionId)) return "redirect:/login";
+    public String deleteCollection(@RequestParam("collectionId") UUID collectionId,
+                                   RedirectAttributes redirectAttributes) {
+        if (!collectionService.isCollectionOwner(collectionId)) return "redirect:/auth/login";
         collectionService.deleteCollection(collectionId);
-        return "";
+        return "redirect:/user/my-collections";
     }
 }

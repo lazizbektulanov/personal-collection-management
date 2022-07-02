@@ -69,8 +69,9 @@
                                 class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
                     </ul>
                 </li>
-                <li class="nav-item" th:if="${user!='anonymousUser'} and ${#strings.equals(user.role.roleName,'ROLE_ADMIN')} ">
-                    <a  th:href="@{/user/management}" class="nav-link">
+                <li class="nav-item"
+                    th:if="${user!='anonymousUser'} and ${#strings.equals(user.role.roleName,'ROLE_ADMIN')} ">
+                    <a th:href="@{/user/management}" class="nav-link">
                         User management
                     </a>
                 </li>
@@ -110,9 +111,7 @@
                 <div class="inner-heading text-center">
                     <div class="mt-4">
                         <h1 class="fw-bold">Your Profile</h1>
-                        <P class="text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus
-                            aut odio dolores,
-                            soluta eius incidunt perferendis? Repellat necessitatibus.</P>
+                        <P class="text-muted">In this profile page you can manage your collections.</P>
                     </div>
                 </div>
 
@@ -190,6 +189,23 @@
                         <div class="row">
                             <div class="col-lg-3 mt-4" th:each="collection: ${userProfile.userCollections}">
                                 <div class="tab-content p-4 border-0">
+                                    <div class="header d-flex">
+                                        <div class="dropdown menu" th:if="${isOwner}">
+                                            <i class="mdi mdi-dots-vertical f-20" id="dropdownMenuButton1"
+                                               data-bs-toggle="dropdown"></i>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <li>
+                                                    <a class="dropdown-item"
+                                                       th:href="@{'/collection/edit?collectionId='+${collection.id}}">
+                                                        Edit
+                                                    </a>
+                                                </li>
+                                                <li><a class="dropdown-item"
+                                                       th:href="@{'/collection/delete?collectionId='+${collection.id}}">Delete</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                     <div class="card-image mt-3">
                                         <img th:src="${collection.imgUrl}" alt="" class="img-fluid">
                                     </div>
@@ -204,23 +220,13 @@
                                         </div>
                                         <hr>
                                         <div class="d-flex mt-3 align-items-center">
-                                            <div class="history">
-                                                <i class="mdi mdi-restart f-20 align-middle"></i>View History
-                                            </div>
                                             <div class="bid-button ms-auto">
-                                                <button class="btn btn-sm btn-primary rounded-pill">Bid</button>
+                                                <a class="btn btn-sm btn-primary rounded-pill"
+                                                   th:href="@{'/collection/id/'+${collection.id}}">
+                                                    View
+                                                </a>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-5">
-                                <div class="col-lg-12">
-                                    <div class="text-center">
-                                        <button class="btn btn-white text-dark shadow rounded-pill"><i
-                                                class="mdi mdi-restart f-18 align-middle"></i> View All
-                                            Item
-                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -235,6 +241,8 @@
     <!-- end container -->
 </section>
 
+<!-- App Js -->
+<script src="../js/app.js"></script>
 
 <!--Bootstrap Js-->
 <script src="../js/bootstrap.bundle.min.js"></script>
@@ -244,9 +252,6 @@
 
 <!-- counter -->
 <script src="../js/counter.init.js"></script>
-
-<!-- App Js -->
-<script src="../js/app.js"></script>
 
 
 </body>

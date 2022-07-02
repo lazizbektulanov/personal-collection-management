@@ -18,51 +18,70 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
 
 
     @Query(nativeQuery = true,
-    value = "select " +
-            "cast(i.id as varchar) as id," +
-            "i.name as itemName," +
-            "i.img_url as itemImgUrl," +
-            "cast(i.collection_id as varchar) as itemCollectionId," +
-            "c.title as itemCollectionTitle," +
-            "cast(u.id as varchar) as authorId, " +
-            "u.full_name as authorName," +
-            "u.profile_img_url as authorProfileImgUrl " +
-            "from items i " +
-            "join users u on i.created_by_id = u.id " +
-            "join collections c on c.id = i.collection_id " +
-            "order by i.created_at desc " +
-            "limit 5 ")
+            value = "select " +
+                    "cast(i.id as varchar) as id," +
+                    "i.name as itemName," +
+                    "i.img_url as itemImgUrl," +
+                    "cast(i.collection_id as varchar) as itemCollectionId," +
+                    "c.title as itemCollectionTitle," +
+                    "cast(u.id as varchar) as authorId, " +
+                    "u.full_name as authorName," +
+                    "u.profile_img_url as authorProfileImgUrl " +
+                    "from items i " +
+                    "join users u on i.created_by_id = u.id " +
+                    "join collections c on c.id = i.collection_id " +
+                    "order by i.created_at desc " +
+                    "limit 5 ")
     List<ItemProjection> findLatestItems();
+
+    @Query(nativeQuery = true,
+            value = "select " +
+                    "cast(i.id as varchar) as id," +
+                    "i.name as itemName," +
+                    "i.img_url as itemImgUrl," +
+                    "cast(i.collection_id as varchar) as itemCollectionId," +
+                    "c.title as itemCollectionTitle," +
+                    "cast(u.id as varchar) as authorId, " +
+                    "u.full_name as authorName," +
+                    "u.profile_img_url as authorProfileImgUrl," +
+                    "(select exists(select l.id from likes l " +
+                    "where l.item_id=i.id and l.user_id=:userId)) as isLiked " +
+                    "from items i " +
+                    "join users u on i.created_by_id = u.id " +
+                    "join collections c on c.id = i.collection_id " +
+                    "order by i.created_at desc " +
+                    "limit 5 ")
+    List<ItemProjection> findLatestItems(UUID userId);
 
 
     @Query(nativeQuery = true,
-    value =  "select " +
-            "cast(i.id as varchar) as id," +
-            "i.name as itemName," +
-            "i.img_url as itemImgUrl," +
-            "cast(i.collection_id as varchar) as itemCollectionId," +
-            "(select c.title as itemCollectionTitle from collections c " +
-            "where c.id=i.collection_id)," +
-            "cast(i.created_by_id as varchar) as authorId," +
-            "u.full_name as authorName," +
-            "(select count(c.id) from comments c " +
-            "where c.item_id=i.id) as itemCommentsNumber," +
-            "(select count(l.id) from likes l " +
-            "where l.item_id=i.id) as itemLikes " +
-            "from items i " +
-            "join users u on i.created_by_id = u.id " +
-            "where i.id=:itemId")
+            value = "select " +
+                    "cast(i.id as varchar) as id," +
+                    "i.name as itemName," +
+                    "i.img_url as itemImgUrl," +
+                    "cast(i.collection_id as varchar) as itemCollectionId," +
+                    "(select c.title as itemCollectionTitle from collections c " +
+                    "where c.id=i.collection_id)," +
+                    "cast(i.created_by_id as varchar) as authorId," +
+                    "u.full_name as authorName," +
+                    "(select count(c.id) from comments c " +
+                    "where c.item_id=i.id) as itemCommentsNumber," +
+                    "(select count(l.id) from likes l " +
+                    "where l.item_id=i.id) as itemLikes " +
+                    "from items i " +
+                    "join users u on i.created_by_id = u.id " +
+                    "where i.id=:itemId")
     ItemByIdProjection getItemById(UUID itemId);
 
 
     @Query(nativeQuery = true,
-    value = "select " +
-            "cast(i.id as varchar) as id," +
-            "i.name as name," +
-            "i.created_at as createdAt " +
-            "from items i " +
-            "where i.collection_id=:collectionId")
-    Page<CollectionItemsProjection> getItemsByCollectionId(Pageable pageable,UUID collectionId);
+            value = "select " +
+                    "cast(i.id as varchar) as id," +
+                    "i.name as name," +
+                    "i.created_at as createdAt " +
+                    "from items i " +
+                    "where i.collection_id=:collectionId")
+    Page<CollectionItemsProjection> getItemsByCollectionId(Pageable pageable, UUID collectionId);
 
     @Query(nativeQuery = true,
             value = "select " +
@@ -82,17 +101,34 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
     Page<ItemProjection> getItemsByTag(UUID tagId, Pageable pageable);
 
     @Query(nativeQuery = true,
-    value = "select " +
-            "cast(i.id as varchar) as id," +
-            "i.name as itemName," +
-            "i.img_url as itemImgUrl," +
-            "cast(i.collection_id as varchar) as itemCollectionId," +
-            "c.title as itemCollectionTitle," +
-            "cast(u.id as varchar) as authorId," +
-            "u.full_name as authorName," +
-            "u.profile_img_url as authorProfileImgUrl " +
-            "from items i " +
-            "join users u on i.created_by_id = u.id " +
-            "join collections c on c.id = i.collection_id ")
+            value = "select " +
+                    "cast(i.id as varchar) as id," +
+                    "i.name as itemName," +
+                    "i.img_url as itemImgUrl," +
+                    "cast(i.collection_id as varchar) as itemCollectionId," +
+                    "c.title as itemCollectionTitle," +
+                    "cast(u.id as varchar) as authorId," +
+                    "u.full_name as authorName," +
+                    "u.profile_img_url as authorProfileImgUrl " +
+                    "from items i " +
+                    "join users u on i.created_by_id = u.id " +
+                    "join collections c on c.id = i.collection_id ")
     Page<ItemProjection> getAllItems(Pageable pageable);
+
+    @Query(nativeQuery = true,
+            value = "select " +
+                    "cast(i.id as varchar) as id," +
+                    "i.name as itemName," +
+                    "i.img_url as itemImgUrl," +
+                    "cast(i.collection_id as varchar) as itemCollectionId," +
+                    "c.title as itemCollectionTitle," +
+                    "cast(u.id as varchar) as authorId," +
+                    "u.full_name as authorName," +
+                    "u.profile_img_url as authorProfileImgUrl, " +
+                    "exists(select l.id from likes l " +
+                    "where l.item_id=i.id and l.user_id=:userId) as isLiked " +
+                    "from items i " +
+                    "join users u on i.created_by_id = u.id " +
+                    "join collections c on c.id = i.collection_id ")
+    Page<ItemProjection> getAllItems(Pageable pageable, UUID userId);
 }

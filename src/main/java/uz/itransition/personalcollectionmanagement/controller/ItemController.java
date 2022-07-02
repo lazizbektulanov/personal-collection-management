@@ -36,8 +36,9 @@ public class ItemController {
     }
 
     @GetMapping("/like")
-    public String likeItem() {
-        return "register";
+    public String likeItem(@RequestParam("itemId") UUID itemId) {
+        itemService.likeItem(itemId);
+        return "redirect:/home";
     }
 
     @GetMapping("/create")
@@ -60,16 +61,16 @@ public class ItemController {
 
     @GetMapping("/tag")
     public String getItemsByTag(@RequestParam("tagId") UUID tagId,
-                                @RequestParam(value = "page",defaultValue = DEFAULT_PAGE) Integer page,
+                                @RequestParam(value = "page", defaultValue = DEFAULT_PAGE) Integer page,
                                 Model model) {
-        Page<ItemProjection> itemByTag = itemService.getItemsByTag(tagId,page);
-        model.addAttribute("items",itemByTag);
-        model.addAttribute("tagId",tagId);
+        Page<ItemProjection> itemByTag = itemService.getItemsByTag(tagId, page);
+        model.addAttribute("items", itemByTag);
+        model.addAttribute("tagId", tagId);
 
         //this model will define all item page title
         //relatedItems=true ==> for search and get items by tag
         //relatedItems=false ==> view all items
-        model.addAttribute("itemByTagPage",true);
+        model.addAttribute("itemByTagPage", true);
 
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", itemByTag.getTotalPages());
@@ -78,11 +79,11 @@ public class ItemController {
 
     @GetMapping("/all")
     public String getAllItems(
-            @RequestParam(value = "page",defaultValue = DEFAULT_PAGE) Integer page,
-            Model model){
+            @RequestParam(value = "page", defaultValue = DEFAULT_PAGE) Integer page,
+            Model model) {
         Page<ItemProjection> allItems = itemService.getAllItems(page);
-        model.addAttribute("items",allItems);
-        model.addAttribute("allItemPage",true);
+        model.addAttribute("items", allItems);
+        model.addAttribute("allItemPage", true);
 
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", allItems.getTotalPages());
