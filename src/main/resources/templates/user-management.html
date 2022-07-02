@@ -177,16 +177,20 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <td th:text="${user.email}"></td>
+                                    <td>
+                                        <a class="mb-0 fw-bold" th:href="@{'/user/collections?userId='+${user.id}}">
+                                            [[${user.email}]]
+                                        </a>
+                                    </td>
                                     <td>
                                         <span th:if="${user.isActive}"
-                                              style="color: green;font-weight:bold;font-size: 15px">Active</span>
+                                              class="badge bg-success text-wrap">Active</span>
                                         <span th:unless="${user.isActive}"
-                                              style="color: red;font-weight:bold;font-size: 15px">Blocked</span>
+                                              class="badge bg-danger text-wrap">Blocked</span>
                                     </td>
                                     <td th:text="${user.lastLoginTime}"></td>
                                     <td>
-                                        <span th:if="${user.role=='ROLE_ADMIN'}" style="font-weight:bold">Admin</span>
+                                        <span th:if="${user.role=='ROLE_ADMIN'}" class="badge bg-primary text-wrap">Admin</span>
                                         <span th:if="${user.role=='ROLE_USER'}" style="font-weight:bold">User</span>
                                     </td>
                                     <td>
@@ -263,26 +267,26 @@
                             </table>
                         </div>
                         <nav aria-label="Page navigation example" th:if="${totalPages>0}">
-                            <ul class="pagination">
-                                <li class="page-item" th:if="${currentPage>1}">
-                                    <a class="page-link"
+                            <ul class="nav-link pagination justify-content-center">
+                                <li class="nav-item" th:if="${currentPage>1}">
+                                    <a class="nav-link"
                                        th:href="@{'/user/management?page='+ ${currentPage - 1} +
                                        '&SortBy='+${sortBy}+'&sortDir='+${sortDirection}}">
                                         Previous
                                     </a>
                                 </li>
-                                <li class="page-item" th:each="i: ${#numbers.sequence(1,totalPages)}">
-                                    <a class="page-link" th:if="${currentPage!=i}"
+                                <li class="nav-item" th:each="i: ${#numbers.sequence(1,totalPages)}">
+                                    <a class="nav-link" th:if="${currentPage!=i}"
                                        th:href="@{'/user/management?page='+ ${i} +
                                        '&SortBy='+${sortBy}+'&sortDir='+${sortDirection}}">
                                         [[${i}]]
                                     </a>
-                                    <a class="page-link" th:unless="${currentPage != i}">
+                                    <a class="nav-link" th:if="${currentPage == i}">
                                         [[${i}]]
                                     </a>
                                 </li>
-                                <li class="page-item" th:if="${currentPage<totalPages}">
-                                    <a class="page-link"
+                                <li class="nav-item" th:if="${currentPage<totalPages}">
+                                    <a class="nav-link"
                                        th:href="@{'/user/management?page='+ ${currentPage + 1} +
                                        '&SortBy='+${sortBy}+'&sortDir='+${sortDirection}}">
                                         Next

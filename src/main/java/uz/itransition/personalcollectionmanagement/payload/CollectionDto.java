@@ -20,7 +20,7 @@ public class CollectionDto {
 
     private String topic;
 
-    private MultipartFile collectionImage;
+    private String previousImgUrl;
 
     private List<CustomFieldDto> customFields;
 }

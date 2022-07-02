@@ -41,6 +41,10 @@ public class UserService {
         return userRepository.getUserProfile(currentUser.getId());
     }
 
+    public ProfileProjection getUserProfile(UUID userId) {
+        return userRepository.getUserProfile(userId);
+    }
+
     public Page<UserProjection> getAllUsers(Integer page, String sortBy, String sortDir) {
         int pageSize = Integer.parseInt(Constants.DEFAULT_PAGE_SIZE);
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() :

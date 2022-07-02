@@ -26,6 +26,8 @@ public interface ItemProjection {
 
     String getAuthorProfileImgUrl();
 
+    Boolean getIsLiked();
+
     @Value("#{@likeRepository.countAllByItemId(target.id)}")
     Integer getItemLikes();
 

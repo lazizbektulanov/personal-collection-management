@@ -3,6 +3,8 @@ package uz.itransition.personalcollectionmanagement.entity;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 import uz.itransition.personalcollectionmanagement.entity.enums.TopicName;
 import uz.itransition.personalcollectionmanagement.entity.template.AbsEntity;
 

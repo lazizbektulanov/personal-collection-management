@@ -124,16 +124,6 @@
                     <div class="item">
                         <div class="card">
                             <div class="header d-flex">
-                                <div class="dropdown menu">
-                                    <i class="mdi mdi-dots-vertical f-20" id="dropdownMenuButton1"
-                                       data-bs-toggle="dropdown"></i>
-
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item" href="home.html#">Action</a></li>
-                                        <li><a class="dropdown-item" href="home.html#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="home.html#">Something else here</a></li>
-                                    </ul>
-                                </div>
                                 <div>
                                     <div class="ms-auto">
                                         <div class="badge rounded-pill" th:text="${item.itemCollectionTitle}"></div>
@@ -151,9 +141,14 @@
                                         </a>
                                     </h6>
                                     <div class="like">
-                                        <h6 class="f-14 fw-semibold"><i
-                                                class="mdi mdi-heart text-danger f-18 align-middle me-2"></i>[[${item.itemLikes}]]
+                                        <h6 class="f-14 fw-semibold"><a
+                                                th:href="@{'/item/like?itemId='+${item.id}}">
+                                            <i th:class="${item.isLiked!=null and item.isLiked}?
+                                            'mdi mdi-heart text-danger f-18 align-middle me-2':
+                                                'mdi mdi-heart-outline text-danger f-18 align-middle me-2'"></i>
+                                        </a>[[${item.itemLikes}]]
                                         </h6>
+
                                     </div>
                                 </div>
                                 <div class="profile-content align-items-center d-flex justify-content-start">
@@ -277,17 +272,15 @@
         </div>
     </div>
 </section>
+<div id="loginModal"></div>
+<!-- App Js -->
+<script src="../js/app.js"></script>
 <!-- end explore -->
 <!--Bootstrap Js-->
 <script src="../js/bootstrap.bundle.min.js"></script>
-
-<!-- Swiper Js -->
-
 <!-- counter -->
 <script src="../js/counter.init.js"></script>
 
-<!-- App Js -->
-<script src="../js/app.js"></script>
 
 <!--<script>-->
 

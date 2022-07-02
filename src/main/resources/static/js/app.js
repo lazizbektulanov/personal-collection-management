@@ -1,6 +1,5 @@
 var stompClient = null;
 
-
 function windowScroll() {
     const navbar = document.getElementById("navbar");
     if (
@@ -21,7 +20,9 @@ window.addEventListener("scroll", (ev) => {
 //
 /********************* light-dark js ************************/
 //
-
+if (localStorage.getItem('theme') === null) {
+    localStorage.setItem('theme', "light")
+}
 const btn = document.getElementById("mode");
 btn.addEventListener("click", (e) => {
     let theme = localStorage.getItem("theme");
@@ -33,6 +34,16 @@ btn.addEventListener("click", (e) => {
         localStorage.setItem("theme", "light");
     }
 });
+
+// checkStatus()
+//
+// function checkStatus(){
+if (localStorage.getItem('theme') === "dark") {
+    document.body.setAttribute("data-layout-mode", "dark");
+} else {
+    document.body.removeAttribute("data-layout-mode");
+    // }
+}
 
 //
 /********************* Swicher js ************************/
@@ -168,10 +179,10 @@ function addCustomField() {
     });
 
     let fieldId = document.createElement('input');
-    fieldId.hidden=true;
-    fieldId.value='';
+    fieldId.hidden = true;
+    fieldId.value = '';
     fieldId.classList.add("form-control");
-    fieldId.id='fieldId';
+    fieldId.id = 'fieldId';
 
     li.append(fieldId);
     li.append(fieldType);
@@ -210,8 +221,9 @@ function createCollectionDto() {
     let title = document.querySelector('#collectionTitle').value
     let description = document.querySelector('#collectionDescription').value
     let topic = document.querySelector('#collectionTopic').value
+    let previousImgUrl = document.querySelector('#collectionImgUrl').value
 
-    const body = {id,title, description, topic, customFields};
+    const body = {id, title, description, topic, previousImgUrl, customFields};
 
     collectionDto.append('collectionDto', new Blob([JSON.stringify(body)], {
         type: "application/json"
@@ -221,7 +233,7 @@ function createCollectionDto() {
 }
 
 function saveCollectionDto(collectionDto) {
-        fetch('/collection/save', {
+    fetch('/collection/save', {
         method: 'POST',
         body: collectionDto,
         redirect: 'follow'

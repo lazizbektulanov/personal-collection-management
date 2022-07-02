@@ -211,20 +211,16 @@ public class DataLoader implements CommandLineRunner {
                     mobilePhone1Collection
             ));
             likeRepository.save(new Like(
-                    user,
-                    bookItem
+                    admin,
+                    phone8Item
             ));
             likeRepository.save(new Like(
                     user,
-                    bookItem
+                    phone10Item
             ));
             likeRepository.save(new Like(
                     admin,
-                    phoneItem
-            ));
-            likeRepository.save(new Like(
-                    admin,
-                    phoneItem
+                    phone10Item
             ));
         }
     }

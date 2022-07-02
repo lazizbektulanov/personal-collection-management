@@ -27,12 +27,11 @@ import uz.itransition.personalcollectionmanagement.service.AuthService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-
     private final AuthService authService;
 
 
     @Bean
-    public SessionRegistry sessionRegistry(){
+    public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
     }
 
@@ -59,13 +58,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/css/**", "/images/**", "/js/**", "/fonts/**","/webjars/**")
+                .antMatchers("/css/**", "/images/**", "/js/**", "/fonts/**", "/webjars/**")
                 .permitAll()
-                .antMatchers("/auth/**","/home","/comment/**")
+                .antMatchers("/auth/**", "/home", "/comment/**")
                 .permitAll()
-                .antMatchers(HttpMethod.GET,"/item","/item/tag","/collection/id/**","/item/all","/collection/all")
+                .antMatchers(HttpMethod.GET, "/item", "/item/tag", "/collection/id/**", "/item/all", "/collection/all")
                 .permitAll()
-//                .antMatchers("/item/**","/comment/**","/webjars/**","/api/item-comments/**").permitAll()
+                .antMatchers("/user/collections").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

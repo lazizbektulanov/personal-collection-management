@@ -14,13 +14,12 @@ import uz.itransition.personalcollectionmanagement.entity.enums.TopicName;
 import uz.itransition.personalcollectionmanagement.payload.CollectionDto;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionByIdProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionProjection;
+import uz.itransition.personalcollectionmanagement.projection.response.Response;
 import uz.itransition.personalcollectionmanagement.repository.CollectionRepository;
 import uz.itransition.personalcollectionmanagement.utils.Constants;
 
 import java.io.IOException;
 import java.util.*;
-
-import static uz.itransition.personalcollectionmanagement.utils.Constants.DEFAULT_COLLECTION_IMG_URL;
 
 
 @Service
@@ -43,19 +42,40 @@ public class CollectionService {
         return collectionRepository.getCollectionById(collectionId);
     }
 
-    public void createCollection(CollectionDto collectionDto, MultipartFile collectionImage) throws IOException {
-        System.out.println(collectionDto.getCustomFields());
+    public void saveCollection(CollectionDto collectionDto, MultipartFile collectionImage) throws IOException {
+        Collection savedCollection;
+        if (collectionDto.getId().length() != 0)
+            savedCollection = editCollection(collectionDto, collectionImage);
+        else
+            savedCollection = createCollection(collectionDto, collectionImage);
+        customFieldService.saveCollectionCustomFields(collectionDto.getCustomFields(), savedCollection);
+    }
+
+    private Collection createCollection(CollectionDto collectionDto, MultipartFile collectionImage) throws IOException {
         User currentUser = authService.getCurrentUser();
-        Collection savedCollection = collectionRepository.save(new Collection(
-                collectionDto.getId().length() != 0 ? UUID.fromString(collectionDto.getId()) : null,
+        return collectionRepository.save(new Collection(
                 collectionDto.getTitle().trim(),
-                collectionImage != null ? fileService.uploadFile(collectionImage) :
-                        DEFAULT_COLLECTION_IMG_URL,
+                fileService.getUrlIfNotExists(collectionImage, collectionDto.getPreviousImgUrl()),
                 collectionDto.getDescription().trim(),
                 TopicName.valueOf(collectionDto.getTopic()),
                 currentUser
         ));
-        customFieldService.saveCollectionCustomFields(collectionDto.getCustomFields(), savedCollection);
+    }
+
+    private Collection editCollection(CollectionDto collectionDto, MultipartFile collectionImage) throws IOException {
+        Optional<Collection> collection =
+                collectionRepository.findById(UUID.fromString(collectionDto.getId()));
+        if (collection.isPresent()) {
+            Collection editingCollection = collection.get();
+            editingCollection.setTitle(collectionDto.getTitle().trim());
+            editingCollection.setImgUrl(
+                    fileService.getUrlIfNotExists(collectionImage, collectionDto.getPreviousImgUrl())
+            );
+            editingCollection.setDescription(collectionDto.getDescription().trim());
+            editingCollection.setTopicName(TopicName.valueOf(collectionDto.getTopic()));
+            return collectionRepository.save(editingCollection);
+        }
+        return null;
     }
 
     public boolean isCollectionOwner(UUID collectionId) {
