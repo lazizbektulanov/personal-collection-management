@@ -3,6 +3,9 @@ package uz.itransition.personalcollectionmanagement.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,27 @@ public class UserController {
     private final UserService userService;
 
     private final AuthService authService;
+
+    //================================
+
+//    private final OAuth2AuthorizedClientService authorizedClientService;
+
+//    @GetMapping("/loginSuccess")
+//    public String getLoginInfo(Model model, OAuth2AuthenticationToken authentication) {
+//        OAuth2AuthorizedClient client = authorizedClientService
+//                .loadAuthorizedClient(
+//                        authentication.getAuthorizedClientRegistrationId(),
+//                        authentication.getName());
+//        System.out.println("CLIENT principal name:  " + client.getPrincipalName());
+//        System.out.println("CLIENT registration: " + client.getClientRegistration().toString());
+//        System.out.println("client.getClientRegistration()\n" +
+//                "  .getProviderDetails().getUserInfoEndpoint().getUri() " + client.getClientRegistration()
+//                .getProviderDetails().getUserInfoEndpoint().getUri());
+//        System.out.println("CLIENT: " + client);
+//        return "redirect:/home";
+//    }
+
+    //================================
 
     @GetMapping("/my-collections")
     public String getProfilePage(Model model) {

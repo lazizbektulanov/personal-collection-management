@@ -25,8 +25,7 @@ public class Item extends AbsEntity {
     private String imgUrl;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @ManyToMany
-    @ToString.Exclude
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Tag> tags;
 
     @ManyToOne(optional = false)

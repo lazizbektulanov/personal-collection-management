@@ -14,12 +14,27 @@ public interface CustomFieldValueRepository extends JpaRepository<CustomFieldVal
 
 
     @Query(nativeQuery = true,
-    value = "select " +
-            "cast(cfv.id as varchar) as id," +
-            "cfv.field_value as fieldValue " +
-            "from custom_field_values cfv " +
-            "join custom_fields cf on cf.id = cfv.custom_field_id " +
-            "where cfv.item_id=:itemId " +
-            "and (cf.field_type='text' or cf.field_type='date')")
+            value = "select " +
+                    "cast(cfv.id as varchar) as id," +
+                    "cfv.field_value as fieldValue " +
+                    "from custom_field_values cfv " +
+                    "join custom_fields cf on cf.id = cfv.custom_field_id " +
+                    "where cfv.item_id=:itemId " +
+                    "and (cf.field_type='text' or cf.field_type='date') " +
+                    "order by cfv.created_at") //checking
     List<CustomFieldValueProjection> getCustomFieldValues(UUID itemId);
+
+    @Query(nativeQuery = true,
+            value = "select " +
+                    "cast(cfv.id as varchar) as id," +
+                    "cf.field_name as fieldName," +
+                    "cf.field_type as fieldType," +
+                    "cfv.field_value as fieldValue " +
+                    "from custom_field_values cfv " +
+                    "full join custom_fields cf on cf.id = cfv.custom_field_id " +
+                    "where cfv.item_id=:itemId")
+    List<CustomFieldValueProjection> getItemCustomFieldValues(UUID itemId);
+
+
+    List<CustomFieldValue> findByItemId(UUID item_id);
 }

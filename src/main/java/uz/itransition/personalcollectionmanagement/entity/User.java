@@ -57,6 +57,19 @@ public class User extends AbsEntity implements UserDetails {
         this.profileImgUrl = profileImgUrl;
     }
 
+    public User(String fullName, String email,
+                String password, boolean isActive,
+                String profileImgUrl, Timestamp lastLoginTime,
+                Role role) {
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.isActive = isActive;
+        this.profileImgUrl = profileImgUrl;
+        this.lastLoginTime = lastLoginTime;
+        this.role = role;
+    }
+
     public User(String fullName, String email, String password, boolean isActive, String bio, String profileImgUrl, Timestamp lastLoginTime, Role role) {
         this.fullName = fullName;
         this.email = email;

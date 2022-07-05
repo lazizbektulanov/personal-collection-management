@@ -18,6 +18,7 @@ public interface ItemByIdProjection {
     String getItemCollectionTitle();
     UUID getAuthorId();
     String getAuthorName();
+    String getAuthorProfileImgUrl();
     Long getItemLikes();
     Long getItemCommentsNumber();
     @Value("#{@tagRepository.findTagsByItemId(target.id)}")

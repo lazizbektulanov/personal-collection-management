@@ -7,6 +7,7 @@ import uz.itransition.personalcollectionmanagement.entity.Tag;
 import uz.itransition.personalcollectionmanagement.projection.TagProjection;
 import uz.itransition.personalcollectionmanagement.repository.TagRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,5 +19,13 @@ public class TagService {
 
     public List<Tag> getAllTags() {
         return tagRepository.findAll();
+    }
+
+    public List<String> getSelectedItemTags(List<TagProjection> tagsByItemId) {
+        List<String> selectedTags = new ArrayList<>();
+        for (TagProjection tagProjection : tagsByItemId) {
+            selectedTags.add(tagProjection.getName());
+        }
+        return selectedTags;
     }
 }

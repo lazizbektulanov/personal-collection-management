@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.itransition.personalcollectionmanagement.entity.*;
+import uz.itransition.personalcollectionmanagement.projection.CustomFieldValueProjection;
+import uz.itransition.personalcollectionmanagement.projection.TagProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionItemsProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemByIdProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemProjection;
@@ -59,7 +61,7 @@ public class ItemService {
         return customFieldRepository.findByCollectionId(collectionId);
     }
 
-    public List<Tag> getItemTags() {
+    public List<Tag> getAllTags() {
         return tagRepository.findAll();
     }
 
@@ -88,7 +90,10 @@ public class ItemService {
     public Page<ItemProjection> getItemsByTag(UUID tagId, Integer page) {
         int pageSize = Integer.parseInt(Constants.DEFAULT_PAGE_SIZE_GET_ALL);
         Pageable pageable = PageRequest.of(page - 1, pageSize);
-        return itemRepository.getItemsByTag(tagId, pageable);
+        User currentUser = authService.getCurrentUser();
+        if (currentUser.getId() == null)
+            return itemRepository.getItemsByTag(tagId, pageable);
+        else return itemRepository.getItemsByTag(tagId, pageable, currentUser.getId());
     }
 
     public Page<ItemProjection> getAllItems(Integer page) {
@@ -109,6 +114,22 @@ public class ItemService {
             } else {
                 likeRepository.save(new Like(currentUser, item.get()));
             }
+        }
+    }
+
+    public ItemByIdProjection getEditingItem(UUID itemId) {
+        return itemRepository.getEditingItem(itemId);
+    }
+
+
+    public void editItem(HttpServletRequest req) {
+        Optional<Item> item = itemRepository.findById(UUID.fromString(req.getParameter("itemId")));
+        List<Tag> itemTags = getItemTags(req);
+        if (item.isPresent()) {
+            item.get().setName(req.getParameter("itemName"));
+            item.get().setTags(itemTags);
+            itemRepository.save(item.get());
+            customFieldValueService.editItemCustomFieldValues(req);
         }
     }
 }

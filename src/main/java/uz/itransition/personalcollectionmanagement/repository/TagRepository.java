@@ -16,12 +16,14 @@ public interface TagRepository extends JpaRepository<Tag, UUID> {
 
     @Query(nativeQuery = true,
     value = "select " +
-            "cast(t.id as varchar) as tagId," +
-            "t.name as tagName " +
+            "cast(t.id as varchar) as id," +
+            "t.name as name " +
             "from tags t " +
             "join items_tags it on t.id = it.tags_id " +
             "where it.items_id=:itemId")
     List<TagProjection> findTagsByItemId(UUID itemId);
+
+
 
 //    List<Tag> findByNameContainingIgnoreCase(String name);
 }

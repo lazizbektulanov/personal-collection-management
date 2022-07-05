@@ -102,7 +102,7 @@
             <div class="col-lg-8">
                 <div class="inner-heading text-center">
                     <div class="mt-4">
-                        <h1 class="fw-bold">Create item</h1>
+                        <h1 class="fw-bold">Edit item</h1>
                         <p class="text-muted"></p>
                     </div>
                 </div>
@@ -119,42 +119,53 @@
             <div class="info-box">
                 <form id="itemForm" enctype='multipart/form-data'
                       th:method="post"
-                      th:action="@{'/item/create?collectionId='+${collectionId}}">
+                      th:action="@{'/item/edit?collectionId='+${item.itemCollectionId}}">
                     <div class="row">
                         <div class="col-lg-5">
                             <div class=" mt-4">
                                 <div class="mt-3">
+                                    <div>
+                                        <input hidden th:value="${item.id}" name="itemId">
+                                    </div>
                                     <div class="Title">
                                         <label for="title" class="form-label fw-semibold">
                                             Name:
                                         </label>
                                         <input type="text" class="form-control" id="title"
-                                               placeholder="Enter item name" required name="itemName">
+                                               placeholder="Enter item name" required name="itemName"
+                                               th:value="${item.itemName}">
                                     </div>
                                 </div>
                             </div>
-                            <div th:if="${itemCustomFields!=null}" class=" mt-4"
-                                 th:each="customField: ${itemCustomFields}">
-                                <div th:if="${customField.fieldType!='textarea'}" class="mt-3">
-                                    <div th:class="${customField.fieldType=='checkbox'?'form-check':'Title'}">
-                                        <label th:for="${customField.fieldName}"
-                                               th:class="${customField.fieldType=='checkbox'?'form-check-lable':'form-label fw-semibold'}">
-                                            [[${customField.fieldName}]]
+                            <div th:if="${itemFields!=null}" class=" mt-4"
+                                 th:each="field: ${itemFields}">
+                                <div th:if="${field.fieldType !='textarea'}" class="mt-3">
+                                    <div th:class="${field.fieldType=='checkbox'?'form-check':'Title'}">
+                                        <label th:for="${field.fieldName}"
+                                               th:class="${field.fieldType=='checkbox'?'form-check-lable':'form-label fw-semibold'}">
+                                            [[${field.fieldName}]]
                                         </label>
-                                        <input th:type="${customField.fieldType}"
-                                               th:class="${customField.fieldType=='checkbox'?'form-check-input':'form-control'}"
-                                               th:id="${customField.fieldName}"
-                                               th:name="${customField.fieldName}">
+                                        <input th:if="${field.fieldType!='checkbox'}"
+                                               class="form-control" th:type="${field.fieldType}"
+                                               th:id="${field.fieldName}"
+                                               th:value="${field.fieldValue}"
+                                               th:name="${field.id}">
+                                        <input th:if="${field.fieldType=='checkbox'}"
+                                               class="form-check-input" type="checkbox"
+                                               th:id="${field.fieldName}"
+                                               th:checked="${field.fieldValue=='on'}"
+                                               th:name="${field.id}">
                                     </div>
                                 </div>
-                                <div th:if="${customField.fieldType=='textarea'}" class="mt-3">
+                                <div th:if="${field.fieldType=='textarea'}" class="mt-3">
                                     <div class="Description">
-                                        <label th:for="${customField.fieldName}" class="form-label fw-semibold">
-                                            [[${customField.fieldName}]]
+                                        <label th:for="${field.fieldName}" class="form-label fw-semibold">
+                                            [[${field.fieldName}]]
                                         </label>
-                                        <textarea th:type="${customField.fieldType}" class="form-control"
-                                                  th:id="${customField.fieldName}"
-                                                  th:name="${customField.fieldName}"></textarea>
+                                        <textarea th:type="${field.fieldType}" class="form-control"
+                                                  th:id="${field.fieldName}"
+                                                  th:name="${field.id}"
+                                        >[[${field.fieldValue}]]</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -168,8 +179,9 @@
                                                 class="chosen-select form-control" id="searchTag"
                                                 name="itemTags" required>
                                             <option value=""></option>
-                                            <option th:each="tag: ${itemTags}"
+                                            <option th:each="tag: ${allTags}"
                                                     th:text="${tag.name}"
+                                                    th:selected="${#lists.contains(selectedItemTags, tag.name)}"
                                                     th:value="${tag.id}"></option>
                                         </select>
                                     </div>

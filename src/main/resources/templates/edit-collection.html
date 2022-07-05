@@ -96,10 +96,8 @@
             <div class="col-lg-8">
                 <div class="inner-heading text-center">
                     <div class="mt-4">
-                        <h1 class="fw-bold">Create collection</h1>
-                        <p class="text-muted">A New Place To Collect And Connect NFT Across The World. It’s come
-                            with a creative <br> design, home page options, different explore and digital asset
-                            pages and items.</p>
+                        <h1 class="fw-bold">Edit collection</h1>
+                        <p class="text-muted"></p>
                     </div>
                 </div>
 
@@ -188,10 +186,13 @@
                                         </div>
                                         <div class="custom_fields">
                                             <ul class="list-group fields_body">
-                                                <li class="list-group-item" th:each="customField: ${collectionCustomFields}">
+                                                <li class="list-group-item"
+                                                    th:each="customField: ${collectionCustomFields}">
                                                     <input hidden class="form-control" id="fieldId"
                                                            th:value="${customField.id}">
-                                                    <select hidden class="form-select" id="fieldTypeId"><option th:value="${customField.fieldType}"
+                                                    <select hidden class="form-select" id="fieldTypeId">
+                                                        <option
+                                                                th:value="${customField.fieldType}"
                                                                 th:text="${customField.fieldType}"></option>
                                                     </select>
                                                     <input required class="form-control" id="fieldNameId"

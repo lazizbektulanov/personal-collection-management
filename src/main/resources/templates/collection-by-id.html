@@ -71,8 +71,8 @@
                 </li>
             </ul>
             <!--end navbar-nav-->
-            <a th:if="${user=='anonymousUser'}" th:href="@{/auth/login}" class="btn btn-outline-success">Login</a>
-            <a th:if="${user=='anonymousUser'}" th:href="@{/auth/register}" class="btn btn-outline-success">Register</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/login}" class="btn btn-outline-success">Login</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/register}" class="btn btn-outline-success">Register</a>
             <a th:unless="${user=='anonymousUser'}" href="/logout" class="btn btn-outline-danger">Log out</a>
 
         </div>
@@ -104,10 +104,8 @@
             <div class="col-lg-8">
                 <div class="inner-heading text-center">
                     <div class="mt-4">
-                        <h1 class="fw-bold">Item Details</h1>
-                        <P class="text-muted">>A New Place To Collect And Connect NFT Across The World. It’s
-                            come with a creative design, <br> home page options, different explore and digital asset
-                            pages and items.</P>
+                        <h1 class="fw-bold">Collection Details</h1>
+                        <P class="text-muted"></P>
                     </div>
                 </div>
 
@@ -264,7 +262,12 @@
                                                data-bs-toggle="dropdown"></i>
 
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                <li><a class="dropdown-item" href="home.html#">Edit</a></li>
+                                                <li>
+                                                    <a class="dropdown-item"
+                                                       th:href="@{'/item/edit?itemId='+${item.id}}">
+                                                        Edit
+                                                    </a>
+                                                </li>
                                                 <li><a class="dropdown-item" href="home.html#">Delete</a></li>
                                             </ul>
                                         </div>

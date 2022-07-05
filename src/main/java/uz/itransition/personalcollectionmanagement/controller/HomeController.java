@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import uz.itransition.personalcollectionmanagement.entity.Tag;
-import uz.itransition.personalcollectionmanagement.projection.TagProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemProjection;
 import uz.itransition.personalcollectionmanagement.service.CollectionService;
