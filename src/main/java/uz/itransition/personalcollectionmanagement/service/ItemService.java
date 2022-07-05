@@ -7,8 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.itransition.personalcollectionmanagement.entity.*;
-import uz.itransition.personalcollectionmanagement.projection.CustomFieldValueProjection;
-import uz.itransition.personalcollectionmanagement.projection.TagProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionItemsProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemByIdProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemProjection;

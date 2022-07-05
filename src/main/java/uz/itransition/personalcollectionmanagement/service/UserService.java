@@ -13,15 +13,14 @@ import org.springframework.stereotype.Service;
 import uz.itransition.personalcollectionmanagement.entity.Role;
 import uz.itransition.personalcollectionmanagement.entity.User;
 import uz.itransition.personalcollectionmanagement.entity.enums.RoleName;
-import uz.itransition.personalcollectionmanagement.projection.ProfileProjection;
-import uz.itransition.personalcollectionmanagement.projection.UserAccountProjection;
-import uz.itransition.personalcollectionmanagement.projection.UserProjection;
+import uz.itransition.personalcollectionmanagement.projection.user.ProfileProjection;
+import uz.itransition.personalcollectionmanagement.projection.user.UserAccountProjection;
+import uz.itransition.personalcollectionmanagement.projection.user.UserProjection;
 import uz.itransition.personalcollectionmanagement.repository.RoleRepository;
 import uz.itransition.personalcollectionmanagement.repository.UserRepository;
 import uz.itransition.personalcollectionmanagement.utils.Constants;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

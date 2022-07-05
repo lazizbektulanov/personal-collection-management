@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>My collections</title>
+    <title>[[#{profile-page-description}]]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content=" "/>
     <meta name="keywords" content=""/>
@@ -55,28 +55,28 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mx-auto navbar-center">
                 <li class="nav-item">
-                    <a href="/home" class="nav-link">Home</a>
+                    <a th:href="@{/home}" class="nav-link">[[#{home}]]</a>
                 </li>
                 <li class="nav-item dropdown dropdown-hover">
-                    <a class="nav-link dropdown-toggle" href="home.html" id="homedrop" role="button"
+                    <a class="nav-link dropdown-toggle" href="home-page.html" id="homedrop" role="button"
                        data-bs-toggle="dropdown">
-                        Profile
+                        [[#{profile}]]
                     </a>
                     <ul class="dropdown-menu dropdown-menu-center" aria-labelledby="homedrop">
                         <li><a class="dropdown-item" th:href="@{/user/my-collections}"><i
-                                class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>Profile</a></li>
-                        <li><a class="dropdown-item" href="edit-profile.html"><i
-                                class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
+                                class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>[[#{profile}]]</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/edit-profile}"><i
+                                class="mdi mdi-account-edit f-20 me-2 align-middle"></i>[[#{edit-profile}]]</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"
                     th:if="${user!='anonymousUser'} and ${#strings.equals(user.role.roleName,'ROLE_ADMIN')} ">
                     <a th:href="@{/user/management}" class="nav-link">
-                        User management
+                        [[#{user-management}]]
                     </a>
                 </li>
             </ul>
-            <a href="/logout" class="btn btn-outline-danger">Log out</a>
+            <a href="/logout" class="btn btn-outline-danger">[[#{logout}]]</a>
         </div>
 
     </div>
@@ -96,9 +96,9 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb default mb-0">
                         <li class="breadcrumb-item">
-                            <a href="index.html" class="text-muted">Home</a>
+                            <a th:href="@{/home}" class="text-muted">[[#{home}]]</a>
                         </li>
-                        <li class="breadcrumb-item active text-primary" aria-current="page">Profile</li>
+                        <li class="breadcrumb-item active text-primary" aria-current="page">[[#{profile}]]</li>
                     </ol>
                 </nav>
             </div>
@@ -110,8 +110,8 @@
             <div class="col-lg-8">
                 <div class="inner-heading text-center">
                     <div class="mt-4">
-                        <h1 class="fw-bold">Your Profile</h1>
-                        <P class="text-muted">In this profile page you can manage your collections.</P>
+                        <h1 class="fw-bold">[[#{profile-page}]]</h1>
+                        <P class="text-muted">[[#{profile-page-description}]]</P>
                     </div>
                 </div>
 
@@ -139,7 +139,7 @@
             <div class="col-lg-6">
                 <div class="d-flex align-items-lg-center justify-content-end">
                     <div class="button ms-3">
-                        <a th:href="@{/collection/create}" class="btn btn-dark">Create collection</a>
+                        <a th:href="@{/collection/create}" class="btn btn-dark">[[#{create-collection}]]</a>
                     </div>
                 </div>
             </div>
@@ -151,13 +151,13 @@
         <div class="row mt-4">
             <div class="col-lg-3">
                 <div class="user-detail">
-                    <h6 class="fw-bold">Full name:</h6>
+                    <h6 class="fw-bold">[[#{fullname}]]:</h6>
                     <p class="text-muted f-16">[[${userProfile.fullName}]]</p>
                     <!--                        <h6 class="fw-bold">Email address:</h6>-->
                     <!--                        <p class="text-muted f-16">[[${userProfile.email}]]</p>-->
                 </div>
                 <div class="about-detail">
-                    <h6 class="fw-bold">About Me :</h6>
+                    <h6 class="fw-bold">[[#{about-me}]] :</h6>
                     <div class="details-box">
                         <p class="text-muted f-16">[[${userProfile.bio}]]</p>
                         <div class="row d-flex mt-4">
@@ -179,7 +179,7 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
                                 data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
-                                aria-selected="true">Collections
+                                aria-selected="true">[[#{collections}]]
                         </button>
                     </li>
                 </ul>
@@ -197,11 +197,11 @@
                                                 <li>
                                                     <a class="dropdown-item"
                                                        th:href="@{'/collection/edit?collectionId='+${collection.id}}">
-                                                        Edit
+                                                        [[#{edit}]]
                                                     </a>
                                                 </li>
                                                 <li><a class="dropdown-item"
-                                                       th:href="@{'/collection/delete?collectionId='+${collection.id}}">Delete</a>
+                                                       th:href="@{'/collection/delete?collectionId='+${collection.id}}">[[#{delete}]]</a>
                                                 </li>
                                             </ul>
                                         </div>

@@ -9,7 +9,7 @@ import uz.itransition.personalcollectionmanagement.entity.Comment;
 import uz.itransition.personalcollectionmanagement.entity.Item;
 import uz.itransition.personalcollectionmanagement.entity.User;
 import uz.itransition.personalcollectionmanagement.payload.CommentDto;
-import uz.itransition.personalcollectionmanagement.projection.CommentProjection;
+import uz.itransition.personalcollectionmanagement.projection.comment.CommentProjection;
 import uz.itransition.personalcollectionmanagement.repository.CommentRepository;
 import uz.itransition.personalcollectionmanagement.repository.ItemRepository;
 import uz.itransition.personalcollectionmanagement.repository.UserRepository;

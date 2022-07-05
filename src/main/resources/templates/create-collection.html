@@ -1,7 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>Artlink - NFT Marketplace Template</title>
+    <title>[[#{create-collection}]]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content=" ">
     <meta name="keywords" content="">
@@ -50,7 +50,7 @@
 <!--Navbar Start-->
 <nav class="navbar navbar-expand-lg fixed-top sticky nav-sticky" id="navbar">
     <div class="container-fluid custom-container">
-        <a class="navbar-brand logo f-30 text-dark fw-bold" href="index.html">
+        <a class="navbar-brand logo f-30 text-dark fw-bold" th:href="@{/home}">
             <img src="../images/logo-dark.png" class="logo-dark" alt="" height="40">
             <img src="../images/logo-light.png" class="logo-light" alt="" height="40">
         </a>
@@ -63,22 +63,22 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mx-auto navbar-center">
                 <li class="nav-item">
-                    <a href="/home" class="nav-link">Home</a>
+                    <a th:href="@{/home}" class="nav-link">[[#{home}]]</a>
                 </li>
                 <li class="nav-item dropdown dropdown-hover">
-                    <a class="nav-link dropdown-toggle" href="home.html" id="homedrop" role="button"
+                    <a class="nav-link dropdown-toggle" href="home-page.html" id="homedrop" role="button"
                        data-bs-toggle="dropdown">
-                        Profile
+                        [[#{profile}]]
                     </a>
                     <ul class="dropdown-menu dropdown-menu-center" aria-labelledby="homedrop">
                         <li><a class="dropdown-item" th:href="@{/user/my-collections}"><i
-                                class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>Profile</a></li>
-                        <li><a class="dropdown-item" href="edit-profile.html"><i
-                                class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
+                                class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>[[#{profile}]]</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/edit-profile}"><i
+                                class="mdi mdi-account-edit f-20 me-2 align-middle"></i>[[#{edit-profile}]]</a></li>
                     </ul>
                 </li>
             </ul>
-            <a href="/logout" class="btn btn-outline-danger">Log out</a>
+            <a href="/logout" class="btn btn-outline-danger">[[#{logout}]]</a>
         </div>
     </div>
 </nav>
@@ -94,9 +94,10 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb default mb-0">
                         <li class="breadcrumb-item">
-                            <a href="index.html" class="text-muted">Home</a>
+                            <a th:href="@{/home}" class="text-muted">[[#{home}]]</a>
                         </li>
-                        <li class="breadcrumb-item active text-primary" aria-current="page">Create collection</li>
+                        <li class="breadcrumb-item active text-primary" aria-current="page">[[#{create-collection}]]
+                        </li>
 
                     </ol>
                 </nav>
@@ -108,10 +109,8 @@
             <div class="col-lg-8">
                 <div class="inner-heading text-center">
                     <div class="mt-4">
-                        <h1 class="fw-bold">Create collection</h1>
-                        <p class="text-muted">A New Place To Collect And Connect NFT Across The World. It’s come
-                            with a creative <br> design, home page options, different explore and digital asset
-                            pages and items.</p>
+                        <h1 class="fw-bold">[[#{create-collection}]]</h1>
+                        <p class="text-muted">[[#{create-collection-page-description}]]</p>
                     </div>
                 </div>
 
@@ -140,10 +139,10 @@
                                 <div class="mt-3">
                                     <div class="Title">
                                         <label for="collectionTitle" class="form-label fw-semibold">
-                                            Title:
+                                            [[#{title}]]:
                                         </label>
                                         <input type="text" class="form-control" id="collectionTitle"
-                                               placeholder="Enter collection title" required>
+                                               th:placeholder="#{enter-title}" required>
                                     </div>
                                 </div>
                             </div>
@@ -151,10 +150,10 @@
                                 <div class="mt-3">
                                     <div class="Description">
                                         <label for="collectionDescription" class="form-label fw-semibold">
-                                            Description:
+                                            [[#{description}]]:
                                         </label>
                                         <textarea type="text" class="form-control" id="collectionDescription"
-                                                  placeholder="Enter collection description" required></textarea>
+                                                  th:placeholder="#{enter-description}" required></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -162,11 +161,14 @@
                                 <div class="mt-3">
                                     <div class="Topic">
                                         <label for="collectionTopic" class="form-label fw-semibold">
-                                            Topic:
+                                            [[#{topic}]]:
                                         </label>
-                                        <select class="form-select" aria-label="Default select example" id="collectionTopic">
-                                            <option selected value="-1">Open this select menu</option>
-                                            <option th:each="topic: ${collectionTopics}" th:value="${topic}">[[${topic}]]</option>
+                                        <select class="form-select" aria-label="Default select example"
+                                                id="collectionTopic">
+                                            <option selected value="-1">[[#{select-topic}]]</option>
+                                            <option th:each="topic: ${collectionTopics}" th:value="${topic}">
+                                                [[${topic}]]
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -186,18 +188,9 @@
                                 <div class="mt-3">
                                     <div class="row">
                                         <div class="add_button" style="margin-bottom: 10px;">
-                                            <!--                                        <label for="fieldOption" class="form-label fw-semibold">-->
-                                            <!--                                            Field option:-->
-                                            <!--                                        </label>-->
-                                            <!--                                        <select class="form-select input_type" aria-label="Default select example" id="fieldOption">-->
-                                            <!--                                            <option selected>Open this select menu</option>-->
-                                            <!--                                            <option value="default">String</option>-->
-                                            <!--                                            <option value="bool">Yes/No</option>-->
-                                            <!--                                            <option value="date">Date</option>-->
-                                            <!--                                        </select>-->
                                             <button class="btn btn-white shadow ms-3 text-dark addField"
                                                     onclick="addCustomField()">
-                                                Add field
+                                                [[#{add-field}]]
                                             </button>
                                         </div>
                                         <div class="custom_fields">
@@ -214,7 +207,7 @@
                         <button type="button" class="btn btn-white shadow ms-3 text-dark submit"
                                 onclick="createCollectionDto()"
                         >
-                            Submit
+                            [[#{submit}]]
                         </button>
                     </div>
                 </form>
@@ -223,10 +216,6 @@
     </div>
     <!-- end container -->
 </section>
-<script th:inline="javascript">
-
-</script>
-
 <!--Bootstrap Js-->
 <script src="../js/bootstrap.bundle.min.js"></script>
 

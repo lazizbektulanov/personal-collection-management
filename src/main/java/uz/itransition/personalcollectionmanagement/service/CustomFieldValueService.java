@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import uz.itransition.personalcollectionmanagement.entity.CustomField;
 import uz.itransition.personalcollectionmanagement.entity.CustomFieldValue;
 import uz.itransition.personalcollectionmanagement.entity.Item;
-import uz.itransition.personalcollectionmanagement.projection.CustomFieldValueProjection;
+import uz.itransition.personalcollectionmanagement.projection.customfield.CustomFieldValueProjection;
 import uz.itransition.personalcollectionmanagement.repository.CustomFieldRepository;
 import uz.itransition.personalcollectionmanagement.repository.CustomFieldValueRepository;
 

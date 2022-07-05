@@ -33,6 +33,6 @@ public class HomeController {
         model.addAttribute("latestItems", latestItems);
         model.addAttribute("largestCollections", largestCollections);
         model.addAttribute("tags",tagCloud);
-        return "home";
+        return "home-page";
     }
 }

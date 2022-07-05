@@ -10,11 +10,17 @@ import java.util.UUID;
 public class CommentDto {
 
     private UUID id;
+
     private String body;
+
     private String ItemId;
+
     private UUID senderId;
+
     private String senderFullName;
+
     private String senderProfileImgUrl;
+
     private Timestamp commentSentAt;
 
 }

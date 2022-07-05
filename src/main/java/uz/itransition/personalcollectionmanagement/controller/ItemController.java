@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import uz.itransition.personalcollectionmanagement.entity.CustomField;
 import uz.itransition.personalcollectionmanagement.entity.Tag;
-import uz.itransition.personalcollectionmanagement.projection.CustomFieldValueProjection;
+import uz.itransition.personalcollectionmanagement.projection.customfield.CustomFieldValueProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemByIdProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemProjection;
 import uz.itransition.personalcollectionmanagement.service.CustomFieldValueService;

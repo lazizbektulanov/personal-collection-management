@@ -6,11 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import uz.itransition.personalcollectionmanagement.entity.User;
-import uz.itransition.personalcollectionmanagement.projection.ProfileProjection;
-import uz.itransition.personalcollectionmanagement.projection.UserAccountProjection;
-import uz.itransition.personalcollectionmanagement.projection.UserProjection;
+import uz.itransition.personalcollectionmanagement.projection.user.ProfileProjection;
+import uz.itransition.personalcollectionmanagement.projection.user.UserAccountProjection;
+import uz.itransition.personalcollectionmanagement.projection.user.UserProjection;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

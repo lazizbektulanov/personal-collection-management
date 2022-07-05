@@ -4,7 +4,7 @@ package uz.itransition.personalcollectionmanagement.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.itransition.personalcollectionmanagement.entity.Tag;
-import uz.itransition.personalcollectionmanagement.projection.TagProjection;
+import uz.itransition.personalcollectionmanagement.projection.tag.TagProjection;
 import uz.itransition.personalcollectionmanagement.repository.TagRepository;
 
 import java.util.ArrayList;

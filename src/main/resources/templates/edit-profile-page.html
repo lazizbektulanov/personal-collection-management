@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Edit profile</title>
+    <title>[[#{edit-profile}]]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content=" "/>
     <meta name="keywords" content=""/>
@@ -41,7 +41,7 @@
 <!--Navbar Start-->
 <nav class="navbar navbar-expand-lg fixed-top sticky" id="navbar">
     <div class="container-fluid custom-container">
-        <a class="navbar-brand logo f-30 text-dark fw-bold" href="index.html">
+        <a class="navbar-brand logo f-30 text-dark fw-bold" th:href="@{/home}">
             <img src="../images/logo-dark.png" class="logo-dark" alt="" height="40">
             <img src="../images/logo-light.png" class="logo-light" alt="" height="40">
         </a>
@@ -54,28 +54,28 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mx-auto navbar-center">
                 <li class="nav-item">
-                    <a href="/home" class="nav-link">Home</a>
+                    <a href="/home" class="nav-link">[[#{home}]]</a>
                 </li>
                 <li class="nav-item dropdown dropdown-hover">
-                    <a class="nav-link dropdown-toggle" href="home.html" id="homedrop" role="button"
+                    <a class="nav-link dropdown-toggle" href="#" id="homedrop" role="button"
                        data-bs-toggle="dropdown">
-                        Profile
+                        [[#{profile}]]
                     </a>
                     <ul class="dropdown-menu dropdown-menu-center" aria-labelledby="homedrop">
                         <li><a class="dropdown-item" th:href="@{/user/my-collections}"><i
-                                class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>Profile</a></li>
-                        <li><a class="dropdown-item" href="edit-profile.html"><i
-                                class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
+                                class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>[[#{profile}]]</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/edit-profile}"><i
+                                class="mdi mdi-account-edit f-20 me-2 align-middle"></i>[[#{edit-profile}]]</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"
                     th:if="${user!='anonymousUser'} and ${#strings.equals(user.role.roleName,'ROLE_ADMIN')} ">
                     <a th:href="@{/user/management}" class="nav-link">
-                        User management
+                        [[#{user-management}]]
                     </a>
                 </li>
             </ul>
-            <a href="/logout" class="btn btn-outline-danger">Log out</a>
+            <a href="/logout" class="btn btn-outline-danger">[[#{logout}]]</a>
         </div>
 
     </div>
@@ -92,9 +92,9 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb default mb-0">
                         <li class="breadcrumb-item">
-                            <a href="index.html" class="text-muted">Home</a>
+                            <a th:href="@{/home}" class="text-muted">[[#{home}]]</a>
                         </li>
-                        <li class="breadcrumb-item active text-primary" aria-current="page">Edit profile</li>
+                        <li class="breadcrumb-item active text-primary" aria-current="page">[[#{edit-profile}]]</li>
 
                     </ol>
                 </nav>
@@ -105,10 +105,8 @@
             <div class="col-lg-8">
                 <div class="inner-heading text-center">
                     <div class="mt-4">
-                        <h1 class="fw-bold">Edit Profile</h1>
-                        <P class="text-muted">A New Place To Collect And Connect NFT Across The World. It’s come
-                            with a creative <br> design, home page options, different explore and digital asset
-                            pages and items.</P>
+                        <h1 class="fw-bold">[[#{edit-profile}]]</h1>
+                        <p class="text-muted">[[#{edit-profile-page-description}]]</p>
                     </div>
                 </div>
 
@@ -136,7 +134,7 @@
                                 <div class="button">
                                     <input type="file" class="btn btn-dark">
                                 </div>
-                                <button class="btn btn-white shadow ms-3 text-dark">Delete</button>
+                                <button class="btn btn-white shadow ms-3 text-dark">[[#{delete}]]</button>
                             </div>
                         </div>
                     </div>
@@ -148,25 +146,26 @@
             <form class="info-box">
                 <div class="row">
                     <div class="col-lg-5">
-                        <h4 class="fw-bold">Account Info <i
+                        <h4 class="fw-bold">[[#{account-info}]] <i
                                 class="mdi mdi-information-outline f-30 align-middle"></i></h4>
 
                         <div class=" mt-4">
                             <div class="mt-3">
                                 <div class="Name">
-                                    <label for="validationDefault01" class="form-label fw-semibold">Full Name
+                                    <label for="validationDefault01" class="form-label fw-semibold">[[#{fullname}]]
                                         :</label>
                                     <input type="text" class="form-control" id="validationDefault01"
-                                           placeholder="Enter your full name" th:value="${userAcc.fullName}" required>
+                                           th:placeholder="#{enter-fullname}" th:value="${userAcc.fullName}" required>
                                 </div>
                             </div>
 
                             <div class="mt-4">
                                 <div class="Name">
-                                    <label for="exampleFormControlTextarea1" class="form-label fw-semibold"> Bio
+                                    <label for="exampleFormControlTextarea1" class="form-label fw-semibold">
+                                        [[#{about-me}]]
                                         :</label>
                                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
-                                              placeholder="Enter your bio" th:value="${userAcc.bio}"
+                                              th:placeholder="#{enter-bio}" th:value="${userAcc.bio}"
                                               required></textarea>
                                 </div>
                             </div>
@@ -174,7 +173,7 @@
                     </div>
                     <hr class="my-4">
                     <div class="submit-button">
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        <button class="btn btn-primary" type="submit">[[#{submit}]]</button>
                     </div>
                 </div>
             </form>
