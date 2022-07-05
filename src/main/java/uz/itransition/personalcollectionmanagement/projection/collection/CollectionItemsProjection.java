@@ -3,7 +3,7 @@ package uz.itransition.personalcollectionmanagement.projection.collection;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.core.config.Projection;
 import uz.itransition.personalcollectionmanagement.entity.Item;
-import uz.itransition.personalcollectionmanagement.projection.CustomFieldValueProjection;
+import uz.itransition.personalcollectionmanagement.projection.customfield.CustomFieldValueProjection;
 
 import java.sql.Timestamp;
 import java.util.List;

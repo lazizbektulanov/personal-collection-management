@@ -46,7 +46,7 @@
 <!--Navbar Start-->
 <nav class="navbar navbar-expand-lg fixed-top sticky" id="navbar">
     <div class="container-fluid custom-container">
-        <a class="navbar-brand logo f-30 text-dark fw-bold" href="home.html">
+        <a class="navbar-brand logo f-30 text-dark fw-bold" href="home-page.html">
             <img src="../images/logo-dark.png" class="logo-dark" alt="" height="40">
             <img src="../images/logo-light.png" class="logo-light" alt="" height="40">
         </a>
@@ -59,34 +59,34 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mx-auto navbar-center">
                 <li class="nav-item">
-                    <a href="/home" class="nav-link">Home</a>
+                    <a href="/home" class="nav-link">[[#{home}]]</a>
                 </li>
 
                 <li th:unless="${user=='anonymousUser'}" class="nav-item dropdown dropdown-hover">
-                    <a class="nav-link dropdown-toggle" href="home.html" id="homedrop" role="button"
+                    <a class="nav-link dropdown-toggle" href="home-page.html" id="homedrop" role="button"
                        data-bs-toggle="dropdown">
-                        Profile
+                        [[#{profile}]]
                     </a>
                     <ul class="dropdown-menu dropdown-menu-center" aria-labelledby="homedrop">
                         <li><a class="dropdown-item" th:href="@{/user/my-collections}"><i
-                                class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>Profile</a></li>
+                                class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>[[#{profile}]]</a></li>
                         <li><a class="dropdown-item" th:href="@{/user/edit}"><i
-                                class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
+                                class="mdi mdi-account-edit f-20 me-2 align-middle"></i>[[#{edit-profile}]]</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item"
                     th:if="${user!='anonymousUser'} and ${#strings.equals(user.role.roleName,'ROLE_ADMIN')} ">
                     <a th:href="@{/user/management}" class="nav-link">
-                        User management
+                        [[#{user-management}]]
                     </a>
                 </li>
                 <!--end dropdown-->
             </ul>
             <!--end navbar-nav-->
-            <a th:if="${user=='anonymousUser'}" th:href="@{/login}" class="btn btn-outline-success">Login</a>
-            <a th:if="${user=='anonymousUser'}" th:href="@{/register}" class="btn btn-outline-success">Register</a>
-            <a th:unless="${user=='anonymousUser'}" href="/logout" class="btn btn-outline-danger">Log out</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/login}" class="btn btn-outline-success">[[#{login}]]</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/register}" class="btn btn-outline-success">[[#{register}]]</a>
+            <a th:unless="${user=='anonymousUser'}" href="/logout" class="btn btn-outline-danger">[[#{logout}]]</a>
         </div>
     </div>
     <!--end container-->
@@ -100,8 +100,10 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="home-content-2 home-heading text-start">
-                    <h1 class="fw-bold">[[${pageTitle}]]
-                        <span class="text-primary"> Items</span>
+                    <h1 class="fw-bold" th:if="${pageTitle=='Related'}">[[#{related-items}]]
+                        <span class="text-primary"> [[#{items}]]</span></h1>
+                    <h1 class="fw-bold" th:if="${pageTitle=='All'}">[[#{all-items}]]
+                        <span class="text-primary"> [[#{items}]]</span></h1>
                 </div>
             </div>
         </div>
@@ -111,16 +113,6 @@
                     <div class="item">
                         <div class="card">
                             <div class="header d-flex">
-                                <div class="dropdown menu">
-                                    <i class="mdi mdi-dots-vertical f-20" id="dropdownMenuButton1"
-                                       data-bs-toggle="dropdown"></i>
-
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item" href="home.html#">Action</a></li>
-                                        <li><a class="dropdown-item" href="home.html#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="home.html#">Something else here</a></li>
-                                    </ul>
-                                </div>
                                 <div>
                                     <div class="ms-auto">
                                         <div class="badge rounded-pill" th:text="${item.itemCollectionTitle}"></div>
@@ -169,7 +161,7 @@
         <li class="nav-item disabled" th:if="${currentPage>1}">
             <a class="nav-link"
                th:href="@{'/item/all?page='+${currentPage - 1}}" tabindex="-1" aria-disabled="true">
-                Previous
+                [[#{previous}]]
             </a>
         </li>
         <li th:if="${totalPages>1}" class="nav-item" th:each="i: ${#numbers.sequence(1,totalPages)}">
@@ -184,7 +176,7 @@
         <li class="nav-item" th:if="${currentPage<totalPages}">
             <a class="nav-link"
                th:href="@{'/item/all?page='+${currentPage+1}}">
-                Next
+                [[#{next}]]
             </a>
         </li>
     </ul>
@@ -194,7 +186,7 @@
         <li class="nav-item" th:if="${currentPage>1}">
             <a class="nav-link"
                th:href="@{'/item/tag?tagId='+${tagId}+'&page='+${currentPage - 1}}" tabindex="-1" aria-disabled="true">
-                Previous
+                [[#{previous}]]
             </a>
         </li>
         <li th:if="${totalPages>1}" class="nav-item" th:each="i: ${#numbers.sequence(1,totalPages)}">
@@ -209,7 +201,7 @@
         <li class="nav-item" th:if="${currentPage<totalPages}">
             <a class="nav-link"
                th:href="@{'/item/tag?tagId='+${tagId}+'&page='+${currentPage+1}}">
-                Next
+                [[#{next}]]
             </a>
         </li>
     </ul>

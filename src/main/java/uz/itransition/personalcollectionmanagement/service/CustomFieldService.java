@@ -1,12 +1,11 @@
 package uz.itransition.personalcollectionmanagement.service;
 
 import lombok.RequiredArgsConstructor;
-import net.minidev.json.JSONObject;
 import org.springframework.stereotype.Service;
 import uz.itransition.personalcollectionmanagement.entity.Collection;
 import uz.itransition.personalcollectionmanagement.entity.CustomField;
 import uz.itransition.personalcollectionmanagement.payload.CustomFieldDto;
-import uz.itransition.personalcollectionmanagement.projection.CustomFieldProjection;
+import uz.itransition.personalcollectionmanagement.projection.customfield.CustomFieldProjection;
 import uz.itransition.personalcollectionmanagement.repository.CustomFieldRepository;
 
 import java.util.ArrayList;

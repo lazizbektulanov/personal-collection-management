@@ -58,7 +58,7 @@
                     <a href="/home" class="nav-link">Home</a>
                 </li>
                 <li th:unless="${user=='anonymousUser'}" class="nav-item dropdown dropdown-hover">
-                    <a class="nav-link dropdown-toggle" href="home.html" id="homedrop" role="button"
+                    <a class="nav-link dropdown-toggle" href="home-page.html" id="homedrop" role="button"
                        data-bs-toggle="dropdown">
                         Profile
                     </a>
@@ -226,19 +226,6 @@
                                 </thead>
                                 <tbody>
                                 <tr class="rank-profile" th:each="item: ${collectionItems}">
-                                    <!--                                    <th scope="row">-->
-                                    <!--                                        <div class="d-flex align-items-center">-->
-                                    <!--                                            <div class="flex-shrink-0" th:if="${item}">-->
-                                    <!--                                                <div class="avatar position-relative">-->
-                                    <!--                                                    <img src="images/inner-image/ranking/img-1.png" alt=""-->
-                                    <!--                                                         class=" avatar-lg rounded"/>-->
-                                    <!--                                                </div>-->
-                                    <!--                                            </div>-->
-                                    <!--                                            <div class="flex-grow-1 ms-3">-->
-                                    <!--                                                <p class="mb-0 fw-bold">[[${item.name}]]</p>-->
-                                    <!--                                            </div>-->
-                                    <!--                                        </div>-->
-                                    <!--                                    </th>-->
                                     <td>[[${item.name}]]</td>
                                     <td>[[${item.createdAt}]]</td>
                                     <td th:each="field : ${item.customFieldValues}">
@@ -268,7 +255,7 @@
                                                         Edit
                                                     </a>
                                                 </li>
-                                                <li><a class="dropdown-item" href="home.html#">Delete</a></li>
+                                                <li><a class="dropdown-item" href="home-page.html#">Delete</a></li>
                                             </ul>
                                         </div>
                                     </td>

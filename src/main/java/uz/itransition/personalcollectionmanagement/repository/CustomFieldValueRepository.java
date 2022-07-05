@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import uz.itransition.personalcollectionmanagement.entity.CustomFieldValue;
-import uz.itransition.personalcollectionmanagement.projection.CustomFieldValueProjection;
+import uz.itransition.personalcollectionmanagement.projection.customfield.CustomFieldValueProjection;
 
 import java.util.List;
 import java.util.UUID;

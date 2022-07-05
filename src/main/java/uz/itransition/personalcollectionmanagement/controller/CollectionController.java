@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uz.itransition.personalcollectionmanagement.entity.CustomField;
 import uz.itransition.personalcollectionmanagement.payload.CollectionDto;
-import uz.itransition.personalcollectionmanagement.projection.CustomFieldProjection;
+import uz.itransition.personalcollectionmanagement.projection.customfield.CustomFieldProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionByIdProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionItemsProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionProjection;
