@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Service;
 import uz.itransition.personalcollectionmanagement.entity.Role;
 import uz.itransition.personalcollectionmanagement.entity.User;
@@ -87,6 +88,18 @@ public class UserService {
             if (principal instanceof User) {
                 final User loggedUser = (User) principal;
                 if (user.getUsername().equals(loggedUser.getUsername())) {
+                    List<SessionInformation> sessionsInfo =
+                            sessionRegistry.getAllSessions(principal, false);
+                    for (SessionInformation sessionInformation : sessionsInfo) {
+                        sessionRegistry.getSessionInformation(
+                                sessionInformation.getSessionId()
+                        ).expireNow();
+                    }
+                }
+            }
+            if (principal instanceof DefaultOidcUser) {
+                final DefaultOidcUser loggedUser = (DefaultOidcUser) principal;
+                if (user.getUsername().equals(loggedUser.getEmail())) {
                     List<SessionInformation> sessionsInfo =
                             sessionRegistry.getAllSessions(principal, false);
                     for (SessionInformation sessionInformation : sessionsInfo) {
