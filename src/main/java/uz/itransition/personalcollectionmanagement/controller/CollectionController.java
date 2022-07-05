@@ -10,12 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uz.itransition.personalcollectionmanagement.entity.CustomField;
 import uz.itransition.personalcollectionmanagement.payload.CollectionDto;
-import uz.itransition.personalcollectionmanagement.projection.CommentProjection;
 import uz.itransition.personalcollectionmanagement.projection.CustomFieldProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionByIdProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionItemsProjection;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionProjection;
-import uz.itransition.personalcollectionmanagement.projection.response.Response;
 import uz.itransition.personalcollectionmanagement.service.CollectionService;
 import uz.itransition.personalcollectionmanagement.service.CustomFieldService;
 import uz.itransition.personalcollectionmanagement.service.CustomFieldValueService;
@@ -72,13 +70,6 @@ public class CollectionController {
         return "create-collection";
     }
 
-    @PostMapping("/save")
-    public String createCollection(@RequestPart("collectionDto") CollectionDto collectionDto,
-                                   @RequestPart(value = "image", required = false) MultipartFile collectionImage) throws IOException {
-        collectionService.saveCollection(collectionDto, collectionImage);
-        return "redirect:/user/my-collections";
-    }
-
     @GetMapping("/edit")
     public String getEditCollectionPage(@RequestParam("collectionId") UUID collectionId,
                                         Model model) {
@@ -91,6 +82,13 @@ public class CollectionController {
         model.addAttribute("collectionCustomFields", collectionCustomFields);
         model.addAttribute("collectionTopics", collectionService.getCollectionTopics());
         return "edit-collection";
+    }
+
+    @PostMapping("/save")
+    public String createCollection(@RequestPart("collectionDto") CollectionDto collectionDto,
+                                   @RequestPart(value = "image", required = false) MultipartFile collectionImage) throws IOException {
+        collectionService.saveCollection(collectionDto, collectionImage);
+        return "redirect:/user/my-collections";
     }
 
     @GetMapping("/all")
@@ -110,7 +108,7 @@ public class CollectionController {
     @GetMapping("/delete")
     public String deleteCollection(@RequestParam("collectionId") UUID collectionId,
                                    RedirectAttributes redirectAttributes) {
-        if (!collectionService.isCollectionOwner(collectionId)) return "redirect:/auth/login";
+        if (!collectionService.isCollectionOwner(collectionId)) return "redirect:/login";
         collectionService.deleteCollection(collectionId);
         return "redirect:/user/my-collections";
     }

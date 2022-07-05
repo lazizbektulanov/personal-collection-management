@@ -20,6 +20,7 @@ window.addEventListener("scroll", (ev) => {
 //
 /********************* light-dark js ************************/
 //
+
 if (localStorage.getItem('theme') === null) {
     localStorage.setItem('theme', "light")
 }
@@ -35,9 +36,7 @@ btn.addEventListener("click", (e) => {
     }
 });
 
-// checkStatus()
-//
-// function checkStatus(){
+
 if (localStorage.getItem('theme') === "dark") {
     document.body.setAttribute("data-layout-mode", "dark");
 } else {
@@ -45,6 +44,9 @@ if (localStorage.getItem('theme') === "dark") {
     // }
 }
 
+// checkStatus()
+//
+// function checkStatus(){
 //
 /********************* Swicher js ************************/
 //
@@ -299,8 +301,8 @@ function checkUserAuth(user) {
                         aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <a href="/auth/login" class="btn btn-primary">Login</a>
-                <a href="/auth/register" class="btn btn-outline-primary">Register</a>
+                <a href="/login" class="btn btn-primary">Login</a>
+                <a href="/register" class="btn btn-outline-primary">Register</a>
             </div>
         </div>
     </div>
@@ -313,7 +315,28 @@ function checkUserAuth(user) {
     if (user === 'anonymousUser') {
         console.log("Login first...")
         myModal.show()
-    }
+        }
 }
+
+// function changeLocale() {
+//     let locale = document.querySelector('#locales')
+//     locale.setAttribute("Onchange", function () {
+//         var selectedOption = document.querySelector('#locales').value;
+//         if (selectedOption != '') {
+//             window.location.replace('international?lang=' + selectedOption);
+//         }
+//     });
+// }
+
+// $(document).ready(
+//     function() {
+//     $("#locales").change(function () {
+//         var selectedOption = $('#locales').val();
+//         if (selectedOption != ''){
+//             window.location.replace('international?lang=' + selectedOption);
+//         }
+//     });
+// });
+
 
 

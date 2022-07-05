@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Artlink - NFT Marketplace Template</title>
+    <title>Item</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content=" "/>
     <meta name="keywords" content=""/>
@@ -18,14 +18,14 @@
     <link rel="stylesheet" href="/css/materialdesignicons.min.css" type="text/css"/>
 
     <!-- Unicon Css -->
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0css/line.css"/>
 
     <!-- Swiper Css -->
     <link rel="stylesheet" href="/css/tiny-slider.css" type="text/css"/>
-    <link rel="stylesheet" href="/css/swiper.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/swiper.min.css"/>
 
     <!-- Custom Css -->
-    <link rel="stylesheet" href="/css/style.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/style.min.css"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"
@@ -76,7 +76,7 @@
                 </li>
             </ul>
             <!--end navbar-nav-->
-            <a th:if="${user=='anonymousUser'}" href="/auth/login" class="btn btn-outline-success">Login</a>
+            <a th:if="${user=='anonymousUser'}" href="/login" class="btn btn-outline-success">Login</a>
             <a th:if="${user=='anonymousUser'}" href="/register" class="btn btn-outline-success">Register</a>
             <a th:unless="${user=='anonymousUser'}" href="/logout" class="btn btn-outline-danger">Log out</a>
         </div>
@@ -96,9 +96,9 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb default mb-0">
                         <li class="breadcrumb-item">
-                            <a href="index.html" class="text-muted">Home</a>
+                            <a th:href="@{/home}" class="text-muted">Home</a>
                         </li>
-                        <li class="breadcrumb-item active text-primary" aria-current="page">Forum</li>
+                        <li class="breadcrumb-item active text-primary" aria-current="page">Item</li>
                     </ol>
                 </nav>
             </div>
@@ -108,9 +108,8 @@
             <div class="col-lg-8">
                 <div class="inner-heading text-center">
                     <div class="mt-4">
-                        <h1 class="fw-bold">Forum</h1>
-                        <P class="text-muted">Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                            accusantium <br> doloremque laudantium, totam rem aperiam.</P>
+                        <h1 class="fw-bold">Item page</h1>
+                        <P class="text-muted"></P>
                     </div>
                 </div>
 
@@ -123,27 +122,68 @@
         </div>
 
         <div class="row mt-5">
-            <div class="col-lg-8 order-2 order-lg-1">
+            <div class="col-lg-8 order-2 order-lg-1 m0a">
                 <div class="forum-item">
                     <div class="forum-box">
                         <div class="d-flex align-items-center justify-content-start">
                             <div class="avatar forum-profile">
-                                <img src="../images/inner-image/user/img-1.jpg" alt=""
+                                <img th:src="${item.authorProfileImgUrl}" alt=""
                                      class="img-fluid rounded-circle avatar-md">
                             </div>
 
                             <!--                            <div class="forum-profile-deatails">-->
-                            <!--                                <h6 class="mb-0 ms-2 fw-bold">[[${item.authorName}]] </h6>-->
+                            <!--                                <h6 class="mb-0 ms-2 fw-bold">admin </h6>-->
                             <!--                            </div>-->
                         </div>
+                        <style type="text/css">
+                            .customFields {
+                                margin: 20px 0px;
+                            }
 
+                            .customFieldsMain {
+                                display: flex;
+                                width: 100%;
+                                justify-content: space-between;
+                                margin: 5px 0px;
+                                padding: 5px 0px;
+                                /*border-bottom: 1px solid silver;*/
+                            }
+
+                            .fieldKey {
+                                font-size: 18px;
+                                font-weight: 600;
+                            }
+
+                            .fieldValue {
+                                max-width: 50%;
+                            }
+
+                            .forCheckBox {
+                                font-size: 30px;
+                            }
+
+                            .m0a {
+                                margin: 0 auto;
+                                width: 90%;
+                            }
+                        </style>
                         <div class="forum-details mt-4">
                             <h4 class="fw-bold">[[${item.itemName}]]</h4>
+                            <div class="customFields" th:each="customField: ${itemCustomFields}">
+                                <div class="customFieldsMain">
+                                    <div class="fieldKey">
+                                        [[${customField.fieldName}]]
+                                    </div>
+                                    <div class="fieldValue" th:if="${customField.fieldType=='checkbox'}">
+                                        [[${customField.fieldValue}]]
+                                    </div>
+                                </div>
+                            </div>
                             <input type="hidden" th:value="${item.id}" id="itemId">
                             <!--                            <div th:each="tag: ${item.tagsByItemId}">-->
-                            <a th:each="tag: ${item.tagsByItemId}" th:href="@{'/item/tag?tagId='+${tag.tagId}}"
+                            <a th:each="tag: ${item.tagsByItemId}" th:href="@{'/item/tag?tagId='+${tag.id}}"
                                class="badge rounded-pill shadow-sm border text-blue py-2 px-3 f-14 fw-normal">
-                                #[[${tag.tagName}]]
+                                #[[${tag.name}]]
                             </a>
                             <!--                            </div>-->
                             <hr class="my-4">
@@ -167,8 +207,8 @@
                     <div class="forum-form mt-4">
                         <div class="row d-flex align-items-center justify-content-start">
                             <div class="col-sm-2 col-3">
-                                <div class="avatar forum-profile">
-                                    <img src="../images/inner-image/user/img-2.jpg" alt=""
+                                <div class="avatar forum-profile" th:unless="${user=='anonymousUser'}">
+                                    <img th:src="${user.profileImgUrl}" alt=""
                                          class="img-fluid rounded-circle avatar-md">
                                 </div>
                             </div>
@@ -187,55 +227,14 @@
                         <div class="col-12">
                             <div class="my-5">
                                 <h6 class="text-success fw-bold"><i
-                                        class="mdi mdi-message-text-outline f-20 align-middle me-2"></i>Comments:</h6>
+                                        class="mdi mdi-message-text-outline f-20 align-middle me-2"></i>Comments:
+                                </h6>
                             </div>
                         </div>
                     </div>
-
-
                     <div class="answer-process-details">
                         <div id="comments">
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 order-1 order-lg-2">
-                <div class="forum-side-box mb-5 mb-lg-0">
-                    <div class="items">
-                        <h6 class="fw-bold mb-3">Categories</h6>
-                        <div class="categorie-box">
-                            <div class="d-flex align-items-center">
-                                <h6 class="fw-semibold mb-0">General</h6>
-                                <div class="ms-auto">
-                                        <span
-                                                class="badge rounded-pill shadow-sm text-dark py-2 px-3 f-18 fw-normal">425</span>
-                                </div>
-                            </div>
-                            <hr class="my-2">
-                            <div class="d-flex align-items-center">
-                                <h6 class="fw-semibold mb-0">NFT Update</h6>
-                                <div class="ms-auto">
-                                        <span
-                                                class="badge rounded-pill shadow-sm text-dark py-2 px-3 f-18 fw-normal">425</span>
-                                </div>
-                            </div>
-                            <hr class="my-2">
-                            <div class="d-flex align-items-center">
-                                <h6 class="fw-semibold mb-0">Marketplace</h6>
-                                <div class="ms-auto">
-                                        <span
-                                                class="badge rounded-pill shadow-sm text-dark py-2 px-3 f-18 fw-normal">425</span>
-                                </div>
-                            </div>
-                            <hr class="my-2">
-                            <div class="d-flex align-items-center">
-                                <h6 class="fw-semibold mb-0">Platform Update</h6>
-                                <div class="ms-auto">
-                                        <span
-                                                class="badge rounded-pill shadow-sm text-dark py-2 px-3 f-18 fw-normal">425</span>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -251,8 +250,6 @@
 <script>
     let itemId = document.querySelector('#itemId').value
     connectToWebSocket(itemId)
-
-
 </script>
 <!--Bootstrap Js-->
 <script src="/js/bootstrap.bundle.min.js"></script>
@@ -264,11 +261,11 @@
 <script src="/js/counter.init.js"></script>
 
 <!--&lt;!&ndash; App Js &ndash;&gt;-->
-<!--<script src="../js/app.js"></script>-->
+<!--<script src="..js/app.js"></script>-->
 
 <!--<script th:inline="javascript">-->
 <!--    function handleOnFocus() {-->
-<!--        checkUserAuth([[${user}]])-->
+<!--        checkUserAuth(User(fullName=admin, email=admin@gmail.com, password=$2a$10$eWEolULcGvSd9i4cMAU6qe.dhRApwyvs0b3m2r3z5bAHEHJ3BgeYe, isActive=true, bio=This is admin&#39;s bio, profileImgUrl=https://phantom-marca.unidadeditorial.es/394defd78b6b89197e24ded2918f99ec/resize/1320/f/jpg/assets/multimedia/imagenes/2022/05/17/16528247679627.jpg, lastLoginTime=2022-07-03 22:07:13.521, role=Role(roleName=ROLE_ADMIN)))-->
 <!--    }-->
 <!--</script>-->
 </body>

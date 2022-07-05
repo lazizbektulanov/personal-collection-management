@@ -8,7 +8,7 @@ import java.util.UUID;
 @Projection(types = Tag.class)
 public interface TagProjection {
 
-    UUID getTagId();
-    String getTagName();
+    UUID getId();
+    String getName();
 
 }

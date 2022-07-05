@@ -9,5 +9,7 @@ import java.util.UUID;
 public interface CustomFieldValueProjection {
 
     UUID getId();
+    String getFieldName();
+    String getFieldType();
     String getFieldValue();
 }

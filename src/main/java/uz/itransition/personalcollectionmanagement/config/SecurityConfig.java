@@ -4,7 +4,6 @@ package uz.itransition.personalcollectionmanagement.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,12 +11,13 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
+import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import uz.itransition.personalcollectionmanagement.service.AuthService;
 
 @Configuration
@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/css/**", "/images/**", "/js/**", "/fonts/**", "/webjars/**")
                 .permitAll()
-                .antMatchers("/auth/**", "/home", "/comment/**")
+                .antMatchers("/login", "/register", "/home", "/comment/**")
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/item", "/item/tag", "/collection/id/**", "/item/all", "/collection/all")
                 .permitAll()
@@ -68,15 +68,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
+                //================================
+                .oauth2Login()
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorization")
+                .authorizationRequestRepository(authorizationRequestRepository())
+                .and()
+                .loginPage("/login")
+                .defaultSuccessUrl("/oauth2/success")
+                .failureUrl("/home")
+                //================================
+                .and()
                 .formLogin()
-                .loginPage("/auth/login").usernameParameter("email")
+                .loginPage("/login").usernameParameter("email")
                 .defaultSuccessUrl("/home", true)
                 .permitAll();
         http
                 .sessionManagement()
                 .maximumSessions(2)
                 .sessionRegistry(sessionRegistry())
-                .expiredUrl("/auth/login");
+                .expiredUrl("/login");
     }
+
+
+    //================================
+    @Bean
+    public AuthorizationRequestRepository<OAuth2AuthorizationRequest>
+    authorizationRequestRepository() {
+
+        return new HttpSessionOAuth2AuthorizationRequestRepository();
+    }
+    //================================
 }
 

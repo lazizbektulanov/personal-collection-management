@@ -5,16 +5,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import uz.itransition.personalcollectionmanagement.entity.CustomField;
 import uz.itransition.personalcollectionmanagement.entity.Tag;
+import uz.itransition.personalcollectionmanagement.projection.CustomFieldValueProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemByIdProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemProjection;
+import uz.itransition.personalcollectionmanagement.service.CustomFieldValueService;
 import uz.itransition.personalcollectionmanagement.service.ItemService;
+import uz.itransition.personalcollectionmanagement.service.TagService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,16 +31,25 @@ public class ItemController {
 
     private final ItemService itemService;
 
+    private final CustomFieldValueService customFieldValueService;
+
+    private final TagService tagService;
+
     @GetMapping
     public String getItemById(@RequestParam("id") UUID itemId,
                               Model model) {
         ItemByIdProjection itemById = itemService.getItemById(itemId);
+        List<CustomFieldValueProjection> itemCustomFieldValues =
+                customFieldValueService.getItemCustomFieldValues(itemId);
+
         model.addAttribute("item", itemById);
+        model.addAttribute("itemCustomFields", itemCustomFieldValues);
         return "item-by-id";
     }
 
     @GetMapping("/like")
     public String likeItem(@RequestParam("itemId") UUID itemId) {
+//        System.out.println(request.getHeader("Referer"));
         itemService.likeItem(itemId);
         return "redirect:/home";
     }
@@ -45,7 +58,8 @@ public class ItemController {
     public String getItemCreatePage(@RequestParam("collectionId") UUID collectionId,
                                     Model model) {
         List<CustomField> itemCustomFields = itemService.getItemCustomFields(collectionId);
-        List<Tag> itemTags = itemService.getItemTags();
+        List<Tag> itemTags = itemService.getAllTags();
+
         model.addAttribute("itemCustomFields", itemCustomFields);
         model.addAttribute("itemTags", itemTags);
         model.addAttribute("collectionId", collectionId);
@@ -54,8 +68,32 @@ public class ItemController {
 
     @PostMapping("/create")
     public String createItem(@RequestParam("collectionId") UUID collectionId,
-                             HttpServletRequest request) throws ServletException, IOException {
+                             HttpServletRequest request) {
         itemService.createItem(request, collectionId);
+        return "redirect:/collection/id/" + collectionId;
+    }
+
+    @GetMapping("/edit")
+    public String getEditItemPage(@RequestParam("itemId") UUID itemId,
+                                  Model model) {
+        ItemByIdProjection item = itemService.getEditingItem(itemId);
+        List<String> selectedItemTags =
+                tagService.getSelectedItemTags(item.getTagsByItemId());
+        List<CustomFieldValueProjection> itemCustomFieldValues =
+                customFieldValueService.getItemCustomFieldValues(itemId);
+        List<Tag> allTags = itemService.getAllTags();
+
+        model.addAttribute("item", item);
+        model.addAttribute("itemFields", itemCustomFieldValues);
+        model.addAttribute("allTags", allTags);
+        model.addAttribute("selectedItemTags", selectedItemTags);
+        return "edit-item-page";
+    }
+
+    @PostMapping("/edit")
+    public String editItem(@RequestParam("collectionId") UUID collectionId,
+                           HttpServletRequest req) {
+        itemService.editItem(req);
         return "redirect:/collection/id/" + collectionId;
     }
 
@@ -67,10 +105,7 @@ public class ItemController {
         model.addAttribute("items", itemByTag);
         model.addAttribute("tagId", tagId);
 
-        //this model will define all item page title
-        //relatedItems=true ==> for search and get items by tag
-        //relatedItems=false ==> view all items
-        model.addAttribute("itemByTagPage", true);
+        model.addAttribute("pageTitle", "Related");
 
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", itemByTag.getTotalPages());
@@ -85,6 +120,7 @@ public class ItemController {
         model.addAttribute("items", allItems);
         model.addAttribute("allItemPage", true);
 
+        model.addAttribute("pageTitle", "All");
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", allItems.getTotalPages());
         return "view-all-item-page";
