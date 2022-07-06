@@ -58,7 +58,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mx-auto navbar-center">
                 <li class="nav-item">
-                    <a href="/home" class="nav-link">[[#{home}]]</a>
+                    <a th:href="@{/home}" class="nav-link">[[#{home}]]</a>
                 </li>
 
                 <li th:unless="${user=='anonymousUser'}" class="nav-item dropdown dropdown-hover">
@@ -85,8 +85,9 @@
             <label for="locales" th:text="#{lang-change}"></label>
             <select id="locales">
                 <option value=""></option>
-                <option value="en"
-                        th:text="#{lang-eng}"></option>
+                <option value="en" class="flag-icon flag-icon-us"
+                        th:text="#{lang-eng}">
+                </option>
                 <option value="uz"
                         th:text="#{lang-uz}"></option>
             </select>
@@ -111,7 +112,7 @@
                         <div class="mb-3 row">
                             <div class="col-sm-10">
                                 <input type="text" class="form-control position-relative" id="inputPassword"
-                                       placeholder="Search here...">
+                                       th:placeholder="#{search}">
                                 <div class="search-icon">
                                     <i class="mdi mdi-magnify f-22"></i>
                                 </div>

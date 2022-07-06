@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Artlink - NFT Marketplace Template</title>
+    <title>[[#{collection-details}]]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content=" "/>
     <meta name="keywords" content=""/>
@@ -42,7 +42,7 @@
 <!--Navbar Start-->
 <nav class="navbar navbar-expand-lg fixed-top sticky" id="navbar">
     <div class="container-fluid custom-container">
-        <a class="navbar-brand logo f-30 text-dark fw-bold" href="index.html">
+        <a class="navbar-brand logo f-30 text-dark fw-bold" th:href="@{/home}">
             <img src="../images/logo-dark.png" class="logo-dark" alt="" height="40">
             <img src="../images/logo-light.png" class="logo-light" alt="" height="40">
         </a>
@@ -55,25 +55,33 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mx-auto navbar-center">
                 <li class="nav-item">
-                    <a href="/home" class="nav-link">Home</a>
+                    <a th:href="@{/home}" class="nav-link">[[#{home}]]</a>
                 </li>
                 <li th:unless="${user=='anonymousUser'}" class="nav-item dropdown dropdown-hover">
                     <a class="nav-link dropdown-toggle" href="home-page.html" id="homedrop" role="button"
                        data-bs-toggle="dropdown">
-                        Profile
+                        [[#{profile}]]
                     </a>
                     <ul class="dropdown-menu dropdown-menu-center" aria-labelledby="homedrop">
                         <li><a class="dropdown-item" th:href="@{/user/my-collections}"><i
-                                class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>Profile</a></li>
-                        <li><a class="dropdown-item" href="edit-profile.html"><i
-                                class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
+                                class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>[[#{profile}]]</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/edit-profile}"><i
+                                class="mdi mdi-account-edit f-20 me-2 align-middle"></i>[[#{edit-profile}]]</a></li>
                     </ul>
+                </li>
+                <li class="nav-item"
+                    th:if="${user!='anonymousUser'} and ${#strings.equals(user.role.roleName,'ROLE_ADMIN')} ">
+                    <a th:href="@{/user/management}" class="nav-link">
+                        [[#{user-management}]]
+                    </a>
                 </li>
             </ul>
             <!--end navbar-nav-->
-            <a th:if="${user=='anonymousUser'}" th:href="@{/login}" class="btn btn-outline-success">Login</a>
-            <a th:if="${user=='anonymousUser'}" th:href="@{/register}" class="btn btn-outline-success">Register</a>
-            <a th:unless="${user=='anonymousUser'}" href="/logout" class="btn btn-outline-danger">Log out</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/login}" class="btn btn-outline-success">[[#{login}]]</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/register}"
+               class="btn btn-outline-success">[[#{register}]]</a>
+            <a th:unless="${user=='anonymousUser'}" th:href="@{/logout}"
+               class="btn btn-outline-danger">[[#{logout}]]</a>
 
         </div>
 
@@ -92,9 +100,10 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb default mb-0">
                         <li class="breadcrumb-item">
-                            <a href="index.html" class="text-muted">Home</a>
+                            <a th:href="@{/home}" class="text-muted">[[#{home}]]</a>
                         </li>
-                        <li class="breadcrumb-item active text-primary" aria-current="page">Collection Details</li>
+                        <li class="breadcrumb-item active text-primary" aria-current="page">[[#{collection-details}]]
+                        </li>
                     </ol>
                 </nav>
             </div>
@@ -104,7 +113,7 @@
             <div class="col-lg-8">
                 <div class="inner-heading text-center">
                     <div class="mt-4">
-                        <h1 class="fw-bold">Collection Details</h1>
+                        <h1 class="fw-bold">[[#{collection-details}]]</h1>
                         <P class="text-muted"></P>
                     </div>
                 </div>
@@ -127,25 +136,25 @@
             <div class="col-lg-6">
                 <div class="backhome-content mt-4 mt-lg-0">
                     <h2 class="fw-bold">[[${collection.title}]]</h2>
-                    <div class="d-flex mt-3 align-items-center">
-                        <div class="icon d-flex ms-auto">
-                            <div class="menu ms-3">
-                                <!--                                <div class="dropdown">-->
-                                <!--                                    <a href="item-details.html" id="dropdownMenuButton1" data-bs-toggle="dropdown"-->
-                                <!--                                       aria-expanded="false"><i class="mdi mdi-dots-vertical">-->
-                                <!--                                    </i></a>-->
-                                <!--                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">-->
-                                <!--                                        <li><a class="dropdown-item" href="item-details.html#">Action</a></li>-->
-                                <!--                                        <li><a class="dropdown-item" href="item-details.html#">Another action</a></li>-->
-                                <!--                                        <li><a class="dropdown-item" href="item-details.html#">Something else here</a>-->
-                                <!--                                        </li>-->
-                                <!--                                    </ul>-->
-                                <!--                                </div>-->
-                            </div>
-                        </div>
-                    </div>
+                    <!--                    <div class="d-flex mt-3 align-items-center">-->
+                    <!--                        <div class="icon d-flex ms-auto">-->
+                    <!--                            <div class="menu ms-3">-->
+                    <!--                                <div class="dropdown">-->
+                    <!--                                    <a href="item-details.html" id="dropdownMenuButton1" data-bs-toggle="dropdown"-->
+                    <!--                                       aria-expanded="false"><i class="mdi mdi-dots-vertical">-->
+                    <!--                                    </i></a>-->
+                    <!--                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">-->
+                    <!--                                        <li><a class="dropdown-item" href="item-details.html#">Action</a></li>-->
+                    <!--                                        <li><a class="dropdown-item" href="item-details.html#">Another action</a></li>-->
+                    <!--                                        <li><a class="dropdown-item" href="item-details.html#">Something else here</a>-->
+                    <!--                                        </li>-->
+                    <!--                                    </ul>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                     <div class="collection-detail">
-                        <h6 class="fw-bold">Topic:</h6>
+                        <h6 class="fw-bold">[[#{topic}]]:</h6>
                         <p class="text-muted f-16">[[${collection.topicName}]]</p>
                     </div>
 
@@ -157,28 +166,28 @@
                                         aria-selected="true">Description
                                 </button>
                             </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
-                                        data-bs-target="#pills-profile" type="button" role="tab"
-                                        aria-controls="pills-profile" aria-selected="false">Tags
-                                </button>
-                            </li>
+                            <!--                            <li class="nav-item" role="presentation">-->
+                            <!--                                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"-->
+                            <!--                                        data-bs-target="#pills-profile" type="button" role="tab"-->
+                            <!--                                        aria-controls="pills-profile" aria-selected="false">Tags-->
+                            <!--                                </button>-->
+                            <!--                            </li>-->
                         </ul>
                         <div class="tab-content mt-4 ps-3" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                                  aria-labelledby="pills-home-tab">
                                 <p class="text-muted">[[${collection.description}]]</p>
                             </div>
-                            <div class="tab-pane fade" id="pills-profile" role="tabpanel"
-                                 aria-labelledby="pills-profile-tab">
-                                <p class="text-muted"> Tags maybe </p>
-                            </div>
+                            <!--                            <div class="tab-pane fade" id="pills-profile" role="tabpanel"-->
+                            <!--                                 aria-labelledby="pills-profile-tab">-->
+                            <!--                                <p class="text-muted"> Tags maybe </p>-->
+                            <!--                            </div>-->
                         </div>
                     </div>
                     <hr class="my-4">
                     <div class="row ">
                         <div class="col-lg-6">
-                            <h6 class="fw-bold mb-1">Creation date</h6>
+                            <h6 class="fw-bold mb-1">[[#{creation-date}]]</h6>
                             <p class="fw-semibold">[[${collection.createdAt}]]</p>
                         </div>
                     </div>
@@ -198,8 +207,8 @@
                         <div class="col-lg-6" th:if="${isCollectionOwner}">
                             <div class="d-flex align-items-lg-center justify-content-end">
                                 <div class="button ms-3">
-                                    <a th:href="@{'/item/create?collectionId='+${collection.id}}" class="btn btn-dark">Create
-                                        item</a>
+                                    <a th:href="@{'/item/create?collectionId='+${collection.id}}" class="btn btn-dark">[[#{create-item}]]
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -209,19 +218,19 @@
                                 <tr class="table-title">
                                     <th scope="col">
                                         <a th:href="@{'/collection/id/' + ${collection.id} + '?sortBy=name&sortDir=' + ${sortDirection}}">
-                                            Item name
+                                            [[#{item}]]
                                         </a>
                                     </th>
                                     <th scope="col">
                                         <a th:href="@{'/collection/id/'+${collection.id} + '?sortBy=created_at&sortDir='+${sortDirection}}">
-                                            Creation date
+                                            [[#{creation-date}]]
                                         </a>
                                     </th>
                                     <th scope="col" th:each="field : ${customFields}">
                                         [[${field.fieldName}]]
                                     </th>
-                                    <th scope="col">Reactions</th>
-                                    <th th:if="${isCollectionOwner}" scope="col">Action</th>
+                                    <th scope="col">[[#{reactions}]]</th>
+                                    <th th:if="${isCollectionOwner}" scope="col">[[#{action}]]</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -252,10 +261,11 @@
                                                 <li>
                                                     <a class="dropdown-item"
                                                        th:href="@{'/item/edit?itemId='+${item.id}}">
-                                                        Edit
+                                                        [[#{edit}]]
                                                     </a>
                                                 </li>
-                                                <li><a class="dropdown-item" href="home-page.html#">Delete</a></li>
+                                                <li><a class="dropdown-item" href="home-page.html#">[[#{delete}]]</a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </td>
@@ -270,7 +280,7 @@
                                        th:href="@{'/collection/id/'+${collectionId}+
                                        '?page='+ ${currentPage - 1} +'&SortBy='+${sortBy}+
                                        '&sortDir='+${sortDirection}}">
-                                        Previous
+                                        [[#{previous}]]
                                     </a>
                                 </li>
                                 <li class="nav-item" th:each="i: ${#numbers.sequence(1,totalPages)}">
@@ -289,7 +299,7 @@
                                        th:href="@{'/collection/id/'+${collectionId}+
                                        '?page='+ ${currentPage + 1} +'&SortBy='+${sortBy}+
                                        '&sortDir='+${sortDirection}}">
-                                        Next
+                                        [[#{next}]]
                                     </a>
                                 </li>
                             </ul>

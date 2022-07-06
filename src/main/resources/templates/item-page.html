@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8"/>
-    <title>Item</title>
+    <title>[[#{item-details}]]</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content=" "/>
     <meta name="keywords" content=""/>
@@ -32,6 +32,39 @@
             integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <style type="text/css">
+        .customFields {
+            margin: 20px 0px;
+        }
+
+        .customFieldsMain {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            margin: 5px 0px;
+            padding: 5px 0px;
+            /*border-bottom: 1px solid silver;*/
+        }
+
+        .fieldKey {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .fieldValue {
+            max-width: 50%;
+        }
+
+        .forCheckBox {
+            font-size: 30px;
+        }
+
+        .m0a {
+            margin: 0 auto;
+            width: 90%;
+        }
+    </style>
+
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#navbar-navlist" data-bs-offset="71"
@@ -47,7 +80,7 @@
 <!--Navbar Start-->
 <nav class="navbar navbar-expand-lg fixed-top sticky" id="navbar">
     <div class="container-fluid custom-container">
-        <a class="navbar-brand logo f-30 text-dark fw-bold" href="index.html">
+        <a class="navbar-brand logo f-30 text-dark fw-bold" th:href="@{/home}">
             <img src="../images/logo-dark.png" class="logo-dark" alt="" height="40">
             <img src="../images/logo-light.png" class="logo-light" alt="" height="40">
         </a>
@@ -60,25 +93,33 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mx-auto navbar-center">
                 <li class="nav-item">
-                    <a href="/home" class="nav-link">Home</a>
+                    <a th:href="@{/home}" class="nav-link">[[#{home}]]</a>
                 </li>
                 <li class="nav-item dropdown dropdown-hover" th:unless="${user=='anonymousUser'}">
                     <a class="nav-link dropdown-toggle" id="homedrop" role="button"
                        data-bs-toggle="dropdown">
-                        Profile
+                        [[#{profile}]]
                     </a>
                     <ul class="dropdown-menu dropdown-menu-center" aria-labelledby="homedrop">
                         <li><a class="dropdown-item" th:href="@{/user/my-collections}"><i
-                                class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>Profile</a></li>
-                        <li><a class="dropdown-item" href="edit-profile.html"><i
-                                class="mdi mdi-account-edit f-20 me-2 align-middle"></i>Edit profile</a></li>
+                                class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>[[#{profile}]]</a></li>
+                        <li><a class="dropdown-item" th:href="@{/user/edit-profile}"><i
+                                class="mdi mdi-account-edit f-20 me-2 align-middle"></i>[[#{edit-profile}]]</a></li>
                     </ul>
+                </li>
+                <li class="nav-item"
+                    th:if="${user!='anonymousUser'} and ${#strings.equals(user.role.roleName,'ROLE_ADMIN')} ">
+                    <a th:href="@{/user/management}" class="nav-link">
+                        [[#{user-management}]]
+                    </a>
                 </li>
             </ul>
             <!--end navbar-nav-->
-            <a th:if="${user=='anonymousUser'}" href="/login" class="btn btn-outline-success">Login</a>
-            <a th:if="${user=='anonymousUser'}" href="/register" class="btn btn-outline-success">Register</a>
-            <a th:unless="${user=='anonymousUser'}" href="/logout" class="btn btn-outline-danger">Log out</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/login}" class="btn btn-outline-success">[[#{login}]]</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/register}"
+               class="btn btn-outline-success">[[#{register}]]</a>
+            <a th:unless="${user=='anonymousUser'}" th:href="@{/logout}"
+               class="btn btn-outline-danger">[[#{logout}]]</a>
         </div>
 
     </div>
@@ -96,9 +137,9 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb default mb-0">
                         <li class="breadcrumb-item">
-                            <a th:href="@{/home}" class="text-muted">Home</a>
+                            <a th:href="@{/home}" class="text-muted">[[#{home}]]</a>
                         </li>
-                        <li class="breadcrumb-item active text-primary" aria-current="page">Item</li>
+                        <li class="breadcrumb-item active text-primary" aria-current="page">[[#{item-details}]]</li>
                     </ol>
                 </nav>
             </div>
@@ -108,7 +149,7 @@
             <div class="col-lg-8">
                 <div class="inner-heading text-center">
                     <div class="mt-4">
-                        <h1 class="fw-bold">Item page</h1>
+                        <h1 class="fw-bold">[[#{item-details}]]</h1>
                         <P class="text-muted"></P>
                     </div>
                 </div>
@@ -135,38 +176,6 @@
                             <!--                                <h6 class="mb-0 ms-2 fw-bold">admin </h6>-->
                             <!--                            </div>-->
                         </div>
-                        <style type="text/css">
-                            .customFields {
-                                margin: 20px 0px;
-                            }
-
-                            .customFieldsMain {
-                                display: flex;
-                                width: 100%;
-                                justify-content: space-between;
-                                margin: 5px 0px;
-                                padding: 5px 0px;
-                                /*border-bottom: 1px solid silver;*/
-                            }
-
-                            .fieldKey {
-                                font-size: 18px;
-                                font-weight: 600;
-                            }
-
-                            .fieldValue {
-                                max-width: 50%;
-                            }
-
-                            .forCheckBox {
-                                font-size: 30px;
-                            }
-
-                            .m0a {
-                                margin: 0 auto;
-                                width: 90%;
-                            }
-                        </style>
                         <div class="forum-details mt-4">
                             <h4 class="fw-bold">[[${item.itemName}]]</h4>
                             <div class="customFields" th:each="customField: ${itemCustomFields}">
@@ -197,7 +206,7 @@
                                 <div class="message ms-3">
                                     <h6 class="f-14 fw-semibold"><i
                                             class="mdi mdi-message-outline text-muted f-18 align-middle me-2"></i>[[${item.itemCommentsNumber}]]
-                                        Comments
+                                        [[#{comment}]]
                                     </h6>
                                 </div>
                             </div>
@@ -215,11 +224,11 @@
                             <div class="col-xl-8 col-md-6 col-5 my-2">
                                 <form>
                                     <input type="text" class="form-control" id="commentBody"
-                                           placeholder="Add Your Answer" th:onfocus="checkUserAuth([[${user}]])">
+                                           th:placeholder="#{add-comment}" th:onfocus="checkUserAuth([[${user}]])">
                                 </form>
                             </div>
                             <div class="col-2">
-                                <button class="btn btn-dark" onclick="leaveComment()">Answer</button>
+                                <button class="btn btn-dark" onclick="leaveComment()">[[#{send}]]</button>
                             </div>
                         </div>
                     </div>
@@ -227,7 +236,7 @@
                         <div class="col-12">
                             <div class="my-5">
                                 <h6 class="text-success fw-bold"><i
-                                        class="mdi mdi-message-text-outline f-20 align-middle me-2"></i>Comments:
+                                        class="mdi mdi-message-text-outline f-20 align-middle me-2"></i>[[#{comment}]]:
                                 </h6>
                             </div>
                         </div>
@@ -260,13 +269,5 @@
 <!-- counter -->
 <script src="/js/counter.init.js"></script>
 
-<!--&lt;!&ndash; App Js &ndash;&gt;-->
-<!--<script src="..js/app.js"></script>-->
-
-<!--<script th:inline="javascript">-->
-<!--    function handleOnFocus() {-->
-<!--        checkUserAuth(User(fullName=admin, email=admin@gmail.com, password=$2a$10$eWEolULcGvSd9i4cMAU6qe.dhRApwyvs0b3m2r3z5bAHEHJ3BgeYe, isActive=true, bio=This is admin&#39;s bio, profileImgUrl=https://phantom-marca.unidadeditorial.es/394defd78b6b89197e24ded2918f99ec/resize/1320/f/jpg/assets/multimedia/imagenes/2022/05/17/16528247679627.jpg, lastLoginTime=2022-07-03 22:07:13.521, role=Role(roleName=ROLE_ADMIN)))-->
-<!--    }-->
-<!--</script>-->
 </body>
 </html>
