@@ -23,17 +23,17 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ItemService {
 
+    private final AuthService authService;
+
+    private final CustomFieldService customFieldService;
+
     private final ItemRepository itemRepository;
 
     private final CustomFieldRepository customFieldRepository;
 
     private final TagRepository tagRepository;
 
-    private final AuthService authService;
-
     private final CollectionRepository collectionRepository;
-
-    private final CustomFieldValueService customFieldValueService;
 
     private final LikeRepository likeRepository;
 
@@ -82,7 +82,7 @@ public class ItemService {
                         collectionRepository.getById(collectionId)
                 )
         );
-        customFieldValueService.saveItemCustomFieldValues(request, savedItem);
+        customFieldService.saveItemCustomFieldValues(request, savedItem);
     }
 
     public Page<ItemProjection> getItemsByTag(UUID tagId, Integer page) {
@@ -119,7 +119,6 @@ public class ItemService {
         return itemRepository.getEditingItem(itemId);
     }
 
-
     public void editItem(HttpServletRequest req) {
         Optional<Item> item = itemRepository.findById(UUID.fromString(req.getParameter("itemId")));
         List<Tag> itemTags = getItemTags(req);
@@ -127,7 +126,7 @@ public class ItemService {
             item.get().setName(req.getParameter("itemName"));
             item.get().setTags(itemTags);
             itemRepository.save(item.get());
-            customFieldValueService.editItemCustomFieldValues(req);
+            customFieldService.editItemCustomFieldValues(req);
         }
     }
 }

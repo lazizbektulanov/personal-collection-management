@@ -25,27 +25,6 @@ public class UserController {
 
     private final AuthService authService;
 
-    //================================
-
-//    private final OAuth2AuthorizedClientService authorizedClientService;
-
-//    @GetMapping("/loginSuccess")
-//    public String getLoginInfo(Model model, OAuth2AuthenticationToken authentication) {
-//        OAuth2AuthorizedClient client = authorizedClientService
-//                .loadAuthorizedClient(
-//                        authentication.getAuthorizedClientRegistrationId(),
-//                        authentication.getName());
-//        System.out.println("CLIENT principal name:  " + client.getPrincipalName());
-//        System.out.println("CLIENT registration: " + client.getClientRegistration().toString());
-//        System.out.println("client.getClientRegistration()\n" +
-//                "  .getProviderDetails().getUserInfoEndpoint().getUri() " + client.getClientRegistration()
-//                .getProviderDetails().getUserInfoEndpoint().getUri());
-//        System.out.println("CLIENT: " + client);
-//        return "redirect:/home";
-//    }
-
-    //================================
-
     @GetMapping("/my-collections")
     public String getProfilePage(Model model) {
         ProfileProjection userProfile = userService.getUserProfile();

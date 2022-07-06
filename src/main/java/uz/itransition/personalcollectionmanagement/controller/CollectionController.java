@@ -16,7 +16,6 @@ import uz.itransition.personalcollectionmanagement.projection.collection.Collect
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionProjection;
 import uz.itransition.personalcollectionmanagement.service.CollectionService;
 import uz.itransition.personalcollectionmanagement.service.CustomFieldService;
-import uz.itransition.personalcollectionmanagement.service.CustomFieldValueService;
 import uz.itransition.personalcollectionmanagement.service.ItemService;
 
 import java.io.IOException;
@@ -38,7 +37,6 @@ public class CollectionController {
 
     private final CustomFieldService customFieldService;
 
-    private final CustomFieldValueService customFieldValueService;
 
     @GetMapping("/id/{collectionId}")
     public String getCollectionById(Model model,
@@ -60,7 +58,7 @@ public class CollectionController {
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", collectionItems.getTotalPages());
-        return "collection-by-id";
+        return "collection-page";
     }
 
     @GetMapping("/create")

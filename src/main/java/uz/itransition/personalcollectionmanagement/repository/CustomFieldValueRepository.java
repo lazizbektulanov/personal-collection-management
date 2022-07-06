@@ -35,6 +35,5 @@ public interface CustomFieldValueRepository extends JpaRepository<CustomFieldVal
                     "where cfv.item_id=:itemId")
     List<CustomFieldValueProjection> getItemCustomFieldValues(UUID itemId);
 
-
     List<CustomFieldValue> findByItemId(UUID item_id);
 }

@@ -14,7 +14,7 @@ import uz.itransition.personalcollectionmanagement.entity.Tag;
 import uz.itransition.personalcollectionmanagement.projection.customfield.CustomFieldValueProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemByIdProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemProjection;
-import uz.itransition.personalcollectionmanagement.service.CustomFieldValueService;
+import uz.itransition.personalcollectionmanagement.service.CustomFieldService;
 import uz.itransition.personalcollectionmanagement.service.ItemService;
 import uz.itransition.personalcollectionmanagement.service.TagService;
 
@@ -31,20 +31,20 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    private final CustomFieldValueService customFieldValueService;
-
     private final TagService tagService;
+
+    private final CustomFieldService customFieldService;
 
     @GetMapping
     public String getItemById(@RequestParam("id") UUID itemId,
                               Model model) {
         ItemByIdProjection itemById = itemService.getItemById(itemId);
         List<CustomFieldValueProjection> itemCustomFieldValues =
-                customFieldValueService.getItemCustomFieldValues(itemId);
+                customFieldService.getItemCustomFieldValues(itemId);
 
         model.addAttribute("item", itemById);
         model.addAttribute("itemCustomFields", itemCustomFieldValues);
-        return "item-by-id";
+        return "item-page";
     }
 
     @GetMapping("/like")
@@ -63,7 +63,7 @@ public class ItemController {
         model.addAttribute("itemCustomFields", itemCustomFields);
         model.addAttribute("itemTags", itemTags);
         model.addAttribute("collectionId", collectionId);
-        return "create-item";
+        return "create-item-page";
     }
 
     @PostMapping("/create")
@@ -80,7 +80,7 @@ public class ItemController {
         List<String> selectedItemTags =
                 tagService.getSelectedItemTags(item.getTagsByItemId());
         List<CustomFieldValueProjection> itemCustomFieldValues =
-                customFieldValueService.getItemCustomFieldValues(itemId);
+                customFieldService.getItemCustomFieldValues(itemId);
         List<Tag> allTags = itemService.getAllTags();
 
         model.addAttribute("item", item);
