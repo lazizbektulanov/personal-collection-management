@@ -18,6 +18,8 @@ public interface CollectionItemsProjection {
 
     Timestamp getCreatedAt();
 
+    Boolean getIsLiked();
+
     @Value("#{@likeRepository.countAllByItemId(target.id)}")
     Integer getItemLikesNumber();
 

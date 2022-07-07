@@ -199,8 +199,12 @@
 
                             <div class="d-flex">
                                 <div class="like">
-                                    <h6 class="f-14 fw-semibold"><i
-                                            class="mdi mdi-heart text-danger f-18 align-middle me-2"></i>[[${item.itemLikes}]]
+                                    <h6 class="f-14 fw-semibold"><a
+                                            th:href="@{'/item/like?itemId='+${item.id}}">
+                                        <i th:class="${item.isLiked!=null and item.isLiked}?
+                                            'mdi mdi-heart text-danger f-18 align-middle me-2':
+                                                'mdi mdi-heart-outline text-danger f-18 align-middle me-2'"></i>
+                                    </a>[[${item.itemLikes}]]
                                     </h6>
                                 </div>
                                 <div class="message ms-3">

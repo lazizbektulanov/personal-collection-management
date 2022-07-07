@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import uz.itransition.personalcollectionmanagement.entity.CustomField;
 import uz.itransition.personalcollectionmanagement.entity.Tag;
 import uz.itransition.personalcollectionmanagement.projection.customfield.CustomFieldValueProjection;
@@ -36,7 +33,7 @@ public class ItemController {
     private final CustomFieldService customFieldService;
 
     @GetMapping
-    public String getItemById(@RequestParam("id") UUID itemId,
+    public String getItemById(@RequestParam("itemId") UUID itemId,
                               Model model) {
         ItemByIdProjection itemById = itemService.getItemById(itemId);
         List<CustomFieldValueProjection> itemCustomFieldValues =
@@ -51,7 +48,7 @@ public class ItemController {
     public String likeItem(@RequestParam("itemId") UUID itemId) {
 //        System.out.println(request.getHeader("Referer"));
         itemService.likeItem(itemId);
-        return "redirect:/home";
+        return "redirect:/item?itemId=" + itemId;
     }
 
     @GetMapping("/create")

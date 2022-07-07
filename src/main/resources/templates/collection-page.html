@@ -42,9 +42,9 @@
 <!--Navbar Start-->
 <nav class="navbar navbar-expand-lg fixed-top sticky" id="navbar">
     <div class="container-fluid custom-container">
-        <a class="navbar-brand logo f-30 text-dark fw-bold" th:href="@{/home}">
-            <img src="../images/logo-dark.png" class="logo-dark" alt="" height="40">
-            <img src="../images/logo-light.png" class="logo-light" alt="" height="40">
+        <a class="navbar-brand logo f-30 text-dark fw-bold" href="home-page.html">
+            <img src="/images/logo-dark.png" class="logo-dark" alt="" height="40">
+            <img src="/images/logo-light.png" class="logo-light" alt="" height="40">
         </a>
         <div>
             <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse"
@@ -235,20 +235,24 @@
                                 </thead>
                                 <tbody>
                                 <tr class="rank-profile" th:each="item: ${collectionItems}">
-                                    <td>[[${item.name}]]</td>
+                                    <td th:href="@{'/item?itemId='+${item.id}}">[[${item.name}]]</td>
                                     <td>[[${item.createdAt}]]</td>
                                     <td th:each="field : ${item.customFieldValues}">
                                         [[${field.fieldValue}]]
                                     </td>
                                     <td>
                                         <div class="like">
-                                            <h6 class="f-14 fw-semibold"><i
-                                                    class="mdi mdi-heart text-danger f-18 align-middle me-2"></i>[[${item.itemLikesNumber}]]
+                                            <h6 class="f-14 fw-semibold">
+                                                <i th:class="${item.isLiked!=null and item.isLiked}?
+                                            'mdi mdi-heart text-danger f-18 align-middle me-2':
+                                                'mdi mdi-heart-outline text-danger f-18 align-middle me-2'"></i>
+                                                [[${item.itemLikesNumber}]]
                                             </h6>
                                         </div>
                                         <div class="message ms-3">
                                             <h6 class="f-14 fw-semibold"><i
-                                                    class="mdi mdi-message-outline text-muted f-18 align-middle me-2"></i>[[${item.itemCommentsNumber}]]
+                                                    class="mdi mdi-message-outline text-muted f-18 align-middle me-2">
+                                            </i>[[${item.itemCommentsNumber}]]
                                             </h6>
                                         </div>
                                     </td>

@@ -92,7 +92,8 @@
                         th:text="#{lang-uz}"></option>
             </select>
             <a th:if="${user=='anonymousUser'}" th:href="@{/login}" class="btn btn-outline-success">[[#{login}]]</a>
-            <a th:if="${user=='anonymousUser'}" th:href="@{/register}" class="btn btn-outline-success">[[#{register}]]</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/register}"
+               class="btn btn-outline-success">[[#{register}]]</a>
             <a th:unless="${user=='anonymousUser'}" href="/logout" class="btn btn-outline-danger">[[#{logout}]]</a>
         </div>
     </div>
@@ -144,17 +145,19 @@
                             <div class="card-body">
                                 <div class="collection-like-icon ms-auto">
                                     <h6 class="fw-bold mb-0">
-                                        <a th:href="@{'/item?id='+${item.id}}">
+                                        <a th:href="@{'/item?itemId='+${item.id}}">
                                             [[${item.itemName}]]
                                         </a>
                                     </h6>
                                     <div class="like">
-                                        <h6 class="f-14 fw-semibold"><a
-                                                th:href="@{'/item/like?itemId='+${item.id}}">
+                                        <h6 class="f-14 fw-semibold">
+                                            <!--                                            <a th:href="@{'/item/like?itemId='+${item.id}}">-->
                                             <i th:class="${item.isLiked!=null and item.isLiked}?
                                             'mdi mdi-heart text-danger f-18 align-middle me-2':
-                                                'mdi mdi-heart-outline text-danger f-18 align-middle me-2'"></i>
-                                        </a>[[${item.itemLikes}]]
+                                                'mdi mdi-heart-outline text-danger f-18 align-middle me-2'">
+                                            </i>
+                                            <!--                                            </a>-->
+                                            [[${item.itemLikes}]]
                                         </h6>
 
                                     </div>
@@ -224,7 +227,7 @@
                                         </a>
                                     </h6>
                                     <div class="d-flex">
-<!--                                        <p class="text-muted">6 in stock</p>-->
+                                        <!--                                        <p class="text-muted">6 in stock</p>-->
                                         <p class="ms-auto text-muted">[[#{topic}]] : <span class="text-success">
                                             [[${collection.topic}]]
                                         </span></p>

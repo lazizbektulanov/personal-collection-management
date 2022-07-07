@@ -44,15 +44,24 @@ public class ItemService {
     }
 
     public ItemByIdProjection getItemById(UUID itemId) {
-        return itemRepository.getItemById(itemId);
+        User currentUser = authService.getCurrentUser();
+        if (currentUser.getId() == null) return itemRepository.getItemById(itemId);
+        return itemRepository.getItemById(itemId, currentUser.getId());
     }
 
-    public Page<CollectionItemsProjection> getCollectionItems(UUID collectionId, Integer page, String sortBy, String sortDir) {
+    public Page<CollectionItemsProjection> getCollectionItems(UUID collectionId,
+                                                              Integer page,
+                                                              String sortBy,
+                                                              String sortDir) {
         int pageSize = Integer.parseInt(Constants.DEFAULT_PAGE_SIZE);
-        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() :
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortBy).ascending() :
                 Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page - 1, pageSize, sort);
-        return itemRepository.getItemsByCollectionId(pageable, collectionId);
+        User currentUser = authService.getCurrentUser();
+        if (currentUser.getId() == null)
+            return itemRepository.getItemsByCollectionId(pageable, collectionId);
+        return itemRepository.getItemsByCollectionId(pageable, collectionId, currentUser.getId());
     }
 
     public List<CustomField> getItemCustomFields(UUID collectionId) {

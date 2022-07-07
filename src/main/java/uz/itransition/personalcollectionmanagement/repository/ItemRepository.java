@@ -79,6 +79,28 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
             value = "select " +
                     "cast(i.id as varchar) as id," +
                     "i.name as itemName," +
+                    "i.img_url as itemImgUrl," +
+                    "cast(i.collection_id as varchar) as itemCollectionId," +
+                    "(select c.title as itemCollectionTitle from collections c " +
+                    "where c.id=i.collection_id)," +
+                    "cast(i.created_by_id as varchar) as authorId," +
+                    "u.full_name as authorName," +
+                    "u.profile_img_url as authorProfileImgUrl, " +
+                    "(select count(c.id) from comments c " +
+                    "where c.item_id=i.id) as itemCommentsNumber," +
+                    "(select count(l.id) from likes l " +
+                    "where l.item_id=i.id) as itemLikes, " +
+                    "exists(select l.id from likes l " +
+                    "where l.item_id=i.id and l.user_id=:userId) as isLiked " +
+                    "from items i " +
+                    "join users u on i.created_by_id = u.id " +
+                    "where i.id=:itemId")
+    ItemByIdProjection getItemById(UUID itemId, UUID userId);
+
+    @Query(nativeQuery = true,
+            value = "select " +
+                    "cast(i.id as varchar) as id," +
+                    "i.name as itemName," +
                     "cast(i.collection_id as varchar) as itemCollectionId " +
                     "from items i " +
                     "where i.id=:itemId")
@@ -92,6 +114,18 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
                     "from items i " +
                     "where i.collection_id=:collectionId")
     Page<CollectionItemsProjection> getItemsByCollectionId(Pageable pageable, UUID collectionId);
+
+    @Query(nativeQuery = true,
+            value = "select " +
+                    "cast(i.id as varchar) as id," +
+                    "i.name as name," +
+                    "i.created_at as createdAt, " +
+                    "exists(select l.id from likes l " +
+                    "where l.item_id=i.id and l.user_id=:userId) as isLiked " +
+                    "from items i " +
+                    "where i.collection_id=:collectionId",
+            countQuery = "select count(*) from items ")
+    Page<CollectionItemsProjection> getItemsByCollectionId(Pageable pageable, UUID collectionId, UUID userId);
 
     @Query(nativeQuery = true,
             value = "select " +
