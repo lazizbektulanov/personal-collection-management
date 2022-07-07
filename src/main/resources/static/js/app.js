@@ -318,25 +318,10 @@ function checkUserAuth(user) {
         }
 }
 
-// function changeLocale() {
-//     let locale = document.querySelector('#locales')
-//     locale.setAttribute("Onchange", function () {
-//         var selectedOption = document.querySelector('#locales').value;
-//         if (selectedOption != '') {
-//             window.location.replace('international?lang=' + selectedOption);
-//         }
-//     });
+// function likeItem(itemId){
 // }
 
-// $(document).ready(
-//     function() {
-//     $("#locales").change(function () {
-//         var selectedOption = $('#locales').val();
-//         if (selectedOption != ''){
-//             window.location.replace('international?lang=' + selectedOption);
-//         }
-//     });
-// });
+
 
 
 

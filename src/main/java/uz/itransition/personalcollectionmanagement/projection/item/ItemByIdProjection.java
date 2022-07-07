@@ -12,15 +12,27 @@ import java.util.UUID;
 public interface ItemByIdProjection {
 
     UUID getId();
+
     String getItemName();
+
     String getItemImgUrl();
+
     UUID getItemCollectionId();
+
     String getItemCollectionTitle();
+
     UUID getAuthorId();
+
     String getAuthorName();
+
     String getAuthorProfileImgUrl();
+
     Long getItemLikes();
+
     Long getItemCommentsNumber();
+
+    Boolean getIsLiked();
+
     @Value("#{@tagRepository.findTagsByItemId(target.id)}")
     List<TagProjection> getTagsByItemId();
 }
