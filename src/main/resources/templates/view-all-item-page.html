@@ -46,15 +46,19 @@
 <!--Navbar Start-->
 <nav class="navbar navbar-expand-lg fixed-top sticky" id="navbar">
     <div class="container-fluid custom-container">
-        <a class="navbar-brand logo f-30 text-dark fw-bold" href="home-page.html">
+        <a class="navbar-brand logo f-30 text-dark fw-bold" th:href="@{/home}">
             <img src="../images/logo-dark.png" class="logo-dark" alt="" height="40">
             <img src="../images/logo-light.png" class="logo-light" alt="" height="40">
         </a>
         <div>
-            <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-label="Toggle navigation">
-                <i class="mdi mdi-menu"></i>
-            </button>
+            <form class="search-form" th:action="@{/item/search}" method="get">
+                <div class="mb-3 row">
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control position-relative" id="inputPassword"
+                               th:placeholder="#{search}" name="q">
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mx-auto navbar-center">
@@ -71,7 +75,7 @@
                         <li><a class="dropdown-item" th:href="@{/user/my-collections}"><i
                                 class="mdi mdi-account-box-outline f-20 me-2 align-middle"></i>[[#{profile}]]</a></li>
                         <li><a class="dropdown-item" th:href="@{/user/edit}"><i
-                                class="mdi mdi-account-edit f-20 me-2 align-middle"></i>[[#{edit-profile}]]</a></li>
+                                class="mdi mdi-ac   count-edit f-20 me-2 align-middle"></i>[[#{edit-profile}]]</a></li>
                     </ul>
                 </li>
 
@@ -85,7 +89,8 @@
             </ul>
             <!--end navbar-nav-->
             <a th:if="${user=='anonymousUser'}" th:href="@{/login}" class="btn btn-outline-success">[[#{login}]]</a>
-            <a th:if="${user=='anonymousUser'}" th:href="@{/register}" class="btn btn-outline-success">[[#{register}]]</a>
+            <a th:if="${user=='anonymousUser'}" th:href="@{/register}"
+               class="btn btn-outline-success">[[#{register}]]</a>
             <a th:unless="${user=='anonymousUser'}" href="/logout" class="btn btn-outline-danger">[[#{logout}]]</a>
         </div>
     </div>
@@ -129,7 +134,7 @@
                                             [[${item.itemName}]]
                                         </a>
                                     </h6>
-                                    <div class="like">
+                                    <div class="like" th:unless="${search}">
                                         <h6 class="f-14 fw-semibold">
                                             <i th:class="${item.isLiked!=null and item.isLiked}?
                                             'mdi mdi-heart text-danger f-18 align-middle me-2':
@@ -156,7 +161,7 @@
     </div>
 </section>
 <!--pagination-->
-<nav aria-label="Page navigation example" th:if="${pageTitle=='All'}">
+<nav aria-label="Page navigation example" th:unless="${search}" th:if="${pageTitle=='All'}">
     <ul class="nav-link pagination justify-content-center">
         <li class="nav-item disabled" th:if="${currentPage>1}">
             <a class="nav-link"
@@ -181,7 +186,7 @@
         </li>
     </ul>
 </nav>
-<nav aria-label="Page navigation example" th:if="${pageTitle=='Related'}">
+<nav aria-label="Page navigation example" th:unless="${search}" th:if="${pageTitle=='Related'}">
     <ul class="nav-link pagination justify-content-center">
         <li class="nav-item" th:if="${currentPage>1}">
             <a class="nav-link"

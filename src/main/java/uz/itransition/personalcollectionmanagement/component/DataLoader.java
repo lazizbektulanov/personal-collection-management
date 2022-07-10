@@ -151,7 +151,7 @@ public class DataLoader implements CommandLineRunner {
                     mobilePhone1Collection
             ));
             Item musicalInstrItem = itemRepository.save(new Item(
-                    "This is musical instrument Item",
+                    "Thisitem",
                     new ArrayList<>(),
                     user,
                     musicInstrument1Collection

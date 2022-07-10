@@ -4,6 +4,8 @@ import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 import uz.itransition.personalcollectionmanagement.entity.template.AbsEntity;
 
 import javax.persistence.Column;
@@ -18,9 +20,11 @@ import java.util.Objects;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Indexed
 @Entity(name = "tags")
 public class Tag extends AbsEntity {
 
+    @Field
     @Column(nullable = false)
     private String name;
 

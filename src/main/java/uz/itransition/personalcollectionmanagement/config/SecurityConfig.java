@@ -62,7 +62,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/login", "/register", "/home", "/comment/**","/api/item-comments/**")
                 .permitAll()
-                .antMatchers("/item", "/item/tag", "/collection/id/**", "/item/all", "/collection/all")
+                .antMatchers("/item", "/item/tag", "/collection/id/**", "/item/all", "/collection/all",
+                        "/item/search")
                 .permitAll()
                 .antMatchers("/user/collections").permitAll()
                 .anyRequest()

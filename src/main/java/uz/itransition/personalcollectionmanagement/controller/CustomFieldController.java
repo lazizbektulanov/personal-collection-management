@@ -19,8 +19,7 @@ public class CustomFieldController {
 
     @GetMapping("/delete")
     public String deleteCustomField(@RequestParam("collectionId") UUID collectionId,
-                                    @RequestParam("fieldId") UUID fieldId,
-                                    RedirectAttributes attributes) {
+                                    @RequestParam("fieldId") UUID fieldId) {
         customFieldService.deleteCustomField(fieldId);
         return "redirect:/collection/edit?collectionId=" + collectionId;
     }
