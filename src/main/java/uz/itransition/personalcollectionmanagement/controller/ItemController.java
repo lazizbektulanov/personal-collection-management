@@ -10,9 +10,11 @@ import uz.itransition.personalcollectionmanagement.entity.CustomField;
 import uz.itransition.personalcollectionmanagement.entity.Tag;
 import uz.itransition.personalcollectionmanagement.projection.customfield.CustomFieldValueProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemByIdProjection;
+import uz.itransition.personalcollectionmanagement.projection.item.ItemDto;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemProjection;
 import uz.itransition.personalcollectionmanagement.service.CustomFieldService;
 import uz.itransition.personalcollectionmanagement.service.ItemService;
+import uz.itransition.personalcollectionmanagement.service.ItemSearchService;
 import uz.itransition.personalcollectionmanagement.service.TagService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +33,8 @@ public class ItemController {
     private final TagService tagService;
 
     private final CustomFieldService customFieldService;
+
+    private final ItemSearchService itemSearchService;
 
     @GetMapping
     public String getItemById(@RequestParam("itemId") UUID itemId,
@@ -120,6 +124,18 @@ public class ItemController {
         model.addAttribute("pageTitle", "All");
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", allItems.getTotalPages());
+        return "view-all-item-page";
+    }
+
+    @GetMapping("/search")
+    public String searchItem(@RequestParam("q") String keyword,
+                             Model model) {
+        List<ItemDto> itemList = itemSearchService.getItemList(keyword);
+        model.addAttribute("item", itemList);
+        model.addAttribute("items",itemList);
+
+        model.addAttribute("pageTitle","Related");
+        model.addAttribute("search",true);
         return "view-all-item-page";
     }
 }

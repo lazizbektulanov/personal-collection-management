@@ -50,10 +50,14 @@
             <img src="../images/logo-light.png" class="logo-light" alt="" height="40">
         </a>
         <div>
-            <button class="navbar-toggler me-3" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-label="Toggle navigation">
-                <i class="mdi mdi-menu"></i>
-            </button>
+            <form class="search-form" th:action="@{/item/search}" method="get">
+                <div class="mb-3 row">
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control position-relative" id="inputPassword"
+                               th:placeholder="#{search}" name="q">
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mx-auto navbar-center">

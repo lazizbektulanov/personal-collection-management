@@ -4,6 +4,9 @@ import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,9 +23,11 @@ import java.util.Collection;
 @ToString
 //@AllArgsConstructor
 @NoArgsConstructor
+@Indexed
 @Entity(name = "users")
 public class User extends AbsEntity implements UserDetails {
 
+    @Field(store = Store.YES)
     @Column(nullable = false)
     private String fullName;
 

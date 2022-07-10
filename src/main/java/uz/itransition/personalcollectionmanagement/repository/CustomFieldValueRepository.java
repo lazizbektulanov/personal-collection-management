@@ -3,6 +3,7 @@ package uz.itransition.personalcollectionmanagement.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import uz.itransition.personalcollectionmanagement.entity.CustomField;
 import uz.itransition.personalcollectionmanagement.entity.CustomFieldValue;
 import uz.itransition.personalcollectionmanagement.projection.customfield.CustomFieldValueProjection;
 

@@ -3,6 +3,9 @@ package uz.itransition.personalcollectionmanagement.entity;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import uz.itransition.personalcollectionmanagement.entity.enums.TopicName;
@@ -16,9 +19,11 @@ import java.util.UUID;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Indexed
 @Entity(name = "collections")
 public class Collection extends AbsEntity {
 
+    @Field(store = Store.YES)
     @Column(nullable = false)
     private String title;
 
@@ -27,7 +32,8 @@ public class Collection extends AbsEntity {
     @Column(columnDefinition = "text", nullable = false)
     private String description;
 
-    @Enumerated(EnumType.STRING)
+    @Field
+    @Enumerated(value = EnumType.STRING)
     private TopicName topicName;
 
 
