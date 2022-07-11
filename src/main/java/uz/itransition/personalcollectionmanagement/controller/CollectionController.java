@@ -79,7 +79,7 @@ public class CollectionController {
         model.addAttribute("collection", collectionById);
         model.addAttribute("collectionCustomFields", collectionCustomFields);
         model.addAttribute("collectionTopics", collectionService.getCollectionTopics());
-        return "edit-collection";
+        return "redirect:/collection/id/" + collectionId;
     }
 
     @PostMapping("/save")

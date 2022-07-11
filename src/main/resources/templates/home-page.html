@@ -85,9 +85,10 @@
                 </li>
                 <!--end dropdown-->
             </ul>
-            <label for="locales" th:text="#{lang-change}"></label>
-            <select id="locales">
-                <option value=""></option>
+            <select id="locales" class="form-select"
+                    style="width:auto;"
+                    aria-label="Default select example">
+                <option value="">[[#{lang-change}]]</option>
                 <option value="en" class="flag-icon flag-icon-us"
                         th:text="#{lang-eng}">
                 </option>
