@@ -21,6 +21,7 @@ import uz.itransition.personalcollectionmanagement.repository.UserRepository;
 import uz.itransition.personalcollectionmanagement.utils.Constants;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -76,16 +77,18 @@ public class UserService {
     }
 
     public void deleteUser(UUID userId) {
-        User user = userRepository.getById(userId);
-        clearUserSessions(user);
-        userRepository.deleteById(userId);
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            clearUserSessions(user.get());
+            userRepository.deleteById(userId);
+        }
     }
 
     public void clearUserSessions(User user) {
         List<Object> loggedUsers = sessionRegistry.getAllPrincipals();
         for (Object principal : loggedUsers) {
             if (principal instanceof User) {
-                final User loggedUser = (User) principal;
+                User loggedUser = (User) principal;
                 if (user.getUsername().equals(loggedUser.getUsername())) {
                     List<SessionInformation> sessionsInfo =
                             sessionRegistry.getAllSessions(principal, false);
@@ -97,7 +100,7 @@ public class UserService {
                 }
             }
             if (principal instanceof DefaultOidcUser) {
-                final DefaultOidcUser loggedUser = (DefaultOidcUser) principal;
+                DefaultOidcUser loggedUser = (DefaultOidcUser) principal;
                 if (user.getUsername().equals(loggedUser.getEmail())) {
                     List<SessionInformation> sessionsInfo =
                             sessionRegistry.getAllSessions(principal, false);

@@ -100,6 +100,9 @@ public class CollectionService {
     }
 
     public void deleteCollection(UUID collectionId) {
-        collectionRepository.deleteById(collectionId);
+        Optional<Collection> collection = collectionRepository.findById(collectionId);
+        if (collection.isPresent()) {
+            collectionRepository.deleteById(collectionId);
+        }
     }
 }

@@ -138,4 +138,9 @@ public class ItemController {
         model.addAttribute("search",true);
         return "view-all-item-page";
     }
+
+    @GetMapping("/delete")
+    public String deleteItem(@RequestParam("itemId") UUID itemId){
+        return itemService.deleteItem(itemId);
+    }
 }

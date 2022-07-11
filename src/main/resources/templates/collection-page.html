@@ -272,7 +272,9 @@
                                                         [[#{edit}]]
                                                     </a>
                                                 </li>
-                                                <li><a class="dropdown-item" href="home-page.html#">[[#{delete}]]</a>
+                                                <li><a class="dropdown-item"
+                                                       th:href="@{'/item/delete?itemId='+${item.id}}">
+                                                    [[#{delete}]]</a>
                                                 </li>
                                             </ul>
                                         </div>

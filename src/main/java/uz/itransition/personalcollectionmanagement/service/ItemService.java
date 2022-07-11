@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.itransition.personalcollectionmanagement.entity.*;
+import uz.itransition.personalcollectionmanagement.entity.enums.RoleName;
 import uz.itransition.personalcollectionmanagement.projection.collection.CollectionItemsProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemByIdProjection;
 import uz.itransition.personalcollectionmanagement.projection.item.ItemProjection;
@@ -36,6 +37,8 @@ public class ItemService {
     private final CollectionRepository collectionRepository;
 
     private final LikeRepository likeRepository;
+
+    private final CollectionService collectionService;
 
     public List<ItemProjection> getLatestItems() {
         User currentUser = authService.getCurrentUser();
@@ -137,5 +140,23 @@ public class ItemService {
             itemRepository.save(item.get());
             customFieldService.editItemCustomFieldValues(req);
         }
+    }
+
+    public String deleteItem(UUID itemId) {
+        Optional<Item> item = itemRepository.findById(itemId);
+        if (item.isPresent()) {
+            if (isItemOwner(item.get())) {
+                itemRepository.delete(item.get());
+                return "redirect:/collection/id/" + item.get().getCollection().getId();
+            }
+        }
+        return "redirect:/login";
+    }
+
+    private boolean isItemOwner(Item item) {
+        User currentUser = authService.getCurrentUser();
+        if (currentUser.getRole().getRoleName().equals(RoleName.ROLE_ADMIN)) return true;
+        if (currentUser.getId().equals(item.getCreatedBy().getId())) return true;
+        else return collectionService.isCollectionOwner(item.getCollection().getId());
     }
 }
