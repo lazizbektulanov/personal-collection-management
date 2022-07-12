@@ -22,7 +22,7 @@ import java.util.Objects;
 public class Item extends AbsEntity {
 
 
-    @Field(name = "name", store = Store.YES)
+    @Field(name = "name")
     @Column(nullable = false)
     private String name;
 
@@ -33,7 +33,7 @@ public class Item extends AbsEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Tag> tags;
 
-    @IndexedEmbedded
+
     @ManyToOne(optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User createdBy;

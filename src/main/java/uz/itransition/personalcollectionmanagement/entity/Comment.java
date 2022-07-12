@@ -28,7 +28,7 @@ public class Comment extends AbsEntity {
     @ManyToOne
     private User commentFrom;
 
-//    @ContainedIn
+    @ContainedIn
     @ManyToOne
     private Item item;
 

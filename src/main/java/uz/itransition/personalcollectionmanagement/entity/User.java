@@ -27,7 +27,7 @@ import java.util.Collection;
 @Entity(name = "users")
 public class User extends AbsEntity implements UserDetails {
 
-    @Field(store = Store.YES)
+    @Field
     @Column(nullable = false)
     private String fullName;
 
