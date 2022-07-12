@@ -187,7 +187,11 @@
                                     <div class="fieldKey">
                                         [[${customField.fieldName}]]
                                     </div>
-                                    <div class="fieldValue" th:if="${customField.fieldType=='checkbox'}">
+                                    <div class="fieldValue" th:if="${customField.fieldType=='checkbox'}"
+                                         th:text="${customField.fieldValue=='on'?'&#9745':'&#9746'}">
+<!--                                        [[${customField.fieldValue}]]-->
+                                    </div>
+                                    <div class="fieldValue" th:unless="${customField.fieldType=='checkbox'}">
                                         [[${customField.fieldValue}]]
                                     </div>
                                 </div>

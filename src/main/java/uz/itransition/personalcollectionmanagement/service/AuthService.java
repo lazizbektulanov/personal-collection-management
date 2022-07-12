@@ -1,5 +1,6 @@
 package uz.itransition.personalcollectionmanagement.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.ResolvableType;
@@ -56,7 +57,9 @@ public class AuthService implements UserDetailsService,
 
     public AuthService(UserRepository userRepository,
                        @Lazy PasswordEncoder passwordEncoder,
-                       RoleRepository roleRepository, ClientRegistrationRepository clientRegistrationRepository, OAuth2AuthorizedClientService authorizedClientService) {
+                       RoleRepository roleRepository,
+                       ClientRegistrationRepository clientRegistrationRepository,
+                       OAuth2AuthorizedClientService authorizedClientService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;

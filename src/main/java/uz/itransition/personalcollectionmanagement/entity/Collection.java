@@ -23,7 +23,7 @@ import java.util.UUID;
 @Entity(name = "collections")
 public class Collection extends AbsEntity {
 
-    @Field(store = Store.YES)
+    @Field
     @Column(nullable = false)
     private String title;
 
@@ -32,7 +32,6 @@ public class Collection extends AbsEntity {
     @Column(columnDefinition = "text", nullable = false)
     private String description;
 
-    @Field
     @Enumerated(value = EnumType.STRING)
     private TopicName topicName;
 

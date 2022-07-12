@@ -57,7 +57,7 @@ public class CustomFieldService {
         List<CustomFieldValue> itemCustomFieldValues = new ArrayList<>();
         for (CustomField itemCustomField : itemCustomFields) {
             itemCustomFieldValues.add(new CustomFieldValue(
-                    request.getParameter(itemCustomField.getFieldName()).trim(),
+                    request.getParameter(itemCustomField.getFieldName()),
                     savedItem,
                     itemCustomField
             ));
