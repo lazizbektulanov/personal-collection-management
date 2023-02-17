@@ -141,6 +141,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>personal-collection-management</finalName>
     </build>
 
 </project>
